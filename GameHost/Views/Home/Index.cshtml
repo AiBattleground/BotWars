@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <button id="new-game">New Game</button>
+    </div>
+    
+    <script type="text/javascript" src="~/Scripts/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript">
+        $("#new-game").on('click', function () { $.post("Home/NewGame"); });
+    </script>
+</body>
+</html>

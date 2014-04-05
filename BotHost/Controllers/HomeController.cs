@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using GrahamBot;
+using BotWars.Core;
 
 namespace BotHost.Controllers
 {

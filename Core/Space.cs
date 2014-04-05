@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace GrahamBot
+namespace BotWars.Core
 {
     public class Space : IEquatable<Space>
     {
@@ -16,7 +16,6 @@ namespace GrahamBot
         public int x { get; set; }
         public int y { get; set; }
 
-        //public static EqualityComparer<Space> Default { get; }
         public bool Equals(Space other)
         {
             if (this.x == other.x & this.y == other.y)
