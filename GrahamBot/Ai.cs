@@ -24,16 +24,16 @@ namespace GrahamBot
 			if (requestPlayer == "r")
 			{
 				player.color = "red";
-				player.stateName = "p1";
-				player.dataName = "r";
+				player.playerName = "p1";
+				player.botletId = 'r';
 				player.energy = state.p1.energy;
 				player.spawn = state.p1.spawn;
 				player.resource = Resource.RedBotlet;
 			}
 			else{
 				player.color = "blue";
-				player.stateName = "p2";
-				player.dataName = "b";
+				player.playerName = "p2";
+				player.botletId = 'b';
 				player.energy = state.p2.energy;
 				player.spawn = state.p2.spawn;
 				player.resource = Resource.BlueBotlet;

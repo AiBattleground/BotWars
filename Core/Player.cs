@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace BotWars.Core
 {
@@ -10,5 +11,7 @@ namespace BotWars.Core
     {
         public int energy { get; set; }
         public int spawn { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool spawnDisabled { get; set; }
     }
 }

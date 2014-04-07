@@ -24,9 +24,19 @@ namespace GameHost.Controllers
         {
             string bot1Url = "http://graham.technology/Bot";
             string bot2Url = "http://localhost:1337/";
-            GameState startingState = _GetNewGameState(12);
-            _GetBotletMoves("p1", bot1Url, startingState);
-            _GetBotletMoves("p2", bot2Url, startingState);
+            GameState startingState = _GetNewGameState(20);
+            Game game = new Game(startingState, _GetPlayers(20));
+            for (int i = 0; i < 200; i++)
+            {
+                List<BotletMove> redMoves = JsonConvert.DeserializeObject<List<BotletMove>>
+                    (_GetBotletMoves("r", bot1Url, game.GameState));
+                List<BotletMove> blueMoves = JsonConvert.DeserializeObject<List<BotletMove>>
+                    (_GetBotletMoves("b", bot2Url, game.GameState));
+                PlayerMoves p1Moves = new PlayerMoves() { Moves = redMoves, PlayerName = "p1" };
+                PlayerMoves p2Moves = new PlayerMoves() { Moves = blueMoves, PlayerName = "p2" };
+                List<PlayerMoves> playersMoves = new List<PlayerMoves>(){ p1Moves, p2Moves };
+                game.UpdateGameState(playersMoves);
+            }
             return Json("gameRunning");
         }
 
@@ -51,6 +61,29 @@ namespace GameHost.Controllers
                 maxTurns = 200,
                 turnsElapsed = 0
             };
+        }
+
+        private IEnumerable<BotPlayer> _GetPlayers(int boardWidth){
+            BotPlayer red = new BotPlayer()
+			{
+				color = "red",
+				playerName = "p1",
+				botletId = 'r',
+				energy = 1,
+				spawn = boardWidth + 1,
+				resource = Resource.RedBotlet,
+                deadBotletId = 'x'
+			};
+			BotPlayer blue = new BotPlayer(){
+				color = "blue",
+				playerName = "p2",
+				botletId = 'b',
+				energy = 1,
+				spawn = boardWidth * (boardWidth - 1) - 2,
+				resource = Resource.BlueBotlet,
+                deadBotletId = 'X'
+			};
+			return new List<BotPlayer>(){red, blue};
         }
     }
 }
