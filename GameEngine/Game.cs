@@ -16,7 +16,7 @@ namespace BotWars.GameEngine
         public Game(GameState gameState, IEnumerable<BotPlayer> players){
             GameState = gameState;
             Players = players.ToList();
-            _energySpawnFrequency = 3;
+            _energySpawnFrequency = 5;
         }
 
         public void UpdateGameState(IEnumerable<PlayerMoves> playersMoves)
@@ -53,7 +53,7 @@ namespace BotWars.GameEngine
         private void _CollectEnergy()
         {           
             List<int> energyLocations = _GetEnergyLocations();
-            foreach (int energyLocation in GameState.grid)
+            foreach (int energyLocation in energyLocations)
             {
                 _AssignEnergyToBot(energyLocation);
             }
@@ -159,10 +159,6 @@ namespace BotWars.GameEngine
             }
             return emptySpaces;
         }
-        private void _IncrementTurnsElapsed()
-        {
-
-        }
         private void _CheckForWinner()
         {
             //AreMovesWellFormed
@@ -170,19 +166,31 @@ namespace BotWars.GameEngine
         private void _SanitizeMoves(IEnumerable<PlayerMoves> playersMoves)
         {
             foreach(PlayerMoves playerMoves in playersMoves){
+                BotPlayer player = Players.Find(p => p.playerName == playerMoves.PlayerName);
                 if (playerMoves.Moves == null)
                 {
                     playerMoves.Moves = new List<BotletMove>();
                 }
                 else
                 {
-                    playerMoves.Moves = _GetValidMovesOnly(playerMoves.Moves);
+                    playerMoves.Moves = _GetValidMovesOnly(playerMoves.Moves, player.botletId);
                 }
             }
         }
-        private IEnumerable<BotletMove> _GetValidMovesOnly(IEnumerable<BotletMove> moves)
+        private IEnumerable<BotletMove> _GetValidMovesOnly(IEnumerable<BotletMove> moves, char botletId)
         {
-            return moves;
+            List<BotletMove> validMoves = new List<BotletMove>();
+            foreach(BotletMove move in moves){
+                List<bool> requirements = new List<bool>();
+                requirements.Add(GameState.grid[move.from] == botletId);
+                requirements.Add(!validMoves.Select(m=>m.from).Contains(move.from));
+                requirements.Add(move.to >=0 && move.to<GameState.grid.Length);
+                if (requirements.All(r=>r==true))
+                {
+                    validMoves.Add(move);
+                }
+            }
+            return validMoves;
         }
 
         private bool _AreMovesWellFormed(IEnumerable<BotletMove> moves)
