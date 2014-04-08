@@ -55,8 +55,37 @@ namespace BotWars.GameEngine
             List<int> energyLocations = _GetEnergyLocations();
             foreach (int energyLocation in GameState.grid)
             {
-                //collect energy
+                _AssignEnergyToBot(energyLocation);
             }
+        }
+        private void _AssignEnergyToBot(int location)
+        {
+            BotPlayer winningPlayer = _GetEnergyWinningPlayer(location);
+            if (winningPlayer != null)
+            {
+                StringBuilder grid = new StringBuilder(GameState.grid);
+                grid[location] = '.';
+                GameState.grid = grid.ToString();
+                _GetPlayer(winningPlayer).energy++;
+            }
+        }
+        private BotPlayer _GetEnergyWinningPlayer(int location)
+        {
+            List<int> adjacentPositions = new SpatialGameState(GameState).AdjacentPositions(location).ToList();
+            BotPlayer winningPlayer = null;
+            int botsAdjacentToEnergy = 0;
+            foreach (BotPlayer player in Players)
+            {
+                int playersBotsAdjacentToEnergy = adjacentPositions
+                    .Where(a => GameState.grid[a] == player.botletId)
+                    .Count();
+                if (playersBotsAdjacentToEnergy > botsAdjacentToEnergy)
+                    winningPlayer = player;
+                else if (playersBotsAdjacentToEnergy == botsAdjacentToEnergy)
+                    winningPlayer = null;
+                botsAdjacentToEnergy = Math.Max(botsAdjacentToEnergy, playersBotsAdjacentToEnergy);
+            }
+            return winningPlayer;
         }
 
         private List<int> _GetEnergyLocations()
@@ -75,14 +104,15 @@ namespace BotWars.GameEngine
         {
             Players.ToList().ForEach(p => _SpawnBot(p));
         }
-        private void _SpawnBot(BotPlayer player){
+        private void _SpawnBot(BotPlayer botPlayer){
+            Player player = _GetPlayer(botPlayer);
             if (player.spawnDisabled == false && player.energy > 0 && GameState.grid[player.spawn] == '.')
             {
                 StringBuilder grid = new StringBuilder(GameState.grid);
-                grid[player.spawn] = player.botletId;
+                grid[player.spawn] = botPlayer.botletId;
                 GameState.grid = grid.ToString();
                 player.energy--;
-                _GetPlayer(player).energy = player.energy;
+                //_GetPlayer(player).energy = player.energy;
             }
         }
         private Player _GetPlayer(BotPlayer player)

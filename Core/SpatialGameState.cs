@@ -35,6 +35,11 @@ namespace BotWars.Core
             return xWithinBounds && yWithinBounds;
         }
 
+        public bool IsInBounds(int position)
+        {
+            return position >=0 && position<rows*cols;
+        }
+
         public IEnumerable<Space> AdjacentSpaces(Space space)
         {
             List<Space> unBoundedAdjacentSpaces = new List<Space>()
@@ -45,6 +50,18 @@ namespace BotWars.Core
 				new Space() { x = space.x - 1, y = space.y }
 			};
             return unBoundedAdjacentSpaces.Where(s => IsInBounds(s));
+        }
+
+        public IEnumerable<int> AdjacentPositions(int position)
+        {
+            List<int> unBoundedAdjacentPositions = new List<int>()
+            {
+                position+1,
+                position-1,
+                position - cols,
+                position + cols
+            };
+            return unBoundedAdjacentPositions.Where(p => IsInBounds(p));
         }
     }
 }
