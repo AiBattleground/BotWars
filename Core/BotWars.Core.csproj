@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Botlet.cs" />
     <Compile Include="BotletMove.cs" />
     <Compile Include="BotPlayer.cs" />
     <Compile Include="GameState.cs" />

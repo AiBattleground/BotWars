@@ -98,8 +98,43 @@ namespace BotWars.GameEngine
         }
         private void _FightBattles()
         {
-
+            IEnumerable<Botlet> botlets = _GetBotlets();
+            List<Botlet> losingBotlets = new List<Botlet>();
+            foreach (Botlet botlet in botlets)
+            {
+                IEnumerable<Botlet> adjacentEnemies = _GetAdjacentEnemies(botlet);
+                foreach (Botlet adjacentEnemy in adjacentEnemies)
+                {
+                    if (adjacentEnemies.Count() >= _GetAdjacentEnemies(adjacentEnemy).Count())
+                        losingBotlets.Add(botlet);
+                }
+            }
+            _KillLosingBotlets(losingBotlets);
         }
+
+        private void _KillLosingBotlets(List<Botlet> losingBotlets)
+        {
+            StringBuilder grid = new StringBuilder(GameState.grid);
+            losingBotlets.ForEach(lb => grid[lb.gridPosition] = Players.Find(p=>p.botletId==lb.botletId).deadBotletId);
+            GameState.grid = grid.ToString();
+        }
+
+        private IEnumerable<Botlet> _GetAdjacentEnemies(Botlet botlet)
+        {
+            IEnumerable<char> enemyBotletIds = Players.Select(p=>p.botletId).Where(c=>c!=botlet.botletId);
+            IEnumerable<Botlet> EnemyBotlets = _GetBotlets().Where(b => enemyBotletIds.Contains(b.botletId));
+            IEnumerable<int> adjacentPositions = new SpatialGameState(GameState).AdjacentPositions(botlet.gridPosition);
+            return EnemyBotlets.Where(b => adjacentPositions.Contains(b.gridPosition));
+        }
+
+
+        private IEnumerable<Botlet> _GetBotlets()
+        {
+           return GameState.grid
+                .Select((c, i) => new Botlet(){ botletId = c, gridPosition = i})
+                .Where(b=>Players.Select(p=>p.botletId).Contains(b.botletId));
+        }
+
         private void _SpawnBots()
         {
             Players.ToList().ForEach(p => _SpawnBot(p));
