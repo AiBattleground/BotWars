@@ -48,7 +48,13 @@ namespace BotWars.GameEngine
         }
         private void _RazeBases()
         {
-
+            foreach(BotPlayer botPlayer in Players){
+                Player player = _GetPlayer(botPlayer);
+                if (player.spawnDisabled != true && _GetEnemyBotletIds(botPlayer.botletId).Contains(GameState.grid[player.spawn]))
+                {
+                    player.spawnDisabled = true;
+                }
+            }
         }
         private void _CollectEnergy()
         {           
@@ -121,12 +127,16 @@ namespace BotWars.GameEngine
 
         private IEnumerable<Botlet> _GetAdjacentEnemies(Botlet botlet)
         {
-            IEnumerable<char> enemyBotletIds = Players.Select(p=>p.botletId).Where(c=>c!=botlet.botletId);
+            IEnumerable<char> enemyBotletIds = _GetEnemyBotletIds(botlet.botletId);
             IEnumerable<Botlet> EnemyBotlets = _GetBotlets().Where(b => enemyBotletIds.Contains(b.botletId));
             IEnumerable<int> adjacentPositions = new SpatialGameState(GameState).AdjacentPositions(botlet.gridPosition);
             return EnemyBotlets.Where(b => adjacentPositions.Contains(b.gridPosition));
         }
 
+        private IEnumerable<char> _GetEnemyBotletIds(char playerBotletId)
+        {
+            return Players.Select(p => p.botletId).Where(c => c != playerBotletId);
+        }
 
         private IEnumerable<Botlet> _GetBotlets()
         {
