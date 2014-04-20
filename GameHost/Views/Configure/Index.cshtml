@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.Title = "Configure Game";
+}
+
+<h2>Configure Game</h2>
+<label>Board Size</label>
+<input type="number" id="board-size"/>
+<button class="btn btn-success" data-bind="click: updateGameSettings">Update Game Settings</button>
+@section scripts{
+    <script>
+        function configurer() {
+            var self = this;
+            self.updateGameSettings = function () {
+                var boardSize = $('#board-size').val();
+                var gameSettings = { boardSize: boardSize };
+                $.post('Configure/UpdateGameSettings', "gameSettings=" + JSON.stringify(gameSettings) );
+            }
+        }
+        ko.applyBindings(configurer);
+    </script>
+}
