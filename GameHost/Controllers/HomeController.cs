@@ -15,19 +15,19 @@ namespace GameHost.Controllers
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
-
         public ActionResult Index()
         {
             return View();
         }
+
         public JsonResult NewGame()
         {
             string bot1Url = "http://localhost:1337/";
             string bot2Url = "http://localhost:1337/";
+
             GameState startingState = _GetNewGameState();
             Game game = new Game(startingState, _GetPlayers(20));
+
             for (int i = 0; i < 200; i++)
             {
                 string redResponse = _GetBotletMoves("r", bot1Url, game.GameState);
@@ -54,6 +54,7 @@ namespace GameHost.Controllers
             bot.QueryString = new NameValueCollection() { { "data", jsonMoveRequest } };
             return bot.UploadString(botUrl, "");
         }
+
         private GameSettings _GetGameSettings()
         {
             string[] userData;
@@ -73,6 +74,7 @@ namespace GameHost.Controllers
             
             return JsonConvert.DeserializeObject<GameSettings>(string.Join("\n", userData));
         }
+
         private GameState _GetNewGameState()
         {
             GameSettings settings = _GetGameSettings();
