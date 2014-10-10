@@ -6,28 +6,8 @@ using System.Text;
 
 namespace NetBots.Bot.Interface
 {
-    public class BotletMoveCollection : IBotLetMoveCollection
+    public class BotletMoveCollection : List<BotletMove>
     {
-        private readonly List<BotletMove> _moves = new List<BotletMove>();
-
-        public void Add(BotletMove move)
-        {
-            _moves.Add(move);
-        }
-
-        public void Remove(BotletMove move)
-        {
-            _moves.Remove(move);
-        }
-
-        IEnumerator<BotletMove> IEnumerable<BotletMove>.GetEnumerator()
-        {
-            return _moves.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _moves.GetEnumerator();
-        }
+        public string Color { get; set; }
     }
 }

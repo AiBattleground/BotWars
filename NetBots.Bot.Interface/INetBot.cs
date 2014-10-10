@@ -13,8 +13,9 @@ namespace NetBots.Bot.Interface
         IBotLetMoveCollection GetMoves(GameState gameState);
     }
 
-    public interface IBotLetMoveCollection : IEnumerable<BotletMove>
+    public interface IBotLetMoveCollection
     {
-        //Just in case we want to add something to it later.
+        IEnumerable<BotletMove> Moves { get; }
+        string Color { get; }
     }
 }
