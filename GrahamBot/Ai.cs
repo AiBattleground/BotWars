@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using BotWars.Core;
+using NetBots.Bot.Interface;
 
 namespace GrahamBot
 {

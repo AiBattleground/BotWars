@@ -4,6 +4,7 @@ using BotWars.Core;
 using BotWars.GameEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using NetBots.Bot.Interface;
 
 namespace GameEngine.Tests
 {

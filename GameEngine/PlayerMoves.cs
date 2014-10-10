@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BotWars.Core;
+using NetBots.Bot.Interface;
 
 namespace BotWars.GameEngine
 {

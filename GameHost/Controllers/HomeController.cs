@@ -10,6 +10,7 @@ using BotWars.Core;
 using BotWars.GameEngine;
 using Microsoft.AspNet.SignalR;
 using GameHost.Models;
+using NetBots.Bot.Interface;
 
 namespace GameHost.Controllers
 {

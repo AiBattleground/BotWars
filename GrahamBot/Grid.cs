@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using BotWars.Core;
+using NetBots.Bot.Interface;
 
 namespace GrahamBot
 {
@@ -15,7 +16,7 @@ namespace GrahamBot
         public char[] ToCharArray() { return AsCharacterArray; }
         public int rows { get; private set; }
         public int cols { get; private set; }
-        public Grid(BotWars.Core.GameState gameState)
+        public Grid(GameState gameState)
         {
             AsCharacterArray = gameState.grid.ToCharArray();
             rows = gameState.rows;

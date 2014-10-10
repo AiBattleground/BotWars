@@ -153,6 +153,10 @@
       <Project>{272aa56c-0448-41fb-b2d5-bf7a229988cb}</Project>
       <Name>GrahamBot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NetBots.Bot.Interface\NetBots.Bot.Interface.csproj">
+      <Project>{d9526b9d-c0f6-408c-934c-b7e99112101f}</Project>
+      <Name>NetBots.Bot.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
