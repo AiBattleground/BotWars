@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dice.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="PlayerMoves.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
