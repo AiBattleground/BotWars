@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NetBots.Bot.Interface
 {
@@ -6,7 +7,7 @@ namespace NetBots.Bot.Interface
     {
         private List<BotletMove> _moves = new List<BotletMove>();
 
-        public ICollection<BotletMove> Moves {get { return _moves; } set { _moves = value.ToList(); }}
+        public ICollection<BotletMove> Moves { get { return _moves; } set { _moves = value.ToList(); } }
         public string Color { get; set; }
     }
 }

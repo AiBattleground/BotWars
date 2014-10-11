@@ -6,11 +6,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using BotWars.Core;
-using BotWars.GameEngine;
 using Microsoft.AspNet.SignalR;
 using GameHost.Models;
 using NetBots.Bot.Interface;
+using NetBots.Core;
+using NetBots.GameEngine;
 
 namespace GameHost.Controllers
 {
