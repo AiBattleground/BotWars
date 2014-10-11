@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,14 +47,17 @@
     <Compile Include="Route.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\BotWars.Core.csproj">
+    <ProjectReference Include="..\Core\NetBots.Core.csproj">
       <Project>{1522e445-ffd4-43d3-81c7-b3c672199666}</Project>
-      <Name>BotWars.Core</Name>
+      <Name>NetBots.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\NetBots.Bot.Interface\NetBots.Bot.Interface.csproj">
       <Project>{d9526b9d-c0f6-408c-934c-b7e99112101f}</Project>
       <Name>NetBots.Bot.Interface</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

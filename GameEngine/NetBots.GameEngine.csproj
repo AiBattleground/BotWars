@@ -7,8 +7,8 @@
     <ProjectGuid>{D00242D7-0A4B-4789-8591-CBF0A1FF9FE6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BotWars.GameEngine</RootNamespace>
-    <AssemblyName>BotWars.GameEngine</AssemblyName>
+    <RootNamespace>NetBots.GameEngine</RootNamespace>
+    <AssemblyName>NetBots.GameEngine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -46,9 +46,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\BotWars.Core.csproj">
+    <ProjectReference Include="..\Core\NetBots.Core.csproj">
       <Project>{1522e445-ffd4-43d3-81c7-b3c672199666}</Project>
-      <Name>BotWars.Core</Name>
+      <Name>NetBots.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\NetBots.Bot.Interface\NetBots.Bot.Interface.csproj">
       <Project>{d9526b9d-c0f6-408c-934c-b7e99112101f}</Project>

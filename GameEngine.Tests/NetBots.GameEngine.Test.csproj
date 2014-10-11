@@ -6,8 +6,8 @@
     <ProjectGuid>{95F11406-F0E9-464C-98A1-82823ECF0D04}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BotWars.GameEngine.Tests</RootNamespace>
-    <AssemblyName>BotWars.GameEngine.Tests</AssemblyName>
+    <RootNamespace>NetBots.GameEngine.Test</RootNamespace>
+    <AssemblyName>NetBots.GameEngine.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -59,13 +59,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\BotWars.Core.csproj">
+    <ProjectReference Include="..\Core\NetBots.Core.csproj">
       <Project>{1522e445-ffd4-43d3-81c7-b3c672199666}</Project>
-      <Name>BotWars.Core</Name>
+      <Name>NetBots.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameEngine\BotWars.GameEngine.csproj">
+    <ProjectReference Include="..\GameEngine\NetBots.GameEngine.csproj">
       <Project>{d00242d7-0a4b-4789-8591-cbf0a1ff9fe6}</Project>
-      <Name>BotWars.GameEngine</Name>
+      <Name>NetBots.GameEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\NetBots.Bot.Interface\NetBots.Bot.Interface.csproj">
       <Project>{d9526b9d-c0f6-408c-934c-b7e99112101f}</Project>
