@@ -187,13 +187,13 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\BotWars.Core.csproj">
+    <ProjectReference Include="..\Core\NetBots.Core.csproj">
       <Project>{1522e445-ffd4-43d3-81c7-b3c672199666}</Project>
-      <Name>BotWars.Core</Name>
+      <Name>NetBots.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameEngine\BotWars.GameEngine.csproj">
+    <ProjectReference Include="..\GameEngine\NetBots.GameEngine.csproj">
       <Project>{d00242d7-0a4b-4789-8591-cbf0a1ff9fe6}</Project>
-      <Name>BotWars.GameEngine</Name>
+      <Name>NetBots.GameEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\NetBots.Bot.Interface\NetBots.Bot.Interface.csproj">
       <Project>{d9526b9d-c0f6-408c-934c-b7e99112101f}</Project>
