@@ -1,0 +1,85 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotHost", "Clients\BotHost\BotHost.csproj", "{9DACEE92-6D23-48E2-B409-AA81EE343D96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.GameEngine", "Engine\GameEngine\NetBots.GameEngine.csproj", "{D00242D7-0A4B-4789-8591-CBF0A1FF9FE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrahamBot", "Clients\GrahamBot\GrahamBot.csproj", "{272AA56C-0448-41FB-B2D5-BF7A229988CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameHost", "Server\GameHost\GameHost.csproj", "{B0570721-6977-4A33-9B73-C33822121C3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Core", "Engine\Core\NetBots.Core.csproj", "{1522E445-FFD4-43D3-81C7-B3C672199666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Bot.Interface", "Clients\NetBots.Bot.Interface\NetBots.Bot.Interface.csproj", "{D9526B9D-C0F6-408C-934C-B7E99112101F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{0BAC5D52-4DF8-42F2-ADD8-2124C840F14D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{BA08650A-9843-4138-83DA-0AB9180AA119}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{B8FEE8EA-92F0-4D1A-BCA5-382AD6478F45}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8F51E60D-B3A9-42A8-8A88-755F86EE53D9}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Server", "Server\NetBots.Server\NetBots.Server.csproj", "{DA686F42-D8BF-49D7-8287-EF185BBFDB79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Server.Tests", "Server\NetBots.Server.Tests\NetBots.Server.Tests.csproj", "{0B5626CE-7928-43AE-89C7-ADDF092D66A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DACEE92-6D23-48E2-B409-AA81EE343D96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DACEE92-6D23-48E2-B409-AA81EE343D96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DACEE92-6D23-48E2-B409-AA81EE343D96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DACEE92-6D23-48E2-B409-AA81EE343D96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D00242D7-0A4B-4789-8591-CBF0A1FF9FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00242D7-0A4B-4789-8591-CBF0A1FF9FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00242D7-0A4B-4789-8591-CBF0A1FF9FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00242D7-0A4B-4789-8591-CBF0A1FF9FE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{272AA56C-0448-41FB-B2D5-BF7A229988CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272AA56C-0448-41FB-B2D5-BF7A229988CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272AA56C-0448-41FB-B2D5-BF7A229988CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272AA56C-0448-41FB-B2D5-BF7A229988CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0570721-6977-4A33-9B73-C33822121C3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0570721-6977-4A33-9B73-C33822121C3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0570721-6977-4A33-9B73-C33822121C3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0570721-6977-4A33-9B73-C33822121C3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1522E445-FFD4-43D3-81C7-B3C672199666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1522E445-FFD4-43D3-81C7-B3C672199666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1522E445-FFD4-43D3-81C7-B3C672199666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1522E445-FFD4-43D3-81C7-B3C672199666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9526B9D-C0F6-408C-934C-B7E99112101F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9526B9D-C0F6-408C-934C-B7E99112101F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9526B9D-C0F6-408C-934C-B7E99112101F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9526B9D-C0F6-408C-934C-B7E99112101F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA686F42-D8BF-49D7-8287-EF185BBFDB79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA686F42-D8BF-49D7-8287-EF185BBFDB79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA686F42-D8BF-49D7-8287-EF185BBFDB79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA686F42-D8BF-49D7-8287-EF185BBFDB79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B5626CE-7928-43AE-89C7-ADDF092D66A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B5626CE-7928-43AE-89C7-ADDF092D66A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B5626CE-7928-43AE-89C7-ADDF092D66A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B5626CE-7928-43AE-89C7-ADDF092D66A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{272AA56C-0448-41FB-B2D5-BF7A229988CB} = {BA08650A-9843-4138-83DA-0AB9180AA119}
+		{D9526B9D-C0F6-408C-934C-B7E99112101F} = {BA08650A-9843-4138-83DA-0AB9180AA119}
+		{9DACEE92-6D23-48E2-B409-AA81EE343D96} = {BA08650A-9843-4138-83DA-0AB9180AA119}
+		{1522E445-FFD4-43D3-81C7-B3C672199666} = {B8FEE8EA-92F0-4D1A-BCA5-382AD6478F45}
+		{D00242D7-0A4B-4789-8591-CBF0A1FF9FE6} = {B8FEE8EA-92F0-4D1A-BCA5-382AD6478F45}
+		{B0570721-6977-4A33-9B73-C33822121C3D} = {0BAC5D52-4DF8-42F2-ADD8-2124C840F14D}
+		{DA686F42-D8BF-49D7-8287-EF185BBFDB79} = {0BAC5D52-4DF8-42F2-ADD8-2124C840F14D}
+		{0B5626CE-7928-43AE-89C7-ADDF092D66A4} = {0BAC5D52-4DF8-42F2-ADD8-2124C840F14D}
+	EndGlobalSection
+EndGlobal
