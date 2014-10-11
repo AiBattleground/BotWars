@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BotWars.Core;
 using BotWars.GameEngine;
 using System.Collections.Generic;
+using Moq;
 using NetBots.Bot.Interface;
 using Newtonsoft.Json;
 
@@ -12,19 +13,34 @@ namespace GameEngine.Tests
     [TestClass]
     public class GameTests
     {
-        private GameState _GetNewGameState(int boardWidth, int startingEnergy = 1)
+        private GameState _GetNewGameState(int boardWidth, int startingEnergy = 0)
         {
             return new GameState()
             {
                 rows = boardWidth,
                 cols = boardWidth,
-                p1 = new Player() { energy = startingEnergy, spawn = boardWidth + 1 },
-                p2 = new Player() { energy = startingEnergy, spawn = boardWidth * (boardWidth - 1) - 2 },
+                p1 = new Player() { energy = startingEnergy, spawn = 0, spawnDisabled = false},
+                p2 = new Player() { energy = startingEnergy, spawn = ((boardWidth * 2) - 1), spawnDisabled = false},
                 grid = new string('.', boardWidth * boardWidth),
                 maxTurns = 200,
                 turnsElapsed = 0
+
             };
         }
+
+        public BotPlayer GetBotPlayer(bool red)
+        {
+            var botPlayer = new BotPlayer()
+            {
+                botletId = red ? 'r' : 'b',
+                color = red ? "red" : "blue",
+                deadBotletId = 'x',
+                playerName = red ? "p1" : "p2"
+            };
+            return botPlayer;
+        }
+
+
         [TestMethod]
         public void GetGameStateBackFromGetNextGameState()
         {
@@ -64,7 +80,7 @@ namespace GameEngine.Tests
         {
             var gs = _GetNewGameState(3, 0);
             string grid =
-                "..." +
+                "b.." +
                 "..." +
                 "r.b";
             gs.grid = grid;
@@ -92,6 +108,31 @@ namespace GameEngine.Tests
             game.UpdateGameState(new[]{playerMoves});
             Assert.IsTrue(game.GameState.grid.Count(x => x == 'r') == 0);
             Assert.IsTrue(game.GameState.grid.Count(x => x == 'b') == 2);
+        }
+
+        [TestMethod]
+        public void Issue6_EnergyPreventsSpawn()
+        {
+            const int diceReuslt = 0;
+            var loadedDice = new Mock<IDice>();
+            loadedDice.Setup(x => x.Next()).Returns(diceReuslt);
+            loadedDice.Setup(x => x.Next(It.IsAny<int>())).Returns(diceReuslt);
+            loadedDice.Setup(x => x.Next(It.IsAny<int>(), It.IsAny<int>())).Returns(diceReuslt);
+
+            var gs = _GetNewGameState(3, 0);
+            string grid =
+                "..." +
+                "..." +
+                ".r.";
+            gs.grid = grid;
+
+            var game = new Game(gs, new[]{ GetBotPlayer(true), GetBotPlayer(false)}, loadedDice.Object);
+            game.GameState.p1.energy = 0;
+            Assert.IsTrue(game.GameState.grid.Count(x => x == '*') == 0);
+            Assert.IsTrue(game.GameState.grid.Count(x => x == 'r') == 1);
+            game.UpdateGameState(new List<PlayerMoves>());
+            game.UpdateGameState(new List<PlayerMoves>());
+            Assert.IsTrue(game.GameState.grid.Count(x => x == 'r') == 2);
         }
     }
 }

@@ -10,12 +10,30 @@ namespace BotWars.GameEngine
 {
     public class Game
     {
+        private readonly IDice _myDice;
         public GameState GameState;
         public List<BotPlayer> Players;
         int _energySpawnFrequency;
         //this is creating a schism between where the player should be updated. need gamestate with more dynamic players
         public Game(GameState gameState, IEnumerable<BotPlayer> players){
             GameState = gameState;
+            _myDice = new Dice();
+            Players = players.ToList();
+            _energySpawnFrequency = 5;
+        }
+
+        public Game(GameState gameState, IEnumerable<BotPlayer> players, int seed)
+        {
+            GameState = gameState;
+            _myDice = new Dice(seed);
+            Players = players.ToList();
+            _energySpawnFrequency = 5;
+        }
+
+        public Game(GameState gameState, IEnumerable<BotPlayer> players, IDice dice)
+        {
+            GameState = gameState;
+            _myDice = dice;
             Players = players.ToList();
             _energySpawnFrequency = 5;
         }
@@ -187,8 +205,8 @@ namespace BotWars.GameEngine
 
         private Tuple<int, int> _GetRandomPairOfEmptySpaces(List<Tuple<int, int>> symetricEmptySpaces)
         {
-            Random random = new Random();
-            return symetricEmptySpaces[random.Next(symetricEmptySpaces.Count)];
+            var spaces = symetricEmptySpaces[_myDice.Next(symetricEmptySpaces.Count)];
+            return spaces;
         }
 
         private List<Tuple<int, int>> _GetSymetricEmptySpaces()
