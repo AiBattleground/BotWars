@@ -2,22 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
 namespace NetBots.Bot.Interface
 {
-    public class BotletMoveCollection : IEnumerable<BotletMove>
+    public class BotletMoveCollection : IBotLetMoveCollection
     {
-        private List<BotletMove> _moves;
+        private readonly List<BotletMove> _moves = new List<BotletMove>(); 
 
-        IEnumerator<BotletMove> IEnumerable<BotletMove>.GetEnumerator()
-        {
-            return _moves.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _moves.GetEnumerator();
-        }
+        public IEnumerable<BotletMove> Moves { get { return _moves; } }
+        public string Color { get; set; }
     }
 }

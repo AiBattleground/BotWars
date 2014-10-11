@@ -23,7 +23,7 @@ namespace GameHost.Controllers
 
         public JsonResult NewGame()
         {
-            string bot1Url = "http://localhost:1337/";
+            string bot1Url = "http://localhost:50046/";
             string bot2Url = "http://localhost:1337/";
 
             GameState startingState = _GetNewGameState();
