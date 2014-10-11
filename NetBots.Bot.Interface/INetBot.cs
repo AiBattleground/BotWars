@@ -15,7 +15,7 @@ namespace NetBots.Bot.Interface
 
     public interface IBotLetMoveCollection
     {
-        IEnumerable<BotletMove> Moves { get; }
+        ICollection<BotletMove> Moves { get; }
         string Color { get; }
     }
 }
