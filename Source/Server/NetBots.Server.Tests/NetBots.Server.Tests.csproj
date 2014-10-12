@@ -125,12 +125,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NetBots.Server\NetBots.Server.csproj">
-      <Project>{DA686F42-D8BF-49D7-8287-EF185BBFDB79}</Project>
-      <Name>NetBots.Server</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
