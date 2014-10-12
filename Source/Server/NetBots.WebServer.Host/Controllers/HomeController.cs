@@ -42,7 +42,8 @@ namespace NetBots.WebServer.Host.Controllers
                 List<PlayerMoves> playersMoves = new List<PlayerMoves>(){ p1Moves, p2Moves };
                 game.UpdateGameState(playersMoves);
                 var hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.WarViewHub>();
-                hub.Clients.All.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
+                hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
+
             }
             return Json("gameRunning");
         }
