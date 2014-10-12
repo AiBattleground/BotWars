@@ -134,12 +134,12 @@ publish/
 # NuGet Packages
 *.nupkg
 # The packages folder can be ignored because of Package Restore
-/packages/
+Source/packages/
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
 # If using the old MSBuild-Integrated Package Restore, uncomment this:
-!packages/repositories.config
-!.nuget/NuGet.exe
+#!packages/repositories.config
+#!.nuget/NuGet.exe
 
 
 # Windows Azure Build Output
