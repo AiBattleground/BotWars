@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace GameHost
+namespace NetBots.WebServer.Host
 {
     public static class WebApiConfig
     {

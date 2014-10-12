@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 
-namespace GameHost.Hubs
+namespace NetBots.WebServer.Host.Hubs
 {
     public class WarViewHub : Hub
     {

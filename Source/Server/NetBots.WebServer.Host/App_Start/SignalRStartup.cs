@@ -1,8 +1,9 @@
 ﻿using System;
 using Owin;
 using Microsoft.Owin;
-[assembly: OwinStartup(typeof(GameHost.App_Start.SignalRStartup))]
-namespace GameHost.App_Start
+
+[assembly: OwinStartup(typeof(NetBots.WebServer.Host.App_Start.SignalRStartup))]
+namespace NetBots.WebServer.Host.App_Start
 {
     public class SignalRStartup
     {

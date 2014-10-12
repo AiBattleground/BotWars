@@ -4,13 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace GameHost.Controllers
+namespace NetBots.WebServer.Host.Controllers
 {
     public class ConfigureController : Controller
     {
-        //
-        // GET: /Configure/
-
         public ActionResult Index()
         {
             return View();

@@ -7,12 +7,12 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Microsoft.AspNet.SignalR;
-using GameHost.Models;
+using NetBots.WebServer.Host.Models;
 using NetBots.Bot.Interface;
 using NetBots.Core;
 using NetBots.GameEngine;
 
-namespace GameHost.Controllers
+namespace NetBots.WebServer.Host.Controllers
 {
     public class HomeController : Controller
     {
@@ -23,7 +23,7 @@ namespace GameHost.Controllers
 
         public JsonResult NewGame()
         {
-            string bot1Url = "http://localhost:50046/";
+            string bot1Url = "http://localhost:1337/";
             string bot2Url = "http://localhost:1337/";
 
             GameState startingState = _GetNewGameState();
