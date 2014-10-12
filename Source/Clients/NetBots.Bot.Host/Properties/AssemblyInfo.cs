@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GameHost")]
+[assembly: AssemblyTitle("NetBots.Bot.Host")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GameHost")]
+[assembly: AssemblyProduct("NetBots.Bot.Host")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a5aec3ca-ed96-46a1-988d-d2fcfed838fc")]
+[assembly: Guid("e405f307-43cd-416e-a867-fe88e716746e")]
 
 // Version information for an assembly consists of the following four values:
 //
