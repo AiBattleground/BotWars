@@ -17,7 +17,7 @@ namespace NetBots.GameEngine
         //this is creating a schism between where the player should be updated. need gamestate with more dynamic players
         public Game(GameState gameState, IEnumerable<BotPlayer> players){
             GameState = gameState;
-            //_myDice = new Dice();
+            _myDice = new Dice();
             Players = players.ToList();
             _energySpawnFrequency = 5;
         }
@@ -25,7 +25,7 @@ namespace NetBots.GameEngine
         public Game(GameState gameState, IEnumerable<BotPlayer> players, int seed)
         {
             GameState = gameState;
-           // _myDice = new Dice(seed);
+            _myDice = new Dice(seed);
             Players = players.ToList();
             _energySpawnFrequency = 5;
         }
@@ -33,7 +33,7 @@ namespace NetBots.GameEngine
         public Game(GameState gameState, IEnumerable<BotPlayer> players, IDice dice)
         {
             GameState = gameState;
-            //_myDice = dice;
+            _myDice = dice;
             Players = players.ToList();
             _energySpawnFrequency = 5;
         }
