@@ -9,9 +9,8 @@ namespace NetBots.Bot.Host.Controllers
     public class HomeController : Controller
     {
         [HttpPost]
-        public ActionResult Index(string data)
+        public ActionResult Index(MoveRequest moveRequest)
         {
-            var moveRequest = (JsonConvert.DeserializeObject<MoveRequest>(data));
             var moves = new Ai().GetMoves(moveRequest);
             return Json(moves);
         }

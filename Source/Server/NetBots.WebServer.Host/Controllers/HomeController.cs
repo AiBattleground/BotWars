@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -22,40 +25,55 @@ namespace NetBots.WebServer.Host.Controllers
             return View();
         }
 
-        public JsonResult NewGame()
+        public async Task<ActionResult> NewGame()
         {
             string bot1Url = "http://localhost:1337/";
             string bot2Url = "http://localhost:1337/";
+            //Url for Berserker sample bot.
+            //string bot2Url = "http://localhost:59345/api/Bot";
 
             GameState startingState = _GetNewGameState();
             Game game = new Game(startingState, _GetPlayers(20));
 
             for (int i = 0; i < 200; i++)
             {
-                string p1Response = _GetBotletMoves("p1", bot1Url, game.GameState);
-                string p2Response = _GetBotletMoves("p2", bot2Url, game.GameState);
-                List<BotletMove> p1MoveList = JsonConvert.DeserializeObject<List<BotletMove>>
-                    (p1Response);
-                List<BotletMove> p2MoveList = JsonConvert.DeserializeObject<List<BotletMove>>
-                    (p2Response);
-                PlayerMoves p1Moves = new PlayerMoves() { Moves = p1MoveList, PlayerName = "p1" };
-                PlayerMoves p2Moves = new PlayerMoves() { Moves = p2MoveList, PlayerName = "p2" };
+                var p1Response = GetBotletMovesAsync("p1", bot1Url, game.GameState);
+                var p2Response = GetBotletMovesAsync("p2", bot2Url, game.GameState);
+                var p1ResponseMoves = await p1Response;
+                var p2ResponseMoves = await p2Response;
+                PlayerMoves p1Moves = new PlayerMoves() { Moves = p1ResponseMoves, PlayerName = "p1" };
+                PlayerMoves p2Moves = new PlayerMoves() { Moves = p2ResponseMoves, PlayerName = "p2" };
                 List<PlayerMoves> playersMoves = new List<PlayerMoves>(){ p1Moves, p2Moves };
                 game.UpdateGameState(playersMoves);
                 var hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
                 Thread.Sleep(100);
             }
-            return Json("gameRunning");
+            return Json("Game Over!");
         }
+
+        //private static List<BotletMove> _GetBotletMoves(string player, string botUrl, GameState state)
+        //{
+        //    MoveRequest moveRequest = new MoveRequest() { State = state, Player = player };
+        //    string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
+        //    var client = new HttpClient();
+        //    var response = client.PostAsync(botUrl, new StringContent(jsonMoveRequest, Encoding.UTF8, "application/json")).Result;
+        //    response.EnsureSuccessStatusCode();
+        //    var responseJson = response.Content.ReadAsStringAsync().Result;
+        //    var move = JsonConvert.DeserializeObject<List<BotletMove>>(responseJson);
+        //    return move;
+        //}
         
-        private string _GetBotletMoves(string player, string botUrl, GameState state)
+        private static async Task<List<BotletMove>>  GetBotletMovesAsync(string player, string botUrl, GameState state)
         {
-            WebClient bot = new WebClient(); //should maybe save so not re-creating every move.
             MoveRequest moveRequest = new MoveRequest() { State = state, Player = player };
             string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
-            bot.QueryString = new NameValueCollection() { { "data", jsonMoveRequest } };
-            return bot.UploadString(botUrl, "");
+            var client = new HttpClient();
+            var response = await client.PostAsync(botUrl, new StringContent(jsonMoveRequest, Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var move = JsonConvert.DeserializeObject<List<BotletMove>>(responseJson);
+            return move;
         }
 
         private GameSettings _GetGameSettings()
