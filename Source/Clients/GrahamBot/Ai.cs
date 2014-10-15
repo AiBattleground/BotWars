@@ -26,15 +26,15 @@ namespace GrahamBot
 			{
 				player.PlayerName = "p1";
 				player.BotletId = '1';
-				player.energy = state.P1.energy;
-				player.spawn = state.P1.spawn;
+				player.Energy = state.P1.Energy;
+				player.Spawn = state.P1.Spawn;
 				player.Resource = Resource.P1Botlet;
 			}
 			else{
 				player.PlayerName = "p2";
 				player.BotletId = '2';
-				player.energy = state.P2.energy;
-				player.spawn = state.P2.spawn;
+				player.Energy = state.P2.Energy;
+				player.Spawn = state.P2.Spawn;
 				player.Resource = Resource.P2Botlet;
 			}
 			return player;
@@ -55,7 +55,7 @@ namespace GrahamBot
 			while (myBots.Count > 0)
 			{
 				Space nextUp = myBots[randomizer.Next(myBots.Count)];
-				botMoves.Add(_GetBotMoveAlongRoute(new Route(nextUp, grid.GetSpace(enemy.spawn)), grid, botMoves));
+				botMoves.Add(_GetBotMoveAlongRoute(new Route(nextUp, grid.GetSpace(enemy.Spawn)), grid, botMoves));
 				myBots.Remove(nextUp);
 			}
 

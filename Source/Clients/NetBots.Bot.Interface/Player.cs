@@ -4,9 +4,10 @@ namespace NetBots.Bot.Interface
 {
     public class Player
     {
-        public int energy { get; set; }
-        public int spawn { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public bool spawnDisabled { get; set; }
+        [JsonProperty("energy")]    public int Energy { get; set; }
+        [JsonProperty("spawn")]     public int Spawn { get; set; }
+
+        [JsonProperty("spawnDisabled", NullValueHandling = NullValueHandling.Ignore)]
+        public bool SpawnDisabled { get; set; }
     }
 }

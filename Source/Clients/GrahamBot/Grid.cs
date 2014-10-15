@@ -27,8 +27,8 @@ namespace GrahamBot
                 }
                 this.Add(row);
             }
-            RedSpawn = GetSpace(gameState.P1.spawn);
-            BlueSpawn = GetSpace(gameState.P2.spawn);
+            RedSpawn = GetSpace(gameState.P1.Spawn);
+            BlueSpawn = GetSpace(gameState.P2.Spawn);
         }
 
         public Space GetSpace(int space){

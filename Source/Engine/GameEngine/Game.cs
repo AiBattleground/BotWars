@@ -72,9 +72,9 @@ namespace NetBots.GameEngine
         {
             foreach(BotPlayer botPlayer in Players){
                 Player player = _GetPlayer(botPlayer);
-                if (player.spawnDisabled != true && _GetEnemyBotletIds(botPlayer.BotletId).Contains(GameState.Grid[player.spawn]))
+                if (player.SpawnDisabled != true && _GetEnemyBotletIds(botPlayer.BotletId).Contains(GameState.Grid[player.Spawn]))
                 {
-                    player.spawnDisabled = true;
+                    player.SpawnDisabled = true;
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace NetBots.GameEngine
                 StringBuilder grid = new StringBuilder(GameState.Grid);
                 grid[location] = '.';
                 GameState.Grid = grid.ToString();
-                _GetPlayer(winningPlayer).energy++;
+                _GetPlayer(winningPlayer).Energy++;
             }
         }
 
@@ -179,12 +179,12 @@ namespace NetBots.GameEngine
 
         private void _SpawnBot(BotPlayer botPlayer){
             Player player = _GetPlayer(botPlayer);
-            if (player.spawnDisabled == false && player.energy > 0 && GameState.Grid[player.spawn] == '.')
+            if (player.SpawnDisabled == false && player.Energy > 0 && GameState.Grid[player.Spawn] == '.')
             {
                 StringBuilder grid = new StringBuilder(GameState.Grid);
-                grid[player.spawn] = botPlayer.BotletId;
+                grid[player.Spawn] = botPlayer.BotletId;
                 GameState.Grid = grid.ToString();
-                player.energy--;
+                player.Energy--;
                 //_GetPlayer(player).energy = player.energy;
             }
         }
@@ -301,9 +301,9 @@ namespace NetBots.GameEngine
                         //this rule seems weird, it implies that you can collect/spawn on same turn.
                         case  '*':
                             if (botPlayer.PlayerName == "p1")
-                                GameState.P1.energy++;
+                                GameState.P1.Energy++;
                             else
-                                GameState.P2.energy++;
+                                GameState.P2.Energy++;
                             break;
                         case '.':
                             grid[move.To] = botPlayer.BotletId;

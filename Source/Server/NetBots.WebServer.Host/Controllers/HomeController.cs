@@ -86,8 +86,8 @@ namespace NetBots.WebServer.Host.Controllers
             {
                 Rows = settings.boardSize,
                 Cols = settings.boardSize,
-                P1 = new Player() { energy = 1, spawn = settings.boardSize + 1 },
-                P2 = new Player() { energy = 1, spawn = settings.boardSize * (settings.boardSize - 1) - 2 },
+                P1 = new Player() { Energy = 1, Spawn = settings.boardSize + 1 },
+                P2 = new Player() { Energy = 1, Spawn = settings.boardSize * (settings.boardSize - 1) - 2 },
                 Grid = new string('.', settings.boardSize * settings.boardSize),
                 MaxTurns = 200,
                 TurnsElapsed = 0
@@ -99,16 +99,16 @@ namespace NetBots.WebServer.Host.Controllers
 			{
 				PlayerName = "p1",
 				BotletId = '1',
-				energy = 1,
-				spawn = boardWidth + 1,
+				Energy = 1,
+				Spawn = boardWidth + 1,
 				Resource = Resource.P1Botlet,
                 deadBotletId = 'x'
 			};
 			BotPlayer blue = new BotPlayer(){
 				PlayerName = "p2",
 				BotletId = '2',
-				energy = 1,
-				spawn = boardWidth * (boardWidth - 1) - 2,
+				Energy = 1,
+				Spawn = boardWidth * (boardWidth - 1) - 2,
 				Resource = Resource.P2Botlet,
                 deadBotletId = 'X'
 			};
