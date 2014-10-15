@@ -4,12 +4,12 @@ namespace NetBots.Core
     public enum Resource
     {
         Energy = '*',
-        RedBotlet = 'r',
-        BlueBotlet = 'b',
+        P1Botlet = '1',
+        P2Botlet = '2',
         EmptySpace = '.',
         DeadRedBotlet = 'x',
         DeadBlueBotlet = 'X',
-        RedSpawn = '1',
-        BlueSpawn = '2'
+        P1Spawn = '1',
+        P2Spawn = '2'
     }
 }

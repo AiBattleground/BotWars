@@ -1,22 +1,22 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace NetBots.Bot.Interface
 {
     public class GameState
     {
-        public int gameId { get; set; }
-        public int turnId { get; set; }
-        public string apiKey { get; set; }
-        public string secretKey { get; set; }
-        public int rows { get; set; }
-        public int cols { get; set; }
-        public Player p1 { get; set; }
-        public Player p2 { get; set; }
-        public string grid { get; set; }
-        public int maxTurns { get; set; }
-        public int turnsElapsed { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string winner { get; set; }
+        [JsonProperty("gameId")] public int GameId { get; set; }
+        [JsonProperty("turnId")] public int TurnId { get; set; }
+        [JsonProperty("apiKey")] public string ApiKey { get; set; }
+        [JsonProperty("secretKey")] public string SecretKey { get; set; }
+        [JsonProperty("rows")] public int Rows { get; set; }
+        [JsonProperty("cols")] public int Cols { get; set; }
+        [JsonProperty("p1")] public Player P1 { get; set; }
+        [JsonProperty("p2")] public Player P2 { get; set; }
+        [JsonProperty("grid")] public string Grid { get; set; }
+        [JsonProperty("maxTurns")] public int MaxTurns { get; set; }
+        [JsonProperty("turnsElapsed")] public int TurnsElapsed { get; set; }
+
+        [JsonProperty("winner", NullValueHandling = NullValueHandling.Ignore)]
+        public string Winner { get; set; }
     }
 }

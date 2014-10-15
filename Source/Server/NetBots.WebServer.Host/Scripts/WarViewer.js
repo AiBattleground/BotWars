@@ -5,8 +5,8 @@
             self.theirEnergy = ko.observable(1);
             self.movesRemaining = ko.observable(0);
             self.update = function (moveRequest) {
-                var colorSymbol = moveRequest.player
-                var color = colorSymbol === 'r' ? 'red' : 'blue'
+                var playerName = moveRequest.player;
+                var color = playerName === 'p1' ? 'red' : 'blue';
                 self.color(color);
                 var ourInfo = color === 'red' ? moveRequest.state.p1 : moveRequest.state.p2;
                 var theirInfo = color === 'blue' ? moveRequest.state.p1 : moveRequest.state.p2;
@@ -72,14 +72,14 @@
                 var y = coord.y * coordHeight + coordHeight / 2;
 
                 switch (gridId) {
-                    case 'r':
+                    case '1':
                         p1Headcount++;
                         ctx.fillStyle = '#F26140';
                         ctx.beginPath();
                         ctx.arc(x, y, coordWidth / 2 - 2, 0, 2 * Math.PI);
                         ctx.fill();
                         break;
-                    case 'b':
+                    case '2':
                         p2Headcount++;
                         ctx.fillStyle = '#6EA1D7';
                         ctx.beginPath();

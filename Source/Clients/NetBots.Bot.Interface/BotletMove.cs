@@ -1,4 +1,5 @@
-﻿
+﻿using Newtonsoft.Json;
+
 namespace NetBots.Bot.Interface
 {
     public class BotletMove
@@ -7,11 +8,14 @@ namespace NetBots.Bot.Interface
 
         public BotletMove(int from, int to)
         {
-            this.from = from;
-            this.to = to;
+            this.From = from;
+            this.To = to;
         }
 
-        public int from { get; set; }
-        public int to { get; set; }
+        [JsonProperty("from")]
+        public int From { get; set; }
+
+        [JsonProperty("to")]
+        public int To { get; set; }
     }
 }

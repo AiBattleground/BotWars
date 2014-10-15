@@ -53,12 +53,12 @@ namespace NetBots.GameEngine
 
         private void _UpdateTurns()
         {
-            GameState.turnsElapsed++;
+            GameState.TurnsElapsed++;
         }
 
         private void _ClearDeadBotlets()
         {
-            Players.ToList().ForEach(p => GameState.grid = GameState.grid.Replace(p.deadBotletId, '.'));
+            Players.ToList().ForEach(p => GameState.Grid = GameState.Grid.Replace(p.deadBotletId, '.'));
         }
 
         private void _ApplyMoves(IEnumerable<PlayerMoves> playersMoves)
@@ -72,7 +72,7 @@ namespace NetBots.GameEngine
         {
             foreach(BotPlayer botPlayer in Players){
                 Player player = _GetPlayer(botPlayer);
-                if (player.spawnDisabled != true && _GetEnemyBotletIds(botPlayer.botletId).Contains(GameState.grid[player.spawn]))
+                if (player.spawnDisabled != true && _GetEnemyBotletIds(botPlayer.BotletId).Contains(GameState.Grid[player.spawn]))
                 {
                     player.spawnDisabled = true;
                 }
@@ -93,9 +93,9 @@ namespace NetBots.GameEngine
             BotPlayer winningPlayer = _GetEnergyWinningPlayer(location);
             if (winningPlayer != null)
             {
-                StringBuilder grid = new StringBuilder(GameState.grid);
+                StringBuilder grid = new StringBuilder(GameState.Grid);
                 grid[location] = '.';
-                GameState.grid = grid.ToString();
+                GameState.Grid = grid.ToString();
                 _GetPlayer(winningPlayer).energy++;
             }
         }
@@ -108,7 +108,7 @@ namespace NetBots.GameEngine
             foreach (BotPlayer player in Players)
             {
                 int playersBotsAdjacentToEnergy = adjacentPositions
-                    .Where(a => GameState.grid[a] == player.botletId)
+                    .Where(a => GameState.Grid[a] == player.BotletId)
                     .Count();
                 if (playersBotsAdjacentToEnergy > botsAdjacentToEnergy)
                     winningPlayer = player;
@@ -123,8 +123,8 @@ namespace NetBots.GameEngine
         private List<int> _GetEnergyLocations()
         {
             List<int> energyLocations = new List<int>();
-            for(int i = 0; i< GameState.grid.Length; i++){
-                if(GameState.grid[i] == '*') energyLocations.Add(i);
+            for(int i = 0; i< GameState.Grid.Length; i++){
+                if(GameState.Grid[i] == '*') energyLocations.Add(i);
             }
             return energyLocations;
         }
@@ -147,9 +147,9 @@ namespace NetBots.GameEngine
 
         private void _KillLosingBotlets(List<Botlet> losingBotlets)
         {
-            StringBuilder grid = new StringBuilder(GameState.grid);
-            losingBotlets.ForEach(lb => grid[lb.gridPosition] = Players.Find(p=>p.botletId==lb.botletId).deadBotletId);
-            GameState.grid = grid.ToString();
+            StringBuilder grid = new StringBuilder(GameState.Grid);
+            losingBotlets.ForEach(lb => grid[lb.gridPosition] = Players.Find(p=>p.BotletId==lb.botletId).deadBotletId);
+            GameState.Grid = grid.ToString();
         }
 
         private IEnumerable<Botlet> _GetAdjacentEnemies(Botlet botlet)
@@ -162,14 +162,14 @@ namespace NetBots.GameEngine
 
         private IEnumerable<char> _GetEnemyBotletIds(char playerBotletId)
         {
-            return Players.Select(p => p.botletId).Where(c => c != playerBotletId);
+            return Players.Select(p => p.BotletId).Where(c => c != playerBotletId);
         }
 
         private IEnumerable<Botlet> _GetBotlets()
         {
-           return GameState.grid
+           return GameState.Grid
                 .Select((c, i) => new Botlet(){ botletId = c, gridPosition = i})
-                .Where(b=>Players.Select(p=>p.botletId).Contains(b.botletId));
+                .Where(b=>Players.Select(p=>p.BotletId).Contains(b.botletId));
         }
 
         private void _SpawnBots()
@@ -179,11 +179,11 @@ namespace NetBots.GameEngine
 
         private void _SpawnBot(BotPlayer botPlayer){
             Player player = _GetPlayer(botPlayer);
-            if (player.spawnDisabled == false && player.energy > 0 && GameState.grid[player.spawn] == '.')
+            if (player.spawnDisabled == false && player.energy > 0 && GameState.Grid[player.spawn] == '.')
             {
-                StringBuilder grid = new StringBuilder(GameState.grid);
-                grid[player.spawn] = botPlayer.botletId;
-                GameState.grid = grid.ToString();
+                StringBuilder grid = new StringBuilder(GameState.Grid);
+                grid[player.spawn] = botPlayer.BotletId;
+                GameState.Grid = grid.ToString();
                 player.energy--;
                 //_GetPlayer(player).energy = player.energy;
             }
@@ -192,14 +192,14 @@ namespace NetBots.GameEngine
         private Player _GetPlayer(BotPlayer player)
         {
             Dictionary<string, Player> players = new Dictionary<string, Player>() 
-                { {"p1", GameState.p1}, {"p2", GameState.p2} };
-            return players[player.playerName];
+                { {"p1", GameState.P1}, {"p2", GameState.P2} };
+            return players[player.PlayerName];
         }
 
         private void _PlaceEnergy()
         {
             List<Tuple<int,int>> symetricEmptySpaces =  _GetSymetricEmptySpaces();
-            if (GameState.turnsElapsed % _energySpawnFrequency == 0 && symetricEmptySpaces.Count > 0)
+            if (GameState.TurnsElapsed % _energySpawnFrequency == 0 && symetricEmptySpaces.Count > 0)
             {
                 Tuple<int, int> emptySpaces = _GetRandomPairOfEmptySpaces(symetricEmptySpaces);
                 _PlaceEnergy(emptySpaces);
@@ -208,10 +208,10 @@ namespace NetBots.GameEngine
 
         private void _PlaceEnergy(Tuple<int, int> emptySpaces)
         {
-            StringBuilder grid = new StringBuilder(GameState.grid);
+            StringBuilder grid = new StringBuilder(GameState.Grid);
             grid[emptySpaces.Item1] = '*';
             grid[emptySpaces.Item2] = '*';
-            GameState.grid = grid.ToString();
+            GameState.Grid = grid.ToString();
         }
 
         private Tuple<int, int> _GetRandomPairOfEmptySpaces(List<Tuple<int, int>> symetricEmptySpaces)
@@ -223,11 +223,11 @@ namespace NetBots.GameEngine
         private List<Tuple<int, int>> _GetSymetricEmptySpaces()
         {
             List<Tuple<int, int>> emptySpaces = new List<Tuple<int, int>>();
-            for (int i = 0; i < GameState.grid.Length; i++)
+            for (int i = 0; i < GameState.Grid.Length; i++)
             {
                 int first = i;
-                int second = GameState.grid.Length - 1 - i;
-                if (GameState.grid[first] == '.' && GameState.grid[second] == '.')
+                int second = GameState.Grid.Length - 1 - i;
+                if (GameState.Grid[first] == '.' && GameState.Grid[second] == '.')
                 {
                     emptySpaces.Add(new Tuple<int,int>(first,second));
                 }
@@ -243,14 +243,14 @@ namespace NetBots.GameEngine
         private void _SanitizeMoves(IEnumerable<PlayerMoves> playersMoves)
         {
             foreach(PlayerMoves playerMoves in playersMoves){
-                BotPlayer player = Players.Find(p => p.playerName == playerMoves.PlayerName);
+                BotPlayer player = Players.Find(p => p.PlayerName == playerMoves.PlayerName);
                 if (playerMoves.Moves == null)
                 {
                     playerMoves.Moves = new List<BotletMove>();
                 }
                 else
                 {
-                    playerMoves.Moves = _GetValidMovesOnly(playerMoves.Moves, player.botletId);
+                    playerMoves.Moves = _GetValidMovesOnly(playerMoves.Moves, player.BotletId);
                 }
             }
         }
@@ -260,9 +260,9 @@ namespace NetBots.GameEngine
             List<BotletMove> validMoves = new List<BotletMove>();
             foreach(BotletMove move in moves){
                 List<bool> requirements = new List<bool>();
-                requirements.Add(GameState.grid[move.from] == botletId);
-                requirements.Add(!validMoves.Select(m=>m.from).Contains(move.from));
-                requirements.Add(move.to >=0 && move.to<GameState.grid.Length);
+                requirements.Add(GameState.Grid[move.From] == botletId);
+                requirements.Add(!validMoves.Select(m=>m.From).Contains(move.From));
+                requirements.Add(move.To >=0 && move.To<GameState.Grid.Length);
                 if (requirements.All(r=>r==true))
                 {
                     validMoves.Add(move);
@@ -280,41 +280,41 @@ namespace NetBots.GameEngine
         private void _removeBotletsFromOldLocations(IEnumerable<PlayerMoves> playersMoves)
         {
             IEnumerable<BotletMove> moves = playersMoves.Aggregate(new List<BotletMove>(), (sum, pm) => sum.Concat(pm.Moves).ToList());
-            char[] grid = GameState.grid.ToCharArray();
+            char[] grid = GameState.Grid.ToCharArray();
             foreach(BotletMove move in moves)
             {
-                grid.SetValue('.', move.from);
+                grid.SetValue('.', move.From);
             }
-            GameState.grid = new string(grid);
+            GameState.Grid = new string(grid);
         }
 
         private void _placeBotletsOnNewLocations(IEnumerable<PlayerMoves> playersMoves)
         {
-            char[] grid = GameState.grid.ToCharArray();
+            char[] grid = GameState.Grid.ToCharArray();
             foreach (PlayerMoves playerMoves in playersMoves)
             {
-                BotPlayer botPlayer = Players.Find(p => p.playerName == playerMoves.PlayerName);
+                BotPlayer botPlayer = Players.Find(p => p.PlayerName == playerMoves.PlayerName);
                 foreach (BotletMove move in playerMoves.Moves)
                 {
-                    switch (grid[move.to])
+                    switch (grid[move.To])
                     {
                         //this rule seems weird, it implies that you can collect/spawn on same turn.
                         case  '*':
-                            if (botPlayer.playerName == "p1")
-                                GameState.p1.energy++;
+                            if (botPlayer.PlayerName == "p1")
+                                GameState.P1.energy++;
                             else
-                                GameState.p2.energy++;
+                                GameState.P2.energy++;
                             break;
                         case '.':
-                            grid[move.to] = botPlayer.botletId;
+                            grid[move.To] = botPlayer.BotletId;
                             break;
                         default:
-                            grid[move.to] = botPlayer.deadBotletId;
+                            grid[move.To] = botPlayer.deadBotletId;
                             break;
                     }
                 }
             }
-            GameState.grid = new string(grid);
+            GameState.Grid = new string(grid);
         }
 
         private char[] _GetGridAfterMove(char[] grid, string player){

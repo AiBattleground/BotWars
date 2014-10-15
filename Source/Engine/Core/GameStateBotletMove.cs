@@ -16,12 +16,12 @@ namespace NetBots.Core
 
         public Space From()
         {
-            return State.GetSpace(Move.from);
+            return State.GetSpace(Move.From);
         }
 
         public Space To()
         {
-            return State.GetSpace(Move.to);
+            return State.GetSpace(Move.To);
         }
 
         public bool IsContiguous(){

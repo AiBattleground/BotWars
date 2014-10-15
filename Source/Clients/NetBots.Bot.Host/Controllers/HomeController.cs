@@ -8,11 +8,16 @@ namespace NetBots.Bot.Host.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpPost]
         public ActionResult Index(string data)
         {
-            if (Request.HttpMethod == "POST")
-                return Json(Ai.GetResponse(JsonConvert.DeserializeObject<MoveRequest>(data)));
+            var moveRequest = (JsonConvert.DeserializeObject<MoveRequest>(data));
+            var moves = new Ai().GetMoves(moveRequest);
+            return Json(moves);
+        }
 
+        public ActionResult Index()
+        {
             return View();
         }
     }

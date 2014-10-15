@@ -15,20 +15,20 @@ namespace GrahamBot
 
         public Grid(GameState gameState)
         {
-            AsCharacterArray = gameState.grid.ToCharArray();
-            rows = gameState.rows;
-            cols = gameState.cols;
-            for (int y = 0; y < gameState.cols; y++)
+            AsCharacterArray = gameState.Grid.ToCharArray();
+            rows = gameState.Rows;
+            cols = gameState.Cols;
+            for (int y = 0; y < gameState.Cols; y++)
             {
                 Collection<Resource> row = new Collection<Resource>();
                 for (int x = 0; x < rows; x++)
                 {
-                    row.Add((Resource)gameState.grid.ToCharArray()[y * cols + x]);
+                    row.Add((Resource)gameState.Grid.ToCharArray()[y * cols + x]);
                 }
                 this.Add(row);
             }
-            RedSpawn = GetSpace(gameState.p1.spawn);
-            BlueSpawn = GetSpace(gameState.p2.spawn);
+            RedSpawn = GetSpace(gameState.P1.spawn);
+            BlueSpawn = GetSpace(gameState.P2.spawn);
         }
 
         public Space GetSpace(int space){
@@ -52,8 +52,8 @@ namespace GrahamBot
         public BotletMove GetMove(Space from, Space to)
         {
             return new BotletMove() {
-                from = (from.y*this.Count + from.x),
-                to = (to.y * this.Count + to.x),
+                From = (from.y*this.Count + from.x),
+                To = (to.y * this.Count + to.x),
             };
         }
     }

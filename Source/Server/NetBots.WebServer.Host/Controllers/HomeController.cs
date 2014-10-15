@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -31,19 +32,19 @@ namespace NetBots.WebServer.Host.Controllers
 
             for (int i = 0; i < 200; i++)
             {
-                string redResponse = _GetBotletMoves("r", bot1Url, game.GameState);
-                string blueResponse = _GetBotletMoves("b", bot2Url, game.GameState);
-                List<BotletMove> redMoves = JsonConvert.DeserializeObject<List<BotletMove>>
-                    (redResponse);
-                List<BotletMove> blueMoves = JsonConvert.DeserializeObject<List<BotletMove>>
-                    (blueResponse);
-                PlayerMoves p1Moves = new PlayerMoves() { Moves = redMoves, PlayerName = "p1" };
-                PlayerMoves p2Moves = new PlayerMoves() { Moves = blueMoves, PlayerName = "p2" };
+                string p1Response = _GetBotletMoves("p1", bot1Url, game.GameState);
+                string p2Response = _GetBotletMoves("p2", bot2Url, game.GameState);
+                List<BotletMove> p1MoveList = JsonConvert.DeserializeObject<List<BotletMove>>
+                    (p1Response);
+                List<BotletMove> p2MoveList = JsonConvert.DeserializeObject<List<BotletMove>>
+                    (p2Response);
+                PlayerMoves p1Moves = new PlayerMoves() { Moves = p1MoveList, PlayerName = "p1" };
+                PlayerMoves p2Moves = new PlayerMoves() { Moves = p2MoveList, PlayerName = "p2" };
                 List<PlayerMoves> playersMoves = new List<PlayerMoves>(){ p1Moves, p2Moves };
                 game.UpdateGameState(playersMoves);
                 var hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
-
+                Thread.Sleep(100);
             }
             return Json("gameRunning");
         }
@@ -51,7 +52,7 @@ namespace NetBots.WebServer.Host.Controllers
         private string _GetBotletMoves(string player, string botUrl, GameState state)
         {
             WebClient bot = new WebClient(); //should maybe save so not re-creating every move.
-            MoveRequest moveRequest = new MoveRequest() { state = state, player = player };
+            MoveRequest moveRequest = new MoveRequest() { State = state, Player = player };
             string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
             bot.QueryString = new NameValueCollection() { { "data", jsonMoveRequest } };
             return bot.UploadString(botUrl, "");
@@ -83,34 +84,32 @@ namespace NetBots.WebServer.Host.Controllers
 
             return new GameState()
             {
-                rows = settings.boardSize,
-                cols = settings.boardSize,
-                p1 = new Player() { energy = 1, spawn = settings.boardSize + 1 },
-                p2 = new Player() { energy = 1, spawn = settings.boardSize * (settings.boardSize - 1) - 2 },
-                grid = new string('.', settings.boardSize * settings.boardSize),
-                maxTurns = 200,
-                turnsElapsed = 0
+                Rows = settings.boardSize,
+                Cols = settings.boardSize,
+                P1 = new Player() { energy = 1, spawn = settings.boardSize + 1 },
+                P2 = new Player() { energy = 1, spawn = settings.boardSize * (settings.boardSize - 1) - 2 },
+                Grid = new string('.', settings.boardSize * settings.boardSize),
+                MaxTurns = 200,
+                TurnsElapsed = 0
             };
         }
 
         private IEnumerable<BotPlayer> _GetPlayers(int boardWidth){
             BotPlayer red = new BotPlayer()
 			{
-				color = "red",
-				playerName = "p1",
-				botletId = 'r',
+				PlayerName = "p1",
+				BotletId = '1',
 				energy = 1,
 				spawn = boardWidth + 1,
-				resource = Resource.RedBotlet,
+				Resource = Resource.P1Botlet,
                 deadBotletId = 'x'
 			};
 			BotPlayer blue = new BotPlayer(){
-				color = "blue",
-				playerName = "p2",
-				botletId = 'b',
+				PlayerName = "p2",
+				BotletId = '2',
 				energy = 1,
 				spawn = boardWidth * (boardWidth - 1) - 2,
-				resource = Resource.BlueBotlet,
+				Resource = Resource.P2Botlet,
                 deadBotletId = 'X'
 			};
 			return new List<BotPlayer>(){red, blue};

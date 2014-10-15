@@ -12,33 +12,33 @@ namespace NetBots.Core
         }
 
         public SpatialGameState(GameState gameState){
-            rows = gameState.rows;
-            cols = gameState.cols;
-            p1 = gameState.p1;
-            p2 = gameState.p2;
-            grid = gameState.grid;
-            maxTurns = gameState.maxTurns;
-            turnsElapsed = gameState.turnsElapsed;
+            Rows = gameState.Rows;
+            Cols = gameState.Cols;
+            P1 = gameState.P1;
+            P2 = gameState.P2;
+            Grid = gameState.Grid;
+            MaxTurns = gameState.MaxTurns;
+            TurnsElapsed = gameState.TurnsElapsed;
         }
 
         public Space GetSpace(int position){
-            return new Space(position/cols, position%cols);
+            return new Space(position/Cols, position%Cols);
         }
 
         public int GetGridPosition(Space space){
-            return space.y*cols+space.x;
+            return space.y*Cols+space.x;
         }
 
         public bool IsInBounds(Space space)
         {
-            bool xWithinBounds = space.x >= 0 && space.x < cols;
-            bool yWithinBounds = space.y >= 0 && space.y < rows;
+            bool xWithinBounds = space.x >= 0 && space.x < Cols;
+            bool yWithinBounds = space.y >= 0 && space.y < Rows;
             return xWithinBounds && yWithinBounds;
         }
 
         public bool IsInBounds(int position)
         {
-            return position >=0 && position<rows*cols;
+            return position >=0 && position<Rows*Cols;
         }
 
         public IEnumerable<Space> AdjacentSpaces(Space space)
@@ -59,8 +59,8 @@ namespace NetBots.Core
             {
                 position+1,
                 position-1,
-                position - cols,
-                position + cols
+                position - Cols,
+                position + Cols
             };
             return unBoundedAdjacentPositions.Where(p => IsInBounds(p));
         }

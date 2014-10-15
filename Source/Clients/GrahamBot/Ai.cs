@@ -6,42 +6,42 @@ using NetBots.Core;
 
 namespace GrahamBot
 {
-	public static class Ai
+	public class Ai : INetBot
 	{
-		public static List<BotletMove> GetResponse(MoveRequest request){
-			Grid grid = new Grid(request.state);
-			BotPlayer player = _GetBotPlayer(request.player, request.state);
-			BotPlayer enemy = _GetBotPlayer(request.player == "b" ? "r" : "b", request.state);
-			//current strategy: For each energy, have the closest bot move toward it. 
-			//Remaining bots move toward the enemy's base.
-			List<BotletMove> responseMoves = _AssignBotletsToGrabEnergy(grid, player, enemy);
-			return responseMoves;
-		}
+        public IEnumerable<BotletMove> GetMoves(MoveRequest request)
+        {
+            Grid grid = new Grid(request.State);
+            BotPlayer player = _GetBotPlayer(request.Player, request.State);
+            BotPlayer enemy = _GetBotPlayer(request.Player == "p2" ? "1" : "2", request.State);
+            //current strategy: For each energy, have the closest bot move toward it. 
+            //Remaining bots move toward the enemy's base.
+            List<BotletMove> responseMoves = _AssignBotletsToGrabEnergy(grid, player, enemy);
+            return responseMoves;
+        }
+
 		private static BotPlayer _GetBotPlayer(string requestPlayer, GameState state)
 		{
 			BotPlayer player = new BotPlayer();
-			if (requestPlayer == "r")
+			if (requestPlayer == "p1")
 			{
-				player.color = "red";
-				player.playerName = "p1";
-				player.botletId = 'r';
-				player.energy = state.p1.energy;
-				player.spawn = state.p1.spawn;
-				player.resource = Resource.RedBotlet;
+				player.PlayerName = "p1";
+				player.BotletId = '1';
+				player.energy = state.P1.energy;
+				player.spawn = state.P1.spawn;
+				player.Resource = Resource.P1Botlet;
 			}
 			else{
-				player.color = "blue";
-				player.playerName = "p2";
-				player.botletId = 'b';
-				player.energy = state.p2.energy;
-				player.spawn = state.p2.spawn;
-				player.resource = Resource.BlueBotlet;
+				player.PlayerName = "p2";
+				player.BotletId = '2';
+				player.energy = state.P2.energy;
+				player.spawn = state.P2.spawn;
+				player.Resource = Resource.P2Botlet;
 			}
 			return player;
 		}
 		private static List<BotletMove> _AssignBotletsToGrabEnergy(Grid grid, BotPlayer player, BotPlayer enemy)
 		{
-			List<Space> myBots = grid.GetSpaces(player.resource).ToList();
+			List<Space> myBots = grid.GetSpaces(player.Resource).ToList();
 			List<Space> energyOpportunities = grid.GetSpaces(Resource.Energy).ToList();
 			List<BotletMove> botMoves = new List<BotletMove>();
 			while (myBots.Count > 0 && energyOpportunities.Count > 0)
@@ -87,10 +87,10 @@ namespace GrahamBot
 		{
 			Space spaceToMoveTo = _MoveTowardDestination(route.Start, route.End);
 			BotletMove move = grid.GetMove(route.Start, spaceToMoveTo);
-			if (botletMoves.Select(bm => bm.to).Contains(move.to))
+			if (botletMoves.Select(bm => bm.To).Contains(move.To))
 			//stop, don't go there, you'll suicide if you do.
 			{
-				List<Space> spacesWhereSomeoneElseIsGoing = botletMoves.Select(m => m.to).Select(m => grid.GetSpace(m)).ToList();
+				List<Space> spacesWhereSomeoneElseIsGoing = botletMoves.Select(m => m.To).Select(m => grid.GetSpace(m)).ToList();
 				move = grid.GetMove(route.Start, _lessDestructiveMove(route.Start, spacesWhereSomeoneElseIsGoing, grid));
 			}
 			return move;
@@ -152,5 +152,8 @@ namespace GrahamBot
 			return botCoord + (int)((destinationCoord - botCoord )/ Math.Abs(destinationCoord - botCoord));
 		}
 
+	    public string Name { get { return "GramBot"; } }
+	    public string Color { get { return "Red"; }}
+	    
 	}
 }

@@ -1,4 +1,6 @@
 ﻿
+using System.Collections;
+using System.Collections.Generic;
 using NetBots.Bot.Interface;
 
 namespace DubBot
@@ -10,7 +12,12 @@ namespace DubBot
             get { throw new System.NotImplementedException(); }
         }
 
-        public IBotLetMoveCollection GetMoves(GameState gameState)
+        public string Color
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+
+        public IEnumerable<BotletMove> GetMoves(MoveRequest moveRequest)
         {
             throw new System.NotImplementedException();
         }
