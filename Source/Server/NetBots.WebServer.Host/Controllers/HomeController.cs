@@ -37,19 +37,25 @@ namespace NetBots.WebServer.Host.Controllers
 
             for (int i = 0; i < 200; i++)
             {
-                var p1Response = GetBotletMovesAsync("p1", bot1Url, game.GameState);
-                var p2Response = GetBotletMovesAsync("p2", bot2Url, game.GameState);
-                var p1ResponseMoves = await p1Response;
-                var p2ResponseMoves = await p2Response;
-                PlayerMoves p1Moves = new PlayerMoves() { Moves = p1ResponseMoves, PlayerName = "p1" };
-                PlayerMoves p2Moves = new PlayerMoves() { Moves = p2ResponseMoves, PlayerName = "p2" };
-                List<PlayerMoves> playersMoves = new List<PlayerMoves>(){ p1Moves, p2Moves };
+                var playersMoves = await GetPlayerMoves(bot1Url, bot2Url, game);
                 game.UpdateGameState(playersMoves);
                 var hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
                 Thread.Sleep(100);
             }
             return Json("Game Over!");
+        }
+
+        private static async Task<List<PlayerMoves>> GetPlayerMoves(string bot1Url, string bot2Url, Game game)
+        {
+            var p1ResponseTask = GetBotletMovesAsync("p1", bot1Url, game.GameState);
+            var p2ResponseTask = GetBotletMovesAsync("p2", bot2Url, game.GameState);
+            var p1Response = await p1ResponseTask;
+            var p2Response = await p2ResponseTask;
+            var p1Moves = new PlayerMoves() {Moves = p1Response, PlayerName = "p1"};
+            var p2Moves = new PlayerMoves() {Moves = p2Response, PlayerName = "p2"};
+            var combinedMoves = new List<PlayerMoves>() {p1Moves, p2Moves};
+            return combinedMoves;
         }
 
         //private static List<BotletMove> _GetBotletMoves(string player, string botUrl, GameState state)
