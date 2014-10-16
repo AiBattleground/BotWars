@@ -20,6 +20,20 @@ namespace NetBots.WebServer.Host.Controllers
 {
     public class HomeController : Controller
     {
+        //private const string Bot1Url = "http://localhost:1337/";
+        //private const string Bot2Url = "http://localhost:1337/";
+        //Url for starter kit bot.
+        //private const string Bot2Url = "http://localhost:59345/api/Bot";
+        private const string Bot1Url = "http://randombot.azurewebsites.net/api/Bot";
+        private const string Bot2Url = "http://randombot.azurewebsites.net/api/Bot";
+
+        private readonly Dictionary<string, HttpClient> _clients;
+
+        public HomeController()
+        {
+            _clients = new Dictionary<string, HttpClient>();
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -27,17 +41,12 @@ namespace NetBots.WebServer.Host.Controllers
 
         public async Task<ActionResult> NewGame()
         {
-            string bot1Url = "http://localhost:1337/";
-            string bot2Url = "http://localhost:1337/";
-            //Url for Berserker sample bot.
-            //string bot2Url = "http://localhost:59345/api/Bot";
-
             GameState startingState = _GetNewGameState();
             Game game = new Game(startingState, _GetPlayers(20));
 
             for (int i = 0; i < 200; i++)
             {
-                var playersMoves = await GetPlayerMoves(bot1Url, bot2Url, game);
+                var playersMoves = await GetAllPlayerMovesAsync(game);
                 game.UpdateGameState(playersMoves);
                 var hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
@@ -46,40 +55,46 @@ namespace NetBots.WebServer.Host.Controllers
             return Json("Game Over!");
         }
 
-        private static async Task<List<PlayerMoves>> GetPlayerMoves(string bot1Url, string bot2Url, Game game)
+        private async Task<IEnumerable<PlayerMoves>> GetAllPlayerMovesAsync(Game game)
         {
-            var p1ResponseTask = GetBotletMovesAsync("p1", bot1Url, game.GameState);
-            var p2ResponseTask = GetBotletMovesAsync("p2", bot2Url, game.GameState);
-            var p1Response = await p1ResponseTask;
-            var p2Response = await p2ResponseTask;
-            var p1Moves = new PlayerMoves() {Moves = p1Response, PlayerName = "p1"};
-            var p2Moves = new PlayerMoves() {Moves = p2Response, PlayerName = "p2"};
-            var combinedMoves = new List<PlayerMoves>() {p1Moves, p2Moves};
-            return combinedMoves;
+            var moveTasks = new List<Task<PlayerMoves>>();
+            foreach (var player in game.Players)
+            {
+                var myTask = GetPlayerMovesAsync(player.PlayerName, player.PlayerUrl, game.GameState);
+                moveTasks.Add(myTask);
+            }
+            var moves = await Task.WhenAll(moveTasks);
+            return moves;
         }
 
-        //private static List<BotletMove> _GetBotletMoves(string player, string botUrl, GameState state)
-        //{
-        //    MoveRequest moveRequest = new MoveRequest() { State = state, Player = player };
-        //    string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
-        //    var client = new HttpClient();
-        //    var response = client.PostAsync(botUrl, new StringContent(jsonMoveRequest, Encoding.UTF8, "application/json")).Result;
-        //    response.EnsureSuccessStatusCode();
-        //    var responseJson = response.Content.ReadAsStringAsync().Result;
-        //    var move = JsonConvert.DeserializeObject<List<BotletMove>>(responseJson);
-        //    return move;
-        //}
+        private async Task<PlayerMoves> GetPlayerMovesAsync(string playerName, string botUrl, GameState gameState)
+        {
+            var moves = await GetBotletMovesAsync(playerName, botUrl, gameState);
+            var playerMove = new PlayerMoves() { Moves = moves, PlayerName = playerName };
+            return playerMove;
+        }
         
-        private static async Task<List<BotletMove>>  GetBotletMovesAsync(string player, string botUrl, GameState state)
+        private async Task<List<BotletMove>>  GetBotletMovesAsync(string player, string botUrl, GameState state)
         {
             MoveRequest moveRequest = new MoveRequest() { State = state, Player = player };
             string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
-            var client = new HttpClient();
-            var response = await client.PostAsync(botUrl, new StringContent(jsonMoveRequest, Encoding.UTF8, "application/json"));
+            HttpClient client = GetClient(botUrl);
+            var content = new StringContent(jsonMoveRequest, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(botUrl, content);
             response.EnsureSuccessStatusCode();
             var responseJson = await response.Content.ReadAsStringAsync();
             var move = JsonConvert.DeserializeObject<List<BotletMove>>(responseJson);
             return move;
+        }
+
+        private HttpClient GetClient(string botUrl)
+        {
+            if (!_clients.ContainsKey(botUrl))
+            {
+                var client = new HttpClient();
+                _clients.Add(botUrl,client);
+            }
+            return _clients[botUrl];
         }
 
         private GameSettings _GetGameSettings()
@@ -124,6 +139,7 @@ namespace NetBots.WebServer.Host.Controllers
 				PlayerName = "p1",
 				BotletId = '1',
 				Energy = 1,
+                PlayerUrl = Bot1Url,
 				Spawn = boardWidth + 1,
 				Resource = Resource.P1Botlet,
                 deadBotletId = 'x'
@@ -132,11 +148,13 @@ namespace NetBots.WebServer.Host.Controllers
 				PlayerName = "p2",
 				BotletId = '2',
 				Energy = 1,
+                PlayerUrl = Bot2Url,
 				Spawn = boardWidth * (boardWidth - 1) - 2,
 				Resource = Resource.P2Botlet,
                 deadBotletId = 'X'
 			};
 			return new List<BotPlayer>(){red, blue};
         }
+
     }
 }
