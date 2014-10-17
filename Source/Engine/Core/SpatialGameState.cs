@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using NetBots.Bot.Interface;
 
 namespace NetBots.Core
 {
+    using Web;
+
     public class SpatialGameState : GameState
     {
         public SpatialGameState()

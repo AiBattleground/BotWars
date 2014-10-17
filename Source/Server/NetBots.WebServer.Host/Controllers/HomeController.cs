@@ -18,6 +18,8 @@ using NetBots.GameEngine;
 
 namespace NetBots.WebServer.Host.Controllers
 {
+    using NetBots.Web;
+
     public class HomeController : Controller
     {
         private const string Bot1Url = "http://localhost:1337/";

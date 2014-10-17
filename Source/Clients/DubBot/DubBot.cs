@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NetBots.Bot.Interface;
+using NetBots.Web;
 
 namespace DubBot
 {

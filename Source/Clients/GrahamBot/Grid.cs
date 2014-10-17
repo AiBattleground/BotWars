@@ -4,6 +4,8 @@ using NetBots.Core;
 
 namespace GrahamBot
 {
+    using NetBots.Web;
+
     public class Grid : Collection<Collection<Resource>>
     {
         public Space RedSpawn { get; private set; }

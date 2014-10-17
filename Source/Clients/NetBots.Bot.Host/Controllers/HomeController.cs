@@ -6,6 +6,8 @@ using NetBots.Bot.Interface;
 
 namespace NetBots.Bot.Host.Controllers
 {
+    using Web;
+
     public class HomeController : Controller
     {
         [HttpPost]

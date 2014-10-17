@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -47,6 +47,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NetBots.Web\NetBots.Web.csproj">
+      <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
+      <Name>NetBots.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\NetBots.Core.csproj">
       <Project>{1522e445-ffd4-43d3-81c7-b3c672199666}</Project>
       <Name>NetBots.Core</Name>

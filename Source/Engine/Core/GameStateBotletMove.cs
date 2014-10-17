@@ -1,8 +1,9 @@
 ﻿using System.Linq;
-using NetBots.Bot.Interface;
 
 namespace NetBots.Core
 {
+    using Web;
+
     class GameStateBotletMove
     {
         public SpatialGameState State { get; set; }

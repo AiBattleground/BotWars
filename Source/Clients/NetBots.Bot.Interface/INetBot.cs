@@ -2,6 +2,8 @@
 
 namespace NetBots.Bot.Interface
 {
+    using Web;
+
     public interface INetBot
     {
         string Name { get; }

@@ -42,6 +42,10 @@
       <Project>{1522e445-ffd4-43d3-81c7-b3c672199666}</Project>
       <Name>NetBots.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\NetBots.Web\NetBots.Web.csproj">
+      <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
+      <Name>NetBots.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetBots.Bot.Interface\NetBots.Bot.Interface.csproj">
       <Project>{d9526b9d-c0f6-408c-934c-b7e99112101f}</Project>
       <Name>NetBots.Bot.Interface</Name>

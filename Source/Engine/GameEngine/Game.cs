@@ -7,6 +7,8 @@ using NetBots.Core;
 
 namespace NetBots.GameEngine
 {
+    using Web;
+
     public class Game
     {
         private readonly IDice _myDice;

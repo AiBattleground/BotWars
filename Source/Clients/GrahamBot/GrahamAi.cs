@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using NetBots.Bot.Interface;
 using NetBots.Core;
+using NetBots.Web;
 
 namespace GrahamBot
 {
