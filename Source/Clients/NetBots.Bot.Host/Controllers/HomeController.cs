@@ -11,7 +11,8 @@ namespace NetBots.Bot.Host.Controllers
         [HttpPost]
         public ActionResult Index(MoveRequest moveRequest)
         {
-            var moves = new Ai().GetMoves(moveRequest);
+            var moves = new GrahamAi().GetMoves(moveRequest);
+
             return Json(moves);
         }
 

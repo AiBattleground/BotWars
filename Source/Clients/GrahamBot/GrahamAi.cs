@@ -6,7 +6,7 @@ using NetBots.Core;
 
 namespace GrahamBot
 {
-	public class Ai : INetBot
+	public class GrahamAi : INetBot
 	{
         public IEnumerable<BotletMove> GetMoves(MoveRequest request)
         {

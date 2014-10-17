@@ -18,6 +18,7 @@ namespace NetBots.WebServer.Host.Controllers
         {
             var dataFile = Server.MapPath("~/App_Data/GameSettings.json");
             System.IO.File.WriteAllText(dataFile, gameSettings);
+
             return Json("Information saved.");
         }
     }

@@ -20,12 +20,14 @@ namespace NetBots.WebServer.Host.Controllers
 {
     public class HomeController : Controller
     {
-        //private const string Bot1Url = "http://localhost:1337/";
-        //private const string Bot2Url = "http://localhost:1337/";
+        private const string Bot1Url = "http://localhost:1337/";
+        private const string Bot2Url = "http://localhost:1337/";
+
         //Url for starter kit bot.
         //private const string Bot2Url = "http://localhost:59345/api/Bot";
-        private const string Bot1Url = "http://randombot.azurewebsites.net/api/Bot";
-        private const string Bot2Url = "http://randombot.azurewebsites.net/api/Bot";
+
+        //private const string Bot1Url = "http://randombot.azurewebsites.net/api/Bot";
+        //private const string Bot2Url = "http://randombot.azurewebsites.net/api/Bot";
 
         private readonly Dictionary<string, HttpClient> _clients;
 
@@ -53,6 +55,7 @@ namespace NetBots.WebServer.Host.Controllers
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
                 Thread.Sleep(100);
             }
+
             return Json("Game Over!");
         }
 
@@ -60,6 +63,7 @@ namespace NetBots.WebServer.Host.Controllers
         {
             var moves = await GetBotletMovesAsync(player, gameState);
             var playerMove = new PlayerMoves() { Moves = moves, PlayerName = player.PlayerName };
+
             return playerMove;
         }
         
@@ -81,8 +85,9 @@ namespace NetBots.WebServer.Host.Controllers
             if (!_clients.ContainsKey(botUrl))
             {
                 var client = new HttpClient();
-                _clients.Add(botUrl,client);
+                _clients.Add(botUrl, client);
             }
+
             return _clients[botUrl];
         }
 
@@ -144,6 +149,5 @@ namespace NetBots.WebServer.Host.Controllers
 			};
 			return new List<BotPlayer>(){red, blue};
         }
-
     }
 }
