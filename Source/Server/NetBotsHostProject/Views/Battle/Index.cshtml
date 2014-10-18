@@ -7,7 +7,10 @@
 
 <h2>Bot War</h2>
 <div>
-    <button id="new-game">New Game</button>
+    @using (Html.BeginForm("NewGame", "Battle"))
+    {
+        <button class="btn btn-inverse" title="Fight" type="submit">Fight!</button>
+    }
 </div>
 
 <h3>News</h3>
@@ -26,5 +29,8 @@
 <script type="text/javascript" src="~/signalr/hubs"></script>
 <script type="text/javascript" src="~/Scripts/WarViewer.js"></script>
 <script type="text/javascript">
-        $("#new-game").on('click', function () { $.post("Home/NewGame"); });
+    $("#new-game").on('click', function () {
+            
+         $.post(@Url.Action("NewGame", "Battle"));
+    });
 </script>
