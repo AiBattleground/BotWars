@@ -29,8 +29,12 @@
 <script type="text/javascript" src="~/signalr/hubs"></script>
 <script type="text/javascript" src="~/Scripts/WarViewer.js"></script>
 <script type="text/javascript">
+<<<<<<< HEAD
     $("#new-game").on('click', function () {
             
          $.post(@Url.Action("NewGame", "Battle"));
     });
+=======
+        $("#new-game").on('click', function () { $.post("Battle/NewGame"); });
+>>>>>>> ba75cb2322d36c2997c6ce44ef62f16ca4ad1584
 </script>
