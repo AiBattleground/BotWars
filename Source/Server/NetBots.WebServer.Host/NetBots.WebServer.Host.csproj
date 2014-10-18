@@ -221,7 +221,7 @@
       <Project>{d00242d7-0a4b-4789-8591-cbf0a1ff9fe6}</Project>
       <Name>NetBots.GameEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NetBots.Web\NetBots.Web.csproj">
+    <ProjectReference Include="..\..\Engine\NetBots.Web\NetBots.Web.csproj">
       <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
       <Name>NetBots.Web</Name>
     </ProjectReference>

@@ -47,7 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NetBots.Web\NetBots.Web.csproj">
+    <ProjectReference Include="..\NetBots.Web\NetBots.Web.csproj">
       <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
       <Name>NetBots.Web</Name>
     </ProjectReference>

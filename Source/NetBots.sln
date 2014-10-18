@@ -20,11 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{B8FEE8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DubBot", "Clients\DubBot\DubBot.csproj", "{18FBA5CA-00C5-4464-B29F-EF38A25D7BE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Repository", "NetBots.WebServer.Repository\NetBots.WebServer.Repository.csproj", "{15A37FB4-F50C-4924-B6C2-0DE95B5ABF12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Repository", "Server\NetBots.WebServer.Repository\NetBots.WebServer.Repository.csproj", "{15A37FB4-F50C-4924-B6C2-0DE95B5ABF12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Data.File", "NetBots.WebServer.Data.File\NetBots.WebServer.Data.File.csproj", "{CC14806D-A223-4BA6-BA55-3DDE0F3A612B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Data.File", "Server\NetBots.WebServer.Data.File\NetBots.WebServer.Data.File.csproj", "{CC14806D-A223-4BA6-BA55-3DDE0F3A612B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Web", "NetBots.Web\NetBots.Web.csproj", "{96ADD411-CEDB-4089-8E9A-02257175D90F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Web", "Engine\NetBots.Web\NetBots.Web.csproj", "{96ADD411-CEDB-4089-8E9A-02257175D90F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
