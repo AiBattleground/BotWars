@@ -26,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Data.File
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Web", "Engine\NetBots.Web\NetBots.Web.csproj", "{96ADD411-CEDB-4089-8E9A-02257175D90F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBotsHostProject", "Server\NetBotsHostProject\NetBotsHostProject.csproj", "{F99950B9-00DA-4C9E-9884-3E5BC5CD184F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Host", "Server\NetBots.WebServer.Host\NetBots.WebServer.Host.csproj", "{F99950B9-00DA-4C9E-9884-3E5BC5CD184F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

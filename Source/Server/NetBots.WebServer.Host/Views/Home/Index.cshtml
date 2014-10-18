@@ -1,38 +1,31 @@
 ﻿@{
-    Layout = null;
+    ViewBag.Title = "Home Page";
 }
 
-<!DOCTYPE html>
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64" type="image/vnd.microsoft.icon">
-</head>
-<body>
-    <h2>Bot War</h2>
-    <div>
-        <button id="new-game">New Game</button>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
-
-    <h3>News</h3>
-    <p>Our aerial reconnaissance vehicles are picking up the following feed of the battle as it unfolds. </p>
-    <canvas id="game" height="500" width="500" style="border-color: lightgrey; border-style: solid; border-width:2px;"></canvas>
-    <p>Our bots color is <span data-bind="text: color"></span>.</p>
-    <p> We have <span class="energy-news" data-bind="text: ourEnergy"></span> energy in reserves.</p>
-    <p> Our Enemey has <span class="energy-news" data-bind="text: theirEnergy"></span> energy in reserves.</p>
-    <p>The battle will continue for <span id="moves-left" data-bind="text: movesRemaining"></span> cycles.</p>
-    <p></p>
-    
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/signalR")
-    @Scripts.Render("~/bundles/knockout")
-    
-    <script type="text/javascript" src="~/signalr/hubs"></script>
-    <script type="text/javascript" src="~/Scripts/WarViewer.js"></script>
-    <script type="text/javascript">
-        $("#new-game").on('click', function () { $.post("Home/NewGame"); });
-    </script>
-</body>
-</html>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>

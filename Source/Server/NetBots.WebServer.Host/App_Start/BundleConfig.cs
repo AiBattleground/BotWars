@@ -1,4 +1,5 @@
-﻿using System.Web.Optimization;
+﻿using System.Web;
+using System.Web.Optimization;
 
 namespace NetBots.WebServer.Host
 {
@@ -11,7 +12,7 @@ namespace NetBots.WebServer.Host
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
-                        "~/Scripts/jquery.signalR-{version}.js"));
+                       "~/Scripts/jquery.signalR-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
