@@ -197,7 +197,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\WarViewHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\GameSettings.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -217,7 +219,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="App_Data\GameSettings.json" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Images\iconSprite.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
@@ -237,6 +241,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\WarViewer.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -280,12 +285,24 @@
     <Content Include="Views\Battle\Index.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engine\Core\NetBots.Core.csproj">
+      <Project>{1522e445-ffd4-43d3-81c7-b3c672199666}</Project>
+      <Name>NetBots.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\GameEngine\NetBots.GameEngine.csproj">
+      <Project>{d00242d7-0a4b-4789-8591-cbf0a1ff9fe6}</Project>
+      <Name>NetBots.GameEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\NetBots.Web\NetBots.Web.csproj">
+      <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
+      <Name>NetBots.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
