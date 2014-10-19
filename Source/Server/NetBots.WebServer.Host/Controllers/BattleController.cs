@@ -57,8 +57,10 @@ namespace NetBots.WebServer.Host.Controllers
                 Thread.Sleep(100);
             }
 
-            return Json("Game Over!", JsonRequestBehavior.AllowGet);
+            return new EmptyResult();
         }
+
+
 
         private async Task<PlayerMoves> GetAllPlayerMovesAsync(BotPlayer player, GameState gameState)
         {
