@@ -20,14 +20,14 @@ namespace NetBots.WebServer.Host.Controllers
 {
     public class BattleController : Controller
     {
-        private const string Bot1Url = "http://localhost:1337/";
-        private const string Bot2Url = "http://localhost:1337/";
+        //private const string Bot1Url = "http://localhost:1337/";
+        //private const string Bot2Url = "http://localhost:1337/";
 
         //Url for starter kit bot.
         //private const string Bot2Url = "http://localhost:59345/api/Bot";
 
-        //private const string Bot1Url = "http://randombot.azurewebsites.net/api/Bot";
-        //private const string Bot2Url = "http://randombot.azurewebsites.net/api/Bot";
+        private const string Bot1Url = "http://randombot.azurewebsites.net/api/Bot";
+        private const string Bot2Url = "http://randombot.azurewebsites.net/api/Bot";
 
         private readonly Dictionary<string, HttpClient> _clients;
 
