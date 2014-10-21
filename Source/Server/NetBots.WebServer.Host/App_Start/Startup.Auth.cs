@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using NetBots.WebServer.Host.Models;
+using Owin.Security.Providers.GitHub;
 
 namespace NetBots.WebServer.Host
 {
@@ -59,6 +60,12 @@ namespace NetBots.WebServer.Host
             //   appSecret: "");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "",
+            //    ClientSecret = ""
+            //});
+
+            //app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
             //{
             //    ClientId = "",
             //    ClientSecret = ""

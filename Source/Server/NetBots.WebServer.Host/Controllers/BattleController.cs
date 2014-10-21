@@ -26,8 +26,8 @@ namespace NetBots.WebServer.Host.Controllers
         //Url for starter kit bot.
         //private const string Bot2Url = "http://localhost:59345/api/Bot";
 
-        private const string Bot1Url = "http://randombot.azurewebsites.net/api/Bot";
-        private const string Bot2Url = "http://randombot.azurewebsites.net/api/Bot";
+        private const string Bot1Url = "http://berserkerbot.azurewebsites.net/api/Bot";
+        private const string Bot2Url = "http://berserkerbot.azurewebsites.net/api/Bot";
 
         private readonly Dictionary<string, HttpClient> _clients;
 
@@ -54,7 +54,7 @@ namespace NetBots.WebServer.Host.Controllers
                 game.UpdateGameState(playersMoves);
                 var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
-                Thread.Sleep(100);
+                await Task.Delay(100);
             }
 
             return new EmptyResult();
