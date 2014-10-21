@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using NetBotsHostProject.Models;
 using Owin;
 using NetBots.WebServer.Host.Models;
 using Owin.Security.Providers.GitHub;
@@ -65,11 +66,12 @@ namespace NetBots.WebServer.Host
             //    ClientSecret = ""
             //});
 
-            //app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
+            {
+                ClientId = Secrets.GetSecret("gitHubClientIdDev"),
+                ClientSecret = Secrets.GetSecret("gitHubClientSecretDev")
+            });
+
         }
     }
 }

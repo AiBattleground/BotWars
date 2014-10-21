@@ -66,7 +66,6 @@ namespace NetBots.WebServer.Host.Controllers
         {
             var moves = await GetBotletMovesAsync(player, gameState);
             var playerMove = new PlayerMoves() { Moves = moves, PlayerName = player.PlayerName };
-
             return playerMove;
         }
 
