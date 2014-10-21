@@ -5,7 +5,21 @@ using System.Web;
 
 namespace NetBotsHostProject.Models
 {
-    public class Secrets
+    public static class Secrets
     {
+        private static readonly Dictionary<string,string> _secrets = new Dictionary<string, string>()
+        {
+            {"gitHubClientIdDev", "5552a9be02914c0ce490"},
+            {"gitHubClientSecretDev", "e26c5d7bd6f649d9cb3cf4b75a9aa1800b2b1307"}
+        };
+
+        public static string GetSecret(string key)
+        {
+            if (_secrets.ContainsKey(key))
+            {
+                return _secrets[key];
+            }
+            return null;
+        }
     }
 }
