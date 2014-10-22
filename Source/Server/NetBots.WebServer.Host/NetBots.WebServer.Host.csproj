@@ -193,6 +193,7 @@
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlayerBotsController.cs" />
     <Compile Include="Controllers\TournamentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -284,6 +285,12 @@
     <Content Include="Views\Tournament\Index.cshtml" />
     <Content Include="Views\Battle\Index.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
+    <Content Include="Views\PlayerBots\Create.cshtml" />
+    <Content Include="Views\PlayerBots\Delete.cshtml" />
+    <Content Include="Views\PlayerBots\Details.cshtml" />
+    <Content Include="Views\PlayerBots\Edit.cshtml" />
+    <Content Include="Views\PlayerBots\Index.cshtml" />
+    <Content Include="Views\Home\Skirmish.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -302,6 +309,14 @@
     <ProjectReference Include="..\..\Engine\NetBots.Web\NetBots.Web.csproj">
       <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
       <Name>NetBots.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetBots.WebServer.Model\NetBots.WebServer.Model.csproj">
+      <Project>{88f05e4e-7146-44b9-ba3d-2ed19efd9411}</Project>
+      <Name>NetBots.WebServer.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetBotsWebServer.Data.MsSql\NetBots.WebServer.Data.MsSql.csproj">
+      <Project>{533e848f-1ddd-4e33-a268-963e48018425}</Project>
+      <Name>NetBots.WebServer.Data.MsSql</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
