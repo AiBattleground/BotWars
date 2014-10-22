@@ -8,12 +8,14 @@ using System.Web;
 using System.Web.Mvc;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Model;
+using NetBots.WebServer.Host.Models;
 
 namespace NetBotsHostProject.Controllers
 {
+    [Authorize]
     public class PlayerBotsController : Controller
     {
-        private NetBotsDbContext db = new NetBotsDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: PlayerBots
         public ActionResult Index()

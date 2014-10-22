@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace NetBots.WebServer.Host.Controllers
 {
+    [Authorize]
     public class HistoryController : Controller
     {
         // GET: History

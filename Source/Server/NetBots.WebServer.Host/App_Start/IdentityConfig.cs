@@ -18,7 +18,7 @@ namespace NetBots.WebServer.Host
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
+            // TODO: Plug in your email service here to send an email.
             return Task.FromResult(0);
         }
     }
@@ -27,7 +27,7 @@ namespace NetBots.WebServer.Host
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
+            // TODO: Plug in your SMS service here to send a text message.
             return Task.FromResult(0);
         }
     }
@@ -71,19 +71,24 @@ namespace NetBots.WebServer.Host
             {
                 MessageFormat = "Your security code is {0}"
             });
+
             manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
+
             manager.EmailService = new EmailService();
             manager.SmsService = new SmsService();
+
             var dataProtectionProvider = options.DataProtectionProvider;
+
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider = 
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
+
             return manager;
         }
     }

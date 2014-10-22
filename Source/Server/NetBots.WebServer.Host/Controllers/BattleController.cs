@@ -18,6 +18,7 @@ using NetBots.WebServer.Host.Hubs;
 
 namespace NetBots.WebServer.Host.Controllers
 {
+    [System.Web.Mvc.Authorize]
     public class BattleController : Controller
     {
         private const string Bot1Url = "http://localhost:1337/";

@@ -189,7 +189,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BattleController.cs" />
-    <Compile Include="Controllers\BotController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -199,6 +198,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\WarViewHub.cs" />
+    <Compile Include="Migrations\201410220037228_InitialCreate.cs" />
+    <Compile Include="Migrations\201410220037228_InitialCreate.Designer.cs">
+      <DependentUpon>201410220037228_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410220121063_Added_Models.cs" />
+    <Compile Include="Migrations\201410220121063_Added_Models.Designer.cs">
+      <DependentUpon>201410220121063_Added_Models.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GameSettings.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -281,7 +289,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Bot\Index.cshtml" />
     <Content Include="Views\Tournament\Index.cshtml" />
     <Content Include="Views\Battle\Index.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
@@ -292,7 +299,14 @@
     <Content Include="Views\PlayerBots\Index.cshtml" />
     <Content Include="Views\Home\Skirmish.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201410220037228_InitialCreate.resx">
+      <DependentUpon>201410220037228_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410220121063_Added_Models.resx">
+      <DependentUpon>201410220121063_Added_Models.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

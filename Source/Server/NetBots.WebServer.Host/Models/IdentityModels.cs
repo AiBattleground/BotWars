@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using NetBots.WebServer.Model;
 
 namespace NetBots.WebServer.Host.Models
 {
@@ -20,6 +21,9 @@ namespace NetBots.WebServer.Host.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<PlayerBot> PlayerBots { get; set; }
+        public DbSet<BotRecord> BotRecords { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
