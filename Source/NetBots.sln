@@ -28,9 +28,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Web", "Engine\NetBo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Host", "Server\NetBots.WebServer.Host\NetBots.WebServer.Host.csproj", "{F99950B9-00DA-4C9E-9884-3E5BC5CD184F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Data.MsSql", "NetBotsWebServer.Data.MsSql\NetBots.WebServer.Data.MsSql.csproj", "{533E848F-1DDD-4E33-A268-963E48018425}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Data.MsSql", "Server\NetBotsWebServer.Data.MsSql\NetBots.WebServer.Data.MsSql.csproj", "{533E848F-1DDD-4E33-A268-963E48018425}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Model", "NetBots.WebServer.Model\NetBots.WebServer.Model.csproj", "{88F05E4E-7146-44B9-BA3D-2ED19EFD9411}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Model", "Server\NetBots.WebServer.Model\NetBots.WebServer.Model.csproj", "{88F05E4E-7146-44B9-BA3D-2ED19EFD9411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
