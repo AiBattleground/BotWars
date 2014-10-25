@@ -20,7 +20,7 @@ namespace NetBotsHostProject.Controllers
         // GET: PlayerBots
         public ActionResult Index()
         {
-            return View(db.PlayerBots.ToList());
+            return View(db.PlayerBots.Include(pb => pb.Record).ToList());
         }
 
         // GET: PlayerBots/Details/5

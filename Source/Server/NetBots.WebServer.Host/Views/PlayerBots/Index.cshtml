@@ -20,6 +20,15 @@
         <th>
             @Html.DisplayNameFor(model => model.URL)
         </th>
+        <th>
+            Wins
+        </th>
+        <th>
+            Losses
+        </th>
+        <th>
+            Ties
+        </th>
         <th></th>
     </tr>
 
@@ -33,6 +42,15 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.URL)
+        </td>
+        <td>
+            @item.Record.Wins
+        </td>
+        <td>
+            @item.Record.Losses
+        </td>
+        <td>
+            @item.Record.Ties
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
