@@ -43,7 +43,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.URL)
         </td>
-        <td>
+        @*<td>
             @item.Record.Wins
         </td>
         <td>
@@ -51,7 +51,7 @@
         </td>
         <td>
             @item.Record.Ties
-        </td>
+        </td>*@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |

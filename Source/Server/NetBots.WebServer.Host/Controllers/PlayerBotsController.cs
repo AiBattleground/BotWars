@@ -6,9 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Model;
 using NetBots.WebServer.Host.Models;
+using NetBots.WebServer.Data.MsSql;
 
 namespace NetBotsHostProject.Controllers
 {

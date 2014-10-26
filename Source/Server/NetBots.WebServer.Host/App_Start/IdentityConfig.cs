@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using NetBots.WebServer.Host.Models;
+using NetBots.WebServer.Model;
+using NetBots.WebServer.Data.MsSql;
 
 namespace NetBots.WebServer.Host
 {

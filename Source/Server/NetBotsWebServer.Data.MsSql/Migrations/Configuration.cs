@@ -3,9 +3,9 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 
-namespace NetBots.WebServer.Host.Migrations
+namespace NetBots.WebServer.Data.MsSql.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<NetBots.WebServer.Host.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
@@ -13,7 +13,7 @@ namespace NetBots.WebServer.Host.Migrations
             ContextKey = "NetBots.WebServer.Host.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(NetBots.WebServer.Host.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

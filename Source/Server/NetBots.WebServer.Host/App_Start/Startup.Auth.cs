@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using NetBots.WebServer.Host.Models;
+using NetBots.WebServer.Data.MsSql;
+using NetBots.WebServer.Model;
 
 namespace NetBots.WebServer.Host
 {
