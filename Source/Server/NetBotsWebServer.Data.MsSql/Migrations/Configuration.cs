@@ -2,6 +2,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using NetBots.WebServer.Model;
 
 namespace NetBots.WebServer.Data.MsSql.Migrations
 {
@@ -15,18 +16,49 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            UpsertPlayerBot(new PlayerBot
+                {
+                    Id = -1,
+                    Name = "DivideByZer0",
+                    Owner = "Dubman",
+                    URL = "http://dividebyzer0.com",
+                    Wins = 3,
+                    Losses = 0,
+                    Ties = 0
+                }, context);
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            UpsertPlayerBot(new PlayerBot
+            {
+                Id = -1,
+                Name = "GrahamBot",
+                Owner = "Pabreetzio",
+                URL = "http://graham.technology/bot",
+                Wins = 2,
+                Losses = 1,
+                Ties = 0
+            }, context);
+
+            base.Seed(context);
+        }
+
+        private void UpsertPlayerBot(PlayerBot bot, ApplicationDbContext context)
+        {
+            if (context.PlayerBots.Any(pb => pb.URL == bot.URL))
+            {
+                PlayerBot existingBot = context.PlayerBots.First(pb => pb.URL == bot.URL);
+
+                existingBot.Name = bot.Name;
+                existingBot.Owner = bot.Owner;
+                existingBot.Wins = bot.Wins;
+                existingBot.Losses = bot.Losses;
+                existingBot.Ties = bot.Ties;
+            }
+            else
+            {
+                context.PlayerBots.Add(bot);
+            }
+
+            context.SaveChanges();
         }
     }
 }

@@ -61,6 +61,10 @@
     <Compile Include="Migrations\201410220121063_Added_Models.Designer.cs">
       <DependentUpon>201410220121063_Added_Models.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410262303583_Moving Record into PlayerBot.cs" />
+    <Compile Include="Migrations\201410262303583_Moving Record into PlayerBot.Designer.cs">
+      <DependentUpon>201410262303583_Moving Record into PlayerBot.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410220121063_Added_Models.resx">
       <DependentUpon>201410220121063_Added_Models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410262303583_Moving Record into PlayerBot.resx">
+      <DependentUpon>201410262303583_Moving Record into PlayerBot.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

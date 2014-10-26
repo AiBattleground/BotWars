@@ -9,6 +9,8 @@ namespace NetBots.WebServer.Model
         public string Name { get; set; }
         public string Owner { get; set; }
         public string URL { get; set; }
-        public virtual BotRecord Record { get; set; }
+        public int Wins { get; set; }
+        public int Losses { get; set; }
+        public int Ties { get; set; }
     }
 }
