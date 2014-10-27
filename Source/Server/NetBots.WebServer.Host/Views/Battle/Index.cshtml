@@ -1,4 +1,6 @@
-﻿@{
+﻿@model NetBots.WebServer.Host.Models.BattleIndexViewModel
+
+@{
     ViewBag.Title = "Battle";
 }
 
@@ -25,6 +27,16 @@
 <script type="text/javascript" src="~/Scripts/WarViewer.js"></script>
 <script type="text/javascript">
         $("#new-game").on('click', function() {
-             $.post('@Url.Action("NewGame", "Battle")');
+             $.post('@{
+                         Url.Action(
+                                     "NewGame",
+                                     "Battle",
+                                     new
+                                         {
+                                             bot1Id = Model.Bot1Id,
+                                             bot2Id = Model.Bot2Id
+                                         }
+                                     );
+                    })');
         });
 </script>

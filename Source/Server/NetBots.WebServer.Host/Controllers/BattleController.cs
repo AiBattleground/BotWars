@@ -37,13 +37,21 @@ namespace NetBots.WebServer.Host.Controllers
             db = new ApplicationDbContext();
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int bot1Id = 0, int bot2Id = 0)
         {
-            return View();
+            var model = new BattleIndexViewModel
+                {
+                    Bot1Id = bot1Id,
+                    Bot2Id = bot2Id
+                };
+
+            return View(model);
         }
 
-        public async Task<ActionResult> NewGame()
+        public async Task<ActionResult> NewGame(int bot1Id, int bot2Id)
         {
+            _SetBotUrls(bot1Id, bot2Id);
+
             GameState startingState = _GetNewGameState();
             Game game = new Game(startingState, _GetPlayers(20));
 
@@ -58,13 +66,6 @@ namespace NetBots.WebServer.Host.Controllers
             }
 
             return new EmptyResult();
-        }
-
-        private async Task<ActionResult> Battle(int bot1Id, int bot2Id)
-        {
-            _SetBotUrls(bot1Id, bot2Id);
-
-            return await NewGame();
         }
 
         private async Task<PlayerMoves> GetAllPlayerMovesAsync(BotPlayer player, GameState gameState)
