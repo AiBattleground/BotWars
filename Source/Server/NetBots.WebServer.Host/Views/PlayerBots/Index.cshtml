@@ -53,9 +53,29 @@
             @Html.DisplayFor(modelItem => item.Ties)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @{
+                if (item.UserId == User.Identity.GetUserId())
+                {
+                    @:@Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                }
+                else
+                {
+                    @:Edit
+                }
+             }
+            |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @{
+                if (item.UserId == User.Identity.GetUserId())
+                {
+                    @:@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                }
+                else
+                {
+                    @:Delete
+                }
+            }
+            
         </td>
     </tr>
 }

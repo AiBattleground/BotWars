@@ -61,6 +61,16 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @{
+        if (Model.UserId == User.Identity.GetUserId())
+        {
+            @:@Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        }
+        else
+        {
+            @:Edit
+        }
+    }
+     |
     @Html.ActionLink("Back to List", "Index")
 </p>

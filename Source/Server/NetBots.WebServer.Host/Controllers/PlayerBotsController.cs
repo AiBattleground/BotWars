@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using NetBots.WebServer.Model;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Data.MsSql;
+using Microsoft.AspNet.Identity;
 
 namespace NetBotsHostProject.Controllers
 {
@@ -49,12 +50,14 @@ namespace NetBotsHostProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Owner,URL")] PlayerBot playerBot)
+        public ActionResult Create([Bind(Include = "Id,Name,Owner,URL,Wins,Losses,Ties")] PlayerBot playerBot)
         {
             if (ModelState.IsValid)
             {
+                playerBot.UserId = User.Identity.GetUserId();
                 db.PlayerBots.Add(playerBot);
                 db.SaveChanges();
+                    
                 return RedirectToAction("Index");
             }
 
@@ -81,14 +84,17 @@ namespace NetBotsHostProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Owner,URL")] PlayerBot playerBot)
+        public ActionResult Edit([Bind(Include = "Id,Name,Owner,URL,Wins,Losses,Ties")] PlayerBot playerBot)
         {
             if (ModelState.IsValid)
             {
+                playerBot.UserId = User.Identity.GetUserId();
                 db.Entry(playerBot).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
             return View(playerBot);
         }
 

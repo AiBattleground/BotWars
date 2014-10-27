@@ -47,6 +47,8 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
             {
                 PlayerBot existingBot = context.PlayerBots.First(pb => pb.URL == bot.URL);
 
+                context.Entry(existingBot).State = EntityState.Modified;
+
                 existingBot.Name = bot.Name;
                 existingBot.Owner = bot.Owner;
                 existingBot.Wins = bot.Wins;
