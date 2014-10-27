@@ -15,26 +15,26 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.SignalR.Hubs;
 using NetBots.WebServer.Host.Hubs;
+using NetBots.WebServer.Model;
+using NetBots.WebServer.Data.MsSql;
 
 namespace NetBots.WebServer.Host.Controllers
 {
     [System.Web.Mvc.Authorize]
     public class BattleController : Controller
     {
-        private const string Bot1Url = "http://localhost:1337/";
-        private const string Bot2Url = "http://localhost:1337/";
+        private const string defaultBotUrl = "http://localhost:1337/";
 
-        //Url for starter kit bot.
-        //private const string Bot2Url = "http://localhost:59345/api/Bot";
-
-        //private const string Bot1Url = "http://randombot.azurewebsites.net/api/Bot";
-        //private const string Bot2Url = "http://randombot.azurewebsites.net/api/Bot";
+        private string Bot1Url = defaultBotUrl;
+        private string Bot2Url = defaultBotUrl;
 
         private readonly Dictionary<string, HttpClient> _clients;
+        private ApplicationDbContext db;
 
         public BattleController()
         {
             _clients = new Dictionary<string, HttpClient>();
+            db = new ApplicationDbContext();
         }
 
         public ActionResult Index()
@@ -58,6 +58,13 @@ namespace NetBots.WebServer.Host.Controllers
             }
 
             return new EmptyResult();
+        }
+
+        private async Task<ActionResult> Battle(int bot1Id, int bot2Id)
+        {
+            _SetBotUrls(bot1Id, bot2Id);
+
+            return await NewGame();
         }
 
         private async Task<PlayerMoves> GetAllPlayerMovesAsync(BotPlayer player, GameState gameState)
@@ -126,6 +133,31 @@ namespace NetBots.WebServer.Host.Controllers
                 MaxTurns = 200,
                 TurnsElapsed = 0
             };
+        }
+
+        private void _SetBotUrls(int bot1id, int bot2id)
+        {
+            PlayerBot bot1 = db.PlayerBots.FirstOrDefault(pb => pb.Id == bot1id);
+
+            if (bot1 == null || string.IsNullOrWhiteSpace(bot1.URL))
+            {
+                Bot1Url = defaultBotUrl;
+            }
+            else
+            {
+                Bot1Url = bot1.URL;
+            }
+
+            PlayerBot bot2 = db.PlayerBots.FirstOrDefault(pb => pb.Id == bot2id);
+            
+            if (bot2 == null || string.IsNullOrWhiteSpace(bot2.URL))
+            {
+                Bot2Url = defaultBotUrl;
+            }
+            else
+            {
+                Bot2Url = bot2.URL;
+            }
         }
 
         private IEnumerable<BotPlayer> _GetPlayers(int boardWidth)
