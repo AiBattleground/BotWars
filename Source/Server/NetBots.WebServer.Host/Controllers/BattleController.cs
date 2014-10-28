@@ -21,8 +21,8 @@ namespace NetBots.WebServer.Host.Controllers
     [System.Web.Mvc.Authorize]
     public class BattleController : Controller
     {
-        private const string Bot1Url = "http://localhost:1337/";
-        private const string Bot2Url = "http://localhost:1337/";
+        private string Bot1Url = "http://localhost:1337/";
+        private string Bot2Url = "http://localhost:1337/";
 
         //Url for starter kit bot.
         //private const string Bot2Url = "http://localhost:59345/api/Bot";
@@ -42,8 +42,12 @@ namespace NetBots.WebServer.Host.Controllers
             return View();
         }
 
-        public async Task<ActionResult> NewGame()
+        public async Task<ActionResult> NewGame(string bot1Url, string bot2Url)
         {
+            if(bot1Url != null)
+                Bot1Url = bot1Url;
+            if (bot2Url != null)
+                Bot2Url = bot2Url;
             GameState startingState = _GetNewGameState();
             Game game = new Game(startingState, _GetPlayers(20));
 

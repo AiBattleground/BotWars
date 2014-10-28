@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetBots.WebServer.Data.MsSql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace NetBots.WebServer.Host.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
             return View();
@@ -30,7 +32,7 @@ namespace NetBots.WebServer.Host.Controllers
         [Authorize]
         public ActionResult Skirmish()
         {
-            return View();
+            return View(db.PlayerBots.ToList());
         }
     }
 }
