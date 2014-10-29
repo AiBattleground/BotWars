@@ -53,36 +53,28 @@ namespace NetBots.WebServer.Host.Controllers
 
             for (int i = 0; i < 200; i++)
             {
-                var myTasks = game.Players.Select(p => GetAllPlayerMovesAsync(p, game.GameState));
+                var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
                 var playersMoves = await Task.WhenAll(myTasks);
                 game.UpdateGameState(playersMoves);
                 var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
                 Thread.Sleep(100);
             }
-
             return new EmptyResult();
         }
 
-        private async Task<PlayerMoves> GetAllPlayerMovesAsync(BotPlayer player, GameState gameState)
+        private async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
         {
-            var moves = await GetBotletMovesAsync(player, gameState);
-            var playerMove = new PlayerMoves() { Moves = moves, PlayerName = player.PlayerName };
-
-            return playerMove;
-        }
-
-        private async Task<List<BotletMove>> GetBotletMovesAsync(BotPlayer player, GameState state)
-        {
-            MoveRequest moveRequest = new MoveRequest() { State = state, Player = player.PlayerName };
+            MoveRequest moveRequest = new MoveRequest() { State = gameState, Player = player.PlayerName };
             string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
             HttpClient client = GetClient(player.Uri);
             var content = new StringContent(jsonMoveRequest, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(player.Uri, content);
             response.EnsureSuccessStatusCode();
             var responseJson = await response.Content.ReadAsStringAsync();
-            var move = JsonConvert.DeserializeObject<List<BotletMove>>(responseJson);
-            return move;
+            var moves = JsonConvert.DeserializeObject<List<BotletMove>>(responseJson);
+            var playerMove = new PlayerMoves() { Moves = moves, PlayerName = player.PlayerName };
+            return playerMove;
         }
 
         private HttpClient GetClient(string botUrl)
