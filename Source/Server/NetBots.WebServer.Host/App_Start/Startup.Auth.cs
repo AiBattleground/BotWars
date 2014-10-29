@@ -70,12 +70,20 @@ namespace NetBots.WebServer.Host
             //    ClientSecret = ""
             //});
 
+            SetupGitHubAuth(app);
+
+        }
+
+        private static void SetupGitHubAuth(IAppBuilder app)
+        {
+            //The key changes based on the config file, since what's the the Secret.cs file can't.
+            var gitHubIdKey = System.Configuration.ConfigurationManager.AppSettings["gitHubIdKey"];
+            var gitHubSecretKey = System.Configuration.ConfigurationManager.AppSettings["gitHubSecretKey"];
             app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
             {
-                ClientId = Secrets.GetSecret("gitHubClientIdDev"),
-                ClientSecret = Secrets.GetSecret("gitHubClientSecretDev")
+                ClientId = Secrets.GetSecret(gitHubIdKey),
+                ClientSecret = Secrets.GetSecret(gitHubSecretKey)
             });
-
         }
     }
 }
