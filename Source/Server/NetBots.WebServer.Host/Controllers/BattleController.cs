@@ -58,7 +58,7 @@ namespace NetBots.WebServer.Host.Controllers
                 game.UpdateGameState(playersMoves);
                 var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
-                Thread.Sleep(100);
+                await Task.Delay(100);
             }
             return new EmptyResult();
         }
