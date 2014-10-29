@@ -9,7 +9,6 @@ using Owin;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Model;
-
 using Owin.Security.Providers.GitHub;
 
 
