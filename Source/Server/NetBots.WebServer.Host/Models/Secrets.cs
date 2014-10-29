@@ -9,8 +9,8 @@ namespace NetBotsHostProject.Models
     {
         private static readonly Dictionary<string,string> _secrets = new Dictionary<string, string>()
         {
-            {"gitHubClientIdDev", "placeholder"},
-            {"gitHubClientSecretDev", "placeholder"}
+            {"gitHubClientIdDev", "placeHolder"},
+            {"gitHubClientSecretDev", "placeHolder"}
         };
 
         public static string GetSecret(string key)
