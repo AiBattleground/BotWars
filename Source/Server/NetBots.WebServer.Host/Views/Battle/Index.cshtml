@@ -1,12 +1,38 @@
-﻿@{
+﻿@model IEnumerable<PlayerBot>
+
+@{
     ViewBag.Title = "Battle";
 }
 
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<div>
-    <button id="new-game" class="btn">Fight!</button>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2 form-group">
+            <label>Red</label>
+            <select id="red-selection" placeholder="choose a bot..." class="form-control">
+                @foreach (var bot in Model)
+                {
+                    <option value="@bot.URL">@bot.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-sm-2 form-group">
+            <label>Blue</label>
+            <select id="blue-selection" placeholder="choose a bot..." class="form-control">
+                @foreach (var bot in Model)
+                {
+                    <option value="@bot.URL">@bot.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <button id="new-game" class="btn">Fight!</button>
+        </div>
+    </div>
 </div>
 
 <h3>News</h3>
@@ -24,7 +50,9 @@
 <script type="text/javascript" src="~/signalr/hubs"></script>
 <script type="text/javascript" src="~/Scripts/WarViewer.js"></script>
 <script type="text/javascript">
-        $("#new-game").on('click', function() {
-             $.post('@Url.Action("NewGame", "Battle")');
+    $("#new-game").on('click', function () {
+        var redSelection = $('#red-selection').val();
+        var blueSelection = $('#blue-selection').val();
+        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: redSelection, bot2Url: blueSelection });
         });
 </script>

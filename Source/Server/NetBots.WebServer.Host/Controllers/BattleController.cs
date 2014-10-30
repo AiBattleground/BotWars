@@ -2,6 +2,7 @@
 using NetBots.Core;
 using NetBots.GameEngine;
 using NetBots.Web;
+using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Host.Models;
 using Newtonsoft.Json;
 using System;
@@ -21,16 +22,9 @@ namespace NetBots.WebServer.Host.Controllers
     [System.Web.Mvc.Authorize]
     public class BattleController : Controller
     {
-        private string Bot1Url = "http://localhost:1337/";
-        private string Bot2Url = "http://localhost:1337/";
-
-        //Url for starter kit bot.
-        //private const string Bot2Url = "http://localhost:59345/api/Bot";
-
-        //private const string Bot1Url = "http://randombot.azurewebsites.net/api/Bot";
-        //private const string Bot2Url = "http://randombot.azurewebsites.net/api/Bot";
-
         private readonly Dictionary<string, HttpClient> _clients;
+
+        readonly ApplicationDbContext _db = new ApplicationDbContext();
 
         public BattleController()
         {
@@ -39,17 +33,13 @@ namespace NetBots.WebServer.Host.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return View(_db.PlayerBots.ToList());
         }
 
         public async Task<ActionResult> NewGame(string bot1Url, string bot2Url)
         {
-            if(bot1Url != null)
-                Bot1Url = bot1Url;
-            if (bot2Url != null)
-                Bot2Url = bot2Url;
             GameState startingState = _GetNewGameState();
-            Game game = new Game(startingState, _GetPlayers(20));
+            Game game = new Game(startingState, _GetPlayers(20, bot1Url, bot2Url));
 
             for (int i = 0; i < 200; i++)
             {
@@ -124,14 +114,14 @@ namespace NetBots.WebServer.Host.Controllers
             };
         }
 
-        private IEnumerable<BotPlayer> _GetPlayers(int boardWidth)
+        private IEnumerable<BotPlayer> _GetPlayers(int boardWidth, string bot1Url, string bot2Url)
         {
             BotPlayer red = new BotPlayer()
             {
                 PlayerName = "p1",
                 BotletId = '1',
                 Energy = 1,
-                Uri = Bot1Url,
+                Uri = bot1Url,
                 Spawn = boardWidth + 1,
                 Resource = Resource.P1Botlet,
                 deadBotletId = 'x'
@@ -141,7 +131,7 @@ namespace NetBots.WebServer.Host.Controllers
                 PlayerName = "p2",
                 BotletId = '2',
                 Energy = 1,
-                Uri = Bot2Url,
+                Uri = bot2Url,
                 Spawn = boardWidth * (boardWidth - 1) - 2,
                 Resource = Resource.P2Botlet,
                 deadBotletId = 'X'
