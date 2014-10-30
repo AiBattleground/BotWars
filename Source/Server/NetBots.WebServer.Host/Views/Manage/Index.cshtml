@@ -10,6 +10,12 @@
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.Name)</dt>
+        <dd>
+            <div id="name-update-alert"></div>
+            @Html.EditorFor(m => m.Name)
+            <button id="update-name" class="btn btn-primary btn-sm ">Update</button>
+        </dd>
         <dt>Password:</dt>
         <dd>
             [
@@ -28,6 +34,12 @@
             @Model.Logins.Count [
             @Html.ActionLink("Manage", "ManageLogins") ]
         </dd>
+        <dt>Bots:</dt>
+        @foreach (var bot in Model.Bots)
+        {
+            <dd>@bot.Name [ @Html.ActionLink("Edit", "EditBot", new{id = @bot.Id}) ]</dd>
+        }
+        <dd>[ @Html.ActionLink("Add New Bot", "NewBot") ]</dd>
         @*
             Phone Numbers can used as a second factor of verification in a two-factor authentication system.
              
@@ -53,13 +65,7 @@
                 ]
             </dd>
         *@
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=313242">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
+        @*@if (Model.TwoFactor)
                 {
 
                     <form method="post" action="/Manage/DisableTwoFactorAuthentication">
@@ -75,6 +81,24 @@
                         <input type="submit" value="Enable" class="btn btn-link" />
                     </form>
                 }*@
-        </dd>
     </dl>
 </div>
+
+
+<script type="text/javascript">
+    $("#update-name").on('click', function () {
+        var name = $('#Name').val();
+        $.post('@Url.Action("UpdateName")', { newName: name}, function(returnString) {
+            $("user-name").val(returnString);
+            if (returnString == name) {
+                $('#name-update-alert').text("Username was successfully updated");
+                $('#name-update-alert').addClass('alert alert-success');
+                $('#name-update-alert').removeClass('alert-danger');
+            } else {
+                $('#name-update-alert').text("Username could not be updated for some reason.");
+                $('#name-update-alert').addClass('alert alert-danger');
+                $('#name-update-alert').removeClass('alert-success');
+            }
+        });
+        });
+</script>

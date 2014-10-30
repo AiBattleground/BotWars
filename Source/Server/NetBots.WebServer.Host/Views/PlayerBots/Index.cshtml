@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NetBots.WebServer.Model.PlayerBot>
+﻿@model IEnumerable<NetBotsHostProject.Models.PlayerBotViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "NewBot", "Manage")
 </p>
 <table class="table">
     <tr>
@@ -18,16 +18,10 @@
             @Html.DisplayNameFor(model => model.Owner)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.URL)
+            @Html.DisplayNameFor(model => model.Rank)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Wins)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Losses)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ties)
+            @Html.DisplayNameFor(model => model.MatchHistory)
         </th>
         <th></th>
     </tr>
@@ -41,41 +35,18 @@
             @Html.DisplayFor(modelItem => item.Owner)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.URL)
+            @Html.DisplayFor(m => item.Rank)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Wins)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Losses)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ties)
+            @Html.ActionLink("Match History", "GameHistory", new{botId = item.Id}, null)
         </td>
         <td>
             @{
-                if (item.UserId == User.Identity.GetUserId())
+                if (item.OwnedByUser)
                 {
-                    @:@Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                }
-                else
-                {
-                    @:Edit
+                    @Html.ActionLink("Edit", "EditBot", "Manage", new { id = item.Id }, null)
                 }
              }
-            |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @{
-                if (item.UserId == User.Identity.GetUserId())
-                {
-                    @:@Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                }
-                else
-                {
-                    @:Delete
-                }
-            }
-            
         </td>
     </tr>
 }

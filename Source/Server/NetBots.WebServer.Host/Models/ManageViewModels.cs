@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using NetBots.WebServer.Model;
 
-namespace NetBots.WebServer.Model
+namespace NetBots.WebServer.Host.Models
 {
     public class IndexViewModel
     {
@@ -12,6 +14,10 @@ namespace NetBots.WebServer.Model
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public IList<PlayerBot> Bots { get; set; }
+
+        [DisplayName("Display Name")]
+        public string Name { get; set; }
     }
 
     public class ManageLoginsViewModel

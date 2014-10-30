@@ -104,8 +104,8 @@
   <ItemGroup>
     <Compile Include="AccountViewModels.cs" />
     <Compile Include="BotRecord.cs" />
+    <Compile Include="GameSummary.cs" />
     <Compile Include="IdentityModels.cs" />
-    <Compile Include="ManageViewModels.cs" />
     <Compile Include="PlayerBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

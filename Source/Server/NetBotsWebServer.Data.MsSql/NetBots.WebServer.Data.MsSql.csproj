@@ -69,6 +69,30 @@
     <Compile Include="Migrations\201410262333103_AddUserIdtoPlayerBot.Designer.cs">
       <DependentUpon>201410262333103_AddUserIdtoPlayerBot.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410301331389_AddedPlayerBotsToUser.cs" />
+    <Compile Include="Migrations\201410301331389_AddedPlayerBotsToUser.Designer.cs">
+      <DependentUpon>201410301331389_AddedPlayerBotsToUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410301458456_CreatedGameHistoryClass.cs" />
+    <Compile Include="Migrations\201410301458456_CreatedGameHistoryClass.Designer.cs">
+      <DependentUpon>201410301458456_CreatedGameHistoryClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410301748290_GameHistory.cs" />
+    <Compile Include="Migrations\201410301748290_GameHistory.Designer.cs">
+      <DependentUpon>201410301748290_GameHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410301755106_GameHistoryUpdated.cs" />
+    <Compile Include="Migrations\201410301755106_GameHistoryUpdated.Designer.cs">
+      <DependentUpon>201410301755106_GameHistoryUpdated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410301808547_GameHistoryUpdatedAgain.cs" />
+    <Compile Include="Migrations\201410301808547_GameHistoryUpdatedAgain.Designer.cs">
+      <DependentUpon>201410301808547_GameHistoryUpdatedAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410301822569_ForeignKeyOnPlayerBots.cs" />
+    <Compile Include="Migrations\201410301822569_ForeignKeyOnPlayerBots.Designer.cs">
+      <DependentUpon>201410301822569_ForeignKeyOnPlayerBots.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -94,6 +118,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410262333103_AddUserIdtoPlayerBot.resx">
       <DependentUpon>201410262333103_AddUserIdtoPlayerBot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410301331389_AddedPlayerBotsToUser.resx">
+      <DependentUpon>201410301331389_AddedPlayerBotsToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410301458456_CreatedGameHistoryClass.resx">
+      <DependentUpon>201410301458456_CreatedGameHistoryClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410301748290_GameHistory.resx">
+      <DependentUpon>201410301748290_GameHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410301755106_GameHistoryUpdated.resx">
+      <DependentUpon>201410301755106_GameHistoryUpdated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410301808547_GameHistoryUpdatedAgain.resx">
+      <DependentUpon>201410301808547_GameHistoryUpdatedAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410301822569_ForeignKeyOnPlayerBots.resx">
+      <DependentUpon>201410301822569_ForeignKeyOnPlayerBots.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

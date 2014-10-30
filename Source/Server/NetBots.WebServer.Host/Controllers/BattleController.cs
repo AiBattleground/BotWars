@@ -3,7 +3,9 @@ using NetBots.Core;
 using NetBots.GameEngine;
 using NetBots.Web;
 using NetBots.WebServer.Data.MsSql;
+using NetBots.WebServer.Data.MsSql.Migrations;
 using NetBots.WebServer.Host.Models;
+using NetBots.WebServer.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,8 +25,8 @@ namespace NetBots.WebServer.Host.Controllers
     public class BattleController : Controller
     {
         private readonly Dictionary<string, HttpClient> _clients;
-
         readonly ApplicationDbContext _db = new ApplicationDbContext();
+        private const int TurnLimit = 200;
 
         public BattleController()
         {
@@ -38,10 +40,13 @@ namespace NetBots.WebServer.Host.Controllers
 
         public async Task<ActionResult> NewGame(string bot1Url, string bot2Url)
         {
+
             GameState startingState = _GetNewGameState();
             Game game = new Game(startingState, _GetPlayers(20, bot1Url, bot2Url));
+            game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
 
-            for (int i = 0; i < 200; i++)
+            int currentTurn = 0;
+            while(game.GameState.Winner == null && currentTurn < TurnLimit)
             {
                 var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
                 var playersMoves = await Task.WhenAll(myTasks);
@@ -49,8 +54,25 @@ namespace NetBots.WebServer.Host.Controllers
                 var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
                 await Task.Delay(100);
+                currentTurn++;
             }
+            SaveGameResult(bot1Url, bot2Url, game);
             return new EmptyResult();
+        }
+
+        private void SaveGameResult(string bot1Url, string bot2Url, Game game)
+        {
+            var p1 = _db.PlayerBots.First(x => x.URL == bot1Url);
+            var p2 = _db.PlayerBots.First(x => x.URL == bot2Url);
+            var gameResult = new GameSummary()
+            {
+                Player1 = p1,
+                Player2 = p2,
+                TournamentGame = false,
+                Winner = game.GameState.Winner == "p1" ? p1 : game.GameState.Winner == "p2" ? p2 : null
+            };
+            _db.GameSummaries.Add(gameResult);
+            _db.SaveChanges();
         }
 
         private async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
@@ -102,7 +124,7 @@ namespace NetBots.WebServer.Host.Controllers
         {
             GameSettings settings = _GetGameSettings();
 
-            return new GameState()
+            var startingGame = new GameState()
             {
                 Rows = settings.boardSize,
                 Cols = settings.boardSize,
@@ -112,6 +134,7 @@ namespace NetBots.WebServer.Host.Controllers
                 MaxTurns = 200,
                 TurnsElapsed = 0
             };
+            return startingGame;
         }
 
         private IEnumerable<BotPlayer> _GetPlayers(int boardWidth, string bot1Url, string bot2Url)
@@ -121,7 +144,7 @@ namespace NetBots.WebServer.Host.Controllers
                 PlayerName = "p1",
                 BotletId = '1',
                 Energy = 1,
-                Uri = bot1Url,
+                Uri = GetNormalizedUri(bot1Url),
                 Spawn = boardWidth + 1,
                 Resource = Resource.P1Botlet,
                 deadBotletId = 'x'
@@ -131,12 +154,21 @@ namespace NetBots.WebServer.Host.Controllers
                 PlayerName = "p2",
                 BotletId = '2',
                 Energy = 1,
-                Uri = bot2Url,
+                Uri = GetNormalizedUri(bot2Url),
                 Spawn = boardWidth * (boardWidth - 1) - 2,
                 Resource = Resource.P2Botlet,
                 deadBotletId = 'X'
             };
             return new List<BotPlayer>() { red, blue };
+        }
+
+        private string GetNormalizedUri(string uri)
+        {
+            if (!(uri.StartsWith("http://") || uri.StartsWith("https://")))
+            {
+                uri = "http://" + uri;
+            }
+            return uri;
         }
     }
 }
