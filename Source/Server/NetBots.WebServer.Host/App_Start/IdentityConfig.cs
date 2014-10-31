@@ -125,7 +125,11 @@ namespace NetBots.WebServer.Host
                     myBot.Name = newBot.Name;
                     myBot.URL = newBot.URL;
                     myBot.Image = newBot.Image;
+<<<<<<< HEAD
                     myBot.Private = newBot.Private;
+=======
+                    await UpdateAsync(user);
+>>>>>>> master
                 }
                 else
                 {

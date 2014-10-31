@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Web.Caching;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.SignalR;
 using NetBots.Core;
 using NetBots.GameEngine;
@@ -7,7 +8,6 @@ using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Data.MsSql.Migrations;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
-using NetBotsHostProject.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,26 +26,19 @@ namespace NetBots.WebServer.Host.Controllers
     [System.Web.Mvc.Authorize]
     public class BattleController : Controller
     {
-        private readonly Dictionary<string, HttpClient> _clients;
         readonly ApplicationDbContext _db = new ApplicationDbContext();
         private const int TurnLimit = 200;
 
-        public BattleController()
-        {
-            _clients = new Dictionary<string, HttpClient>();
-        }
-
         public ActionResult Index()
         {
-            var visibleBots = _db.GetVisibleBots(User.Identity.GetUserId());
-            return View(visibleBots);
+            return View(_db.PlayerBots.ToList());
         }
 
         public async Task<ActionResult> NewGame(string bot1Url, string bot2Url)
         {
 
-            GameState startingState = _GetNewGameState();
-            Game game = new Game(startingState, _GetPlayers(20, bot1Url, bot2Url));
+            GameState startingState = GetNewGameState();
+            Game game = new Game(startingState, GetPlayers(20, bot1Url, bot2Url));
             game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
 
             int currentTurn = 0;
@@ -78,7 +71,7 @@ namespace NetBots.WebServer.Host.Controllers
             _db.SaveChanges();
         }
 
-        private async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
+        public static async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
         {
             MoveRequest moveRequest = new MoveRequest() { State = gameState, Player = player.PlayerName };
             string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
@@ -92,15 +85,17 @@ namespace NetBots.WebServer.Host.Controllers
             return playerMove;
         }
 
-        private HttpClient GetClient(string botUrl)
+        private static HttpClient GetClient(string botUrl)
         {
-            if (!_clients.ContainsKey(botUrl))
+            var cache = System.Web.HttpContext.Current.Cache;
+            var client = cache[botUrl] as HttpClient;
+            if (client == null)
             {
-                var client = new HttpClient();
-                _clients.Add(botUrl, client);
+                client = new HttpClient();
+                var oneMinute = new TimeSpan(0, 0, 1, 0);
+                cache.Add(botUrl, client , null, Cache.NoAbsoluteExpiration, oneMinute, CacheItemPriority.High, null);
             }
-
-            return _clients[botUrl];
+            return client;
         }
 
         private GameSettings _GetGameSettings()
@@ -123,7 +118,7 @@ namespace NetBots.WebServer.Host.Controllers
             return JsonConvert.DeserializeObject<GameSettings>(string.Join("\n", userData));
         }
 
-        private GameState _GetNewGameState()
+        public GameState GetNewGameState()
         {
             GameSettings settings = _GetGameSettings();
 
@@ -135,12 +130,13 @@ namespace NetBots.WebServer.Host.Controllers
                 P2 = new Player() { Energy = 1, Spawn = settings.boardSize * (settings.boardSize - 1) - 2 },
                 Grid = new string('.', settings.boardSize * settings.boardSize),
                 MaxTurns = 200,
-                TurnsElapsed = 0
+                TurnsElapsed = 0,
+                GameId = GameHelper.GenerateRandomGameId()
             };
             return startingGame;
         }
 
-        private IEnumerable<BotPlayer> _GetPlayers(int boardWidth, string bot1Url, string bot2Url)
+        public IEnumerable<BotPlayer> GetPlayers(int boardWidth, string bot1Url, string bot2Url)
         {
             BotPlayer red = new BotPlayer()
             {
