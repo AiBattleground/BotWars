@@ -93,6 +93,10 @@
     <Compile Include="Migrations\201410301822569_ForeignKeyOnPlayerBots.Designer.cs">
       <DependentUpon>201410301822569_ForeignKeyOnPlayerBots.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410310049253_KeithDub.cs" />
+    <Compile Include="Migrations\201410310049253_KeithDub.Designer.cs">
+      <DependentUpon>201410310049253_KeithDub.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -136,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410301822569_ForeignKeyOnPlayerBots.resx">
       <DependentUpon>201410301822569_ForeignKeyOnPlayerBots.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410310049253_KeithDub.resx">
+      <DependentUpon>201410310049253_KeithDub.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
