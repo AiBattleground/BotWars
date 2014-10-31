@@ -398,7 +398,7 @@ namespace NetBots.WebServer.Host.Controllers
             {
                 return View(foundBot);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -406,7 +406,7 @@ namespace NetBots.WebServer.Host.Controllers
         public async Task<ActionResult> EditBot(PlayerBot model)
         {
             await UserManager.UpdateBotAsync(User.Identity.GetUserId(), model);
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
