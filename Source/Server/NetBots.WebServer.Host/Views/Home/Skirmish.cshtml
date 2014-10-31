@@ -1,0 +1,36 @@
+﻿@model IEnumerable<NetBots.WebServer.Model.PlayerBot>
+@{
+    ViewBag.Title = "Skirmish";
+}
+
+@section scripts{
+<script type="text/javascript">
+    $('#start-battle-btn').on('click', function () {
+        var redSelection = $('#red-selection').val();
+        var blueSelection = $('#blue-selection').val();
+        $.post('../Battle/NewGame', { bot1Url: redSelection, bot2Url: blueSelection });
+        window.location.href = '../Battle';
+    });
+</script>
+    
+}
+<h2>Skirmish</h2>
+    <div class="form-group">
+        <label>Red</label>
+        <select id="red-selection" placeholder="choose a bot..." class="form-control">
+            @foreach (var bot in Model)
+            {
+                <option value="@bot.URL">@bot.Name</option>
+            }
+        </select
+    </div>
+        <div class="form-group">
+        <label>Blue</label>
+        <select id="blue-selection" placeholder="choose a bot..." class="form-control">
+            @foreach (var bot in Model)
+            {
+                <option value="@bot.URL">@bot.Name</option>
+            }
+        </select>
+    </div>
+    <button class="btn" id="start-battle-btn">Start Battle</button>

@@ -223,6 +223,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="App_Data\GameSettings.json" />
+    <None Include="Properties\PublishProfiles\aibattleground.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Images\iconSprite.png" />
     <Content Include="Scripts\bootstrap.js" />
@@ -290,6 +291,7 @@
     <Content Include="Views\Manage\NewBot.cshtml" />
     <Content Include="Views\Manage\EditBot.cshtml" />
     <Content Include="Views\PlayerBots\GameHistory.cshtml" />
+    <Content Include="Views\Home\Skirmish.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -331,7 +333,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53299</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

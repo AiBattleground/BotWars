@@ -28,5 +28,10 @@ namespace NetBots.WebServer.Host.Controllers
 
             return View();
         }
+
+        public ActionResult Skirmish()
+        {
+            return View(db.PlayerBots.ToList());
+        }
     }
 }
