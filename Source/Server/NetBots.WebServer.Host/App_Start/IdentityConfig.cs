@@ -125,6 +125,7 @@ namespace NetBots.WebServer.Host
                     myBot.Name = newBot.Name;
                     myBot.URL = newBot.URL;
                     myBot.Image = newBot.Image;
+                    await UpdateAsync(user);
                 }
                 else
                 {
