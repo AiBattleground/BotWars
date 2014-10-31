@@ -38,7 +38,7 @@ namespace NetBots.WebServer.Host.Controllers
         {
 
             GameState startingState = GetNewGameState();
-            Game game = new Game(startingState, _GetPlayers(20, bot1Url, bot2Url));
+            Game game = new Game(startingState, GetPlayers(20, bot1Url, bot2Url));
             game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
 
             int currentTurn = 0;
@@ -71,7 +71,7 @@ namespace NetBots.WebServer.Host.Controllers
             _db.SaveChanges();
         }
 
-        private static async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
+        public static async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
         {
             MoveRequest moveRequest = new MoveRequest() { State = gameState, Player = player.PlayerName };
             string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
@@ -136,7 +136,7 @@ namespace NetBots.WebServer.Host.Controllers
             return startingGame;
         }
 
-        private IEnumerable<BotPlayer> _GetPlayers(int boardWidth, string bot1Url, string bot2Url)
+        public IEnumerable<BotPlayer> GetPlayers(int boardWidth, string bot1Url, string bot2Url)
         {
             BotPlayer red = new BotPlayer()
             {
