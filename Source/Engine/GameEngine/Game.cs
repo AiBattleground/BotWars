@@ -239,7 +239,14 @@ namespace NetBots.GameEngine
 
         private void _CheckForWinner()
         {
-            //AreMovesWellFormed
+            if (GameState.Grid.All(x => x != '1'))
+            {
+                GameState.Winner = "p2";
+            }
+            if (GameState.Grid.All(x => x != '2'))
+            {
+                GameState.Winner = "p1";
+            }
         }
 
         private void _SanitizeMoves(IEnumerable<PlayerMoves> playersMoves)

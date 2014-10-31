@@ -2,11 +2,17 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Hosting;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using NetBots.WebServer.Data.MsSql;
+using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
+using NetBotsHostProject.Controllers;
+using NetBotsHostProject.Models;
 
 namespace NetBots.WebServer.Host.Controllers
 {
@@ -54,7 +60,9 @@ namespace NetBots.WebServer.Host.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
+                Bots = await UserManager.GetBotsAsync(User.Identity.GetUserId()),
+                Name = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).UserName
             };
             return View(model);
         }
@@ -369,5 +377,49 @@ namespace NetBots.WebServer.Host.Controllers
         }
 
 #endregion
+
+        public ActionResult NewBot()
+        {
+            return View(new PlayerBot());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> NewBot(PlayerBot newBot)
+        {
+            await UserManager.AddBotAsync(User.Identity.GetUserId(), newBot);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> EditBot(int id)
+        {
+            var userBots = await UserManager.GetBotsAsync(User.Identity.GetUserId());
+            var foundBot = userBots.FirstOrDefault(x => x.Id == id);
+            if (foundBot != null)
+            {
+                return View(foundBot);
+            }
+            return View("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditBot(PlayerBot model)
+        {
+            await UserManager.UpdateBotAsync(User.Identity.GetUserId(), model);
+            return View("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateName(string newName)
+        {
+            if (newName != null)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                user.UserName = newName;
+                await UserManager.UpdateAsync(user);
+                return Json(user.UserName);
+            }
+            return new JsonResult();
+        }
     }
 }

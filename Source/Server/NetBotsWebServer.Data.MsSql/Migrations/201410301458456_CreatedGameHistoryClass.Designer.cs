@@ -7,13 +7,13 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class Added_Models : IMigrationMetadata
+    public sealed partial class CreatedGameHistoryClass : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Added_Models));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CreatedGameHistoryClass));
         
         string IMigrationMetadata.Id
         {
-            get { return "201410220121063_Added_Models"; }
+            get { return "201410301458456_CreatedGameHistoryClass"; }
         }
         
         string IMigrationMetadata.Source

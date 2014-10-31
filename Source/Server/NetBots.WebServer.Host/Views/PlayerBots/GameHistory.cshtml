@@ -1,0 +1,43 @@
+﻿@model NetBotsHostProject.Models.PlayerBotViewModel
+
+@{
+    ViewBag.Title = "Match History for " + Model.Name;
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="table">
+    <tr>
+        <th>Opponent</th>
+        <th>Won?</th>
+    </tr>
+
+    @foreach (var item in Model.MatchHistory)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GetPlayers().FirstOrDefault(x => x.Id != Model.Id).Name)
+            </td>
+            <td>
+                @if (item.Winner.Id == Model.Id)
+                {
+                    <div class="success">Yes</div>
+                }
+                else
+                {
+                    <div class="danger">No</div>
+                }
+            </td>
+        </tr>
+    }
+</table>
+<br/>
+<table class="table">
+    <tr>
+        <td>Total Wins:</td>
+        <td>@Model.MatchHistory.Count(x => x.Winner.Id == Model.Id)</td>
+    </tr>
+    <tr>
+        <td>Total Losses:</td>
+        <td>@Model.MatchHistory.Count(x => x.Winner.Id != Model.Id)</td>
+    </tr>
+</table>

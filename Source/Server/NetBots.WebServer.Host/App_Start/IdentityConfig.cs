@@ -93,6 +93,49 @@ namespace NetBots.WebServer.Host
 
             return manager;
         }
+
+        public async Task<IList<PlayerBot>> GetBotsAsync(string userId)
+        {
+            var user = await this.FindByIdAsync(userId);
+            if (user != null && user.Bots != null)
+            {
+                return user.Bots.ToList();
+            }
+            else
+            {
+                return new PlayerBot[0];
+            }
+        }
+
+        public async Task AddBotAsync(string userId, PlayerBot bot)
+        {
+            var user = await this.FindByIdAsync(userId);
+            user.Bots.Add(bot);
+            await this.UpdateAsync(user);
+        }
+
+        public async Task UpdateBotAsync(string userId, PlayerBot newBot)
+        {
+            var user = await this.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var myBot = user.Bots.FirstOrDefault(x => x.Id == newBot.Id);
+                if (myBot != null)
+                {
+                    myBot.Name = newBot.Name;
+                    myBot.URL = newBot.URL;
+                    myBot.Image = newBot.Image;
+                }
+                else
+                {
+                    throw new ArgumentException("Could not find newBot");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Could not find user");
+            }
+        }
     }
 
     // Configure the application sign-in manager which is used in this application.

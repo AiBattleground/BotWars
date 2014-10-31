@@ -10,6 +10,7 @@ using NetBots.WebServer.Model;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Data.MsSql;
 using Microsoft.AspNet.Identity;
+using NetBotsHostProject.Models;
 
 namespace NetBotsHostProject.Controllers
 {
@@ -21,107 +22,34 @@ namespace NetBotsHostProject.Controllers
         // GET: PlayerBots
         public ActionResult Index()
         {
-            return View(db.PlayerBots.ToList());
+            var userName = User.Identity.GetUserName();
+            var allBots = db.PlayerBots.ToList();
+            var models = allBots.Select(x => GetPlayerBotViewModel(x, userName)).ToList();
+            return View(models);
         }
 
-        // GET: PlayerBots/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult GameHistory(int botId)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PlayerBot playerBot = db.PlayerBots.Find(id);
-            if (playerBot == null)
-            {
-                return HttpNotFound();
-            }
-            return View(playerBot);
+            var userName = User.Identity.GetUserName();
+            var bot = db.PlayerBots.FirstOrDefault(x => x.Id == botId);
+            var model = GetPlayerBotViewModel(bot, userName);
+            return View(model);
         }
 
-        // GET: PlayerBots/Create
-        public ActionResult Create()
+        private PlayerBotViewModel GetPlayerBotViewModel(PlayerBot bot, string userName)
         {
-            return View();
-        }
-
-        // POST: PlayerBots/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Owner,URL,Wins,Losses,Ties")] PlayerBot playerBot)
-        {
-            if (ModelState.IsValid)
+            var matchHistory = db.GameSummaries.Where(x => x.Player1.Id == bot.Id || x.Player2.Id == bot.Id).ToList();
+            var model = new PlayerBotViewModel()
             {
-                playerBot.UserId = User.Identity.GetUserId();
-                db.PlayerBots.Add(playerBot);
-                db.SaveChanges();
-                    
-                return RedirectToAction("Index");
-            }
-
-            return View(playerBot);
-        }
-
-        // GET: PlayerBots/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PlayerBot playerBot = db.PlayerBots.Find(id);
-            if (playerBot == null)
-            {
-                return HttpNotFound();
-            }
-            return View(playerBot);
-        }
-
-        // POST: PlayerBots/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Owner,URL,Wins,Losses,Ties")] PlayerBot playerBot)
-        {
-            if (ModelState.IsValid)
-            {
-                playerBot.UserId = User.Identity.GetUserId();
-                db.Entry(playerBot).State = EntityState.Modified;
-                db.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-
-            return View(playerBot);
-        }
-
-        // GET: PlayerBots/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PlayerBot playerBot = db.PlayerBots.Find(id);
-            if (playerBot == null)
-            {
-                return HttpNotFound();
-            }
-            return View(playerBot);
-        }
-
-        // POST: PlayerBots/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            PlayerBot playerBot = db.PlayerBots.Find(id);
-            db.PlayerBots.Remove(playerBot);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                Id = bot.Id,
+                Image = bot.Image,
+                Name = bot.Name,
+                Owner = bot.Owner.UserName,
+                Rank = 0,
+                OwnedByUser = bot.Owner.UserName == userName,
+                MatchHistory = matchHistory
+            };
+            return model;
         }
 
         protected override void Dispose(bool disposing)

@@ -16,32 +16,47 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            UpsertPlayerBot(new PlayerBot
-                {
-                    Id = -1,
-                    Name = "DivideByZer0",
-                    Owner = "Dubman",
-                    URL = "http://dividebyzer0.com",
-                    Wins = 3,
-                    Losses = 0,
-                    Ties = 0
-                }, context);
+            string defaultOwnerId = null;
+            var defaultOwner = context.Users.FirstOrDefault();
+            if (defaultOwner != null)
+            {
+                defaultOwnerId = defaultOwner.Id;
+            }
 
-            UpsertPlayerBot(new PlayerBot
+            var divideByZero = UpsertPlayerBot(new PlayerBot()
+            {
+                Id = -1,
+                Name = "DivideByZer0",
+                OwnerId = defaultOwnerId,
+                URL = "http://dividebyzer0.com",
+            }, context);
+
+            var grahamBot = UpsertPlayerBot(new PlayerBot()
             {
                 Id = -1,
                 Name = "GrahamBot",
-                Owner = "Pabreetzio",
+                OwnerId = defaultOwnerId,
                 URL = "http://graham.technology/bot",
-                Wins = 2,
-                Losses = 1,
-                Ties = 0
             }, context);
 
+
+            if (!context.GameSummaries.Any())
+            {
+                var match = new GameSummary()
+                {
+                    Player1 = grahamBot,
+                    Player2 = divideByZero,
+                    TournamentGame = false,
+                    Winner = divideByZero
+                };
+                context.GameSummaries.Add(match);
+            }
+
+            context.SaveChanges();
             base.Seed(context);
         }
 
-        private void UpsertPlayerBot(PlayerBot bot, ApplicationDbContext context)
+        private PlayerBot UpsertPlayerBot(PlayerBot bot, ApplicationDbContext context)
         {
             if (context.PlayerBots.Any(pb => pb.URL == bot.URL))
             {
@@ -50,17 +65,14 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
                 context.Entry(existingBot).State = EntityState.Modified;
 
                 existingBot.Name = bot.Name;
-                existingBot.Owner = bot.Owner;
-                existingBot.Wins = bot.Wins;
-                existingBot.Losses = bot.Losses;
-                existingBot.Ties = bot.Ties;
+                existingBot.OwnerId = bot.OwnerId;
+                return existingBot;
             }
             else
             {
                 context.PlayerBots.Add(bot);
             }
-
-            context.SaveChanges();
+            return bot;
         }
     }
 }

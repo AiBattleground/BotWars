@@ -90,6 +90,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Owin.Security.Providers">
+      <HintPath>..\..\packages\Owin.Security.Providers.1.9.0\lib\net45\Owin.Security.Providers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -199,6 +202,9 @@
     </Compile>
     <Compile Include="Hubs\WarViewHub.cs" />
     <Compile Include="Models\GameSettings.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PlayerBotViewModel.cs" />
+    <Compile Include="Models\Secrets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -281,11 +287,10 @@
     <Content Include="Views\Tournament\Index.cshtml" />
     <Content Include="Views\Battle\Index.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
-    <Content Include="Views\PlayerBots\Create.cshtml" />
-    <Content Include="Views\PlayerBots\Delete.cshtml" />
-    <Content Include="Views\PlayerBots\Details.cshtml" />
-    <Content Include="Views\PlayerBots\Edit.cshtml" />
     <Content Include="Views\PlayerBots\Index.cshtml" />
+    <Content Include="Views\Manage\NewBot.cshtml" />
+    <Content Include="Views\Manage\EditBot.cshtml" />
+    <Content Include="Views\PlayerBots\GameHistory.cshtml" />
     <Content Include="Views\Home\Skirmish.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -328,7 +333,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53299</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

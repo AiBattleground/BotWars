@@ -4,10 +4,13 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using NetBotsHostProject.Models;
 using Owin;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Model;
+using Owin.Security.Providers.GitHub;
+
 
 namespace NetBots.WebServer.Host
 {
@@ -65,6 +68,21 @@ namespace NetBots.WebServer.Host
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            SetupGitHubAuth(app);
+
+        }
+
+        private static void SetupGitHubAuth(IAppBuilder app)
+        {
+            //The key changes based on the config file, since what's the the Secret.cs file can't.
+            var gitHubIdKey = System.Configuration.ConfigurationManager.AppSettings["gitHubIdKey"];
+            var gitHubSecretKey = System.Configuration.ConfigurationManager.AppSettings["gitHubSecretKey"];
+            app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
+            {
+                ClientId = Secrets.GetSecret(gitHubIdKey),
+                ClientSecret = Secrets.GetSecret(gitHubSecretKey)
+            });
         }
     }
 }

@@ -1,0 +1,27 @@
+﻿@model PlayerBot
+
+@{
+    ViewBag.Title = "Add New Bot";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="container">
+    @using (Html.BeginForm("NewBot", "Manage"))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Name, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.URL, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.URL, new { @class = "form-control" })
+            </div>
+        </div>
+        <input type="submit" value="Create Bot" class="btn btn-primary" />
+    }
+
+</div>

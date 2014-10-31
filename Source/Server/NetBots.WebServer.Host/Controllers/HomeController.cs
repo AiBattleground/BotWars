@@ -29,7 +29,6 @@ namespace NetBots.WebServer.Host.Controllers
             return View();
         }
 
-        [Authorize]
         public ActionResult Skirmish()
         {
             return View(db.PlayerBots.ToList());
