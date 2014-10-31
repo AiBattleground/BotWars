@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using NetBots.Core;
 using NetBots.GameEngine;
 using NetBots.Web;
@@ -6,6 +7,7 @@ using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Data.MsSql.Migrations;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
+using NetBotsHostProject.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -35,7 +37,8 @@ namespace NetBots.WebServer.Host.Controllers
 
         public ActionResult Index()
         {
-            return View(_db.PlayerBots.ToList());
+            var visibleBots = _db.GetVisibleBots(User.Identity.GetUserId());
+            return View(visibleBots);
         }
 
         public async Task<ActionResult> NewGame(string bot1Url, string bot2Url)

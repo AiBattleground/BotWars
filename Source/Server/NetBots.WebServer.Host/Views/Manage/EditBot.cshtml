@@ -1,30 +1,49 @@
 ﻿@model PlayerBot
 
-@{
-    ViewBag.Title = "Edit Bot";
-}
-
 <h2>@ViewBag.Title</h2>
 
 <div class="container">
     @using (Html.BeginForm("EditBot", "Manage"))
     {
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(x => x.Id)
-        
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.Name, new { @class = "form-control" })
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.Name, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.URL, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.URL, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">
+                    Private
+                    <span class="glyphicon  glyphicon-question-sign" data-toggle="tooltip"
+                          data-placement="top" title="Bots marked as private cannot be seen by other players. This is useful when experimenting with a new bot">
+                    </span>
+                </label>
+
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.Private, new { @class = "form-control" })
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.URL, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.URL, new { @class = "form-control" })
+        <br />
+        <div class="row">
+            <div class="col-md-offset-1">
+                <input type="submit" value="Create Bot" class="btn btn-primary" />
             </div>
+
         </div>
-        <input type="submit" value="Create Bot" class="btn btn-primary" />
+
     }
 
 </div>
+
+<script type="text/javascript">
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
+</script>
