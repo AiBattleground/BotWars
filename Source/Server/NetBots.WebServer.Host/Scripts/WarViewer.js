@@ -43,8 +43,31 @@
         $('#red-count').text(redCount);
     }
 
+    function setWinner(state) {
+        if (state.winner != null) {
+            $('#blue-wrap').removeClass('alert-info');
+            $('#red-wrap').removeClass('alert-danger');
+            if (state.winner == 'p1') {
+                $('#red-game-end-message').text("Winner!");
+                $('#blue-game-end-message').text("Loser!");
+                $('#red-wrap').addClass('alert-success');
+                $('#blue-wrap').addClass('alert-warning');
+            }
+            else if (state.winner == 'p2') {
+                $('#blue-game-end-message').text("Winner!");
+                $('#red-game-end-message').text("Loser!");
+                $('#blue-wrap').addClass('alert-success');
+                $('#red-wrap').addClass('alert-warning');
+            }
+        }
+    }
+
     function showTurn(state) {
         setPlayerCount(state.grid);
+        $('#red-energy').text(state.p1.energy);
+        $('#blue-energy').text(state.p2.energy);
+        setWinner(state);
+        $('#turn-number').text(state.turnsElapsed + " / " + state.maxTurns);
         ctx.clearRect(0, 0, c.width, c.height);
         ctx.strokeStyle = 'lightgrey';
         var coordWidth = c.width / state.cols;

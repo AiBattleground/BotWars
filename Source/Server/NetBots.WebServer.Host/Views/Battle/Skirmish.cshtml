@@ -4,9 +4,9 @@
     ViewBag.Title = "Battle";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
-<div class="container">
+<div id="skirmish-options" class="container">
     <div class="row">
         <div class="col-sm-2 form-group">
             <label>Red</label>
@@ -33,6 +33,7 @@
         </div>
     </div>
 </div>
+<br/>
 
 <div id="warview-wrapper" style="display: none">
     @Html.Partial("_WarViewGrid")
@@ -49,7 +50,10 @@
         var blueSelection = $('#blue-selection').val();
         $('#red-name').text($('#red-selection option:selected').text());
         $('#blue-name').text($('#blue-selection option:selected').text());
-        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: redSelection, bot2Url: blueSelection });
+        $('#skirmish-options').hide('slow');
+        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: redSelection, bot2Url: blueSelection }, function() {
+            $('#skirmish-options').show('slow');
+        });
     });
 
     $(document).load(function() {
