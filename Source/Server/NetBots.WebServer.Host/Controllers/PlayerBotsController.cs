@@ -44,9 +44,9 @@ namespace NetBotsHostProject.Controllers
                 Id = bot.Id,
                 Image = bot.Image,
                 Name = bot.Name,
-                Owner = bot.Owner.UserName,
+                Owner = bot.Owner != null ? bot.Owner.UserName : "",
                 Rank = 0,
-                OwnedByUser = bot.Owner.UserName == userName,
+                OwnedByUser = bot.Owner != null && bot.Owner.UserName == userName,
                 MatchHistory = matchHistory
             };
             return model;
