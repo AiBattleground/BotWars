@@ -200,6 +200,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Hubs\WarViewHub.cs" />
     <Compile Include="Models\GameSettings.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

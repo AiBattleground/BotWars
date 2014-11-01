@@ -97,6 +97,10 @@
     <Compile Include="Migrations\201410310049253_KeithDub.Designer.cs">
       <DependentUpon>201410310049253_KeithDub.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410311538373_PlayerBots_Privacy_Settings.cs" />
+    <Compile Include="Migrations\201410311538373_PlayerBots_Privacy_Settings.Designer.cs">
+      <DependentUpon>201410311538373_PlayerBots_Privacy_Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -143,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410310049253_KeithDub.resx">
       <DependentUpon>201410310049253_KeithDub.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410311538373_PlayerBots_Privacy_Settings.resx">
+      <DependentUpon>201410311538373_PlayerBots_Privacy_Settings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

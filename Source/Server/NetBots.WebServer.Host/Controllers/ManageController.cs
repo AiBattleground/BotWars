@@ -61,7 +61,7 @@ namespace NetBots.WebServer.Host.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
-                Bots = await UserManager.GetBotsAsync(User.Identity.GetUserId()),
+                Bots = await UserManager.GetPlayerBotsAsync(User.Identity.GetUserId()),
                 Name = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).UserName
             };
             return View(model);
@@ -384,15 +384,17 @@ namespace NetBots.WebServer.Host.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> NewBot(PlayerBot newBot)
         {
             await UserManager.AddBotAsync(User.Identity.GetUserId(), newBot);
             return RedirectToAction("Index");
         }
 
+       
         public async Task<ActionResult> EditBot(int id)
         {
-            var userBots = await UserManager.GetBotsAsync(User.Identity.GetUserId());
+            var userBots = await UserManager.GetPlayerBotsAsync(User.Identity.GetUserId());
             var foundBot = userBots.FirstOrDefault(x => x.Id == id);
             if (foundBot != null)
             {
