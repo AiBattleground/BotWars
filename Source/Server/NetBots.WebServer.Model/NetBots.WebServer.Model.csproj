@@ -103,7 +103,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountViewModels.cs" />
-    <Compile Include="BotRecord.cs" />
     <Compile Include="GameSummary.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="PlayerBot.cs" />
