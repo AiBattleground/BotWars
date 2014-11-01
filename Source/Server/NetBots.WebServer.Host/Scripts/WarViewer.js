@@ -27,7 +27,24 @@
         $.connection.hub.start().done(function () { });
     });
 
+    function setPlayerCount(grid) {
+        var redCount = 0;
+        var blueCount = 0;
+        for (var i = 0; i < grid.length; i++) {
+            var myChar = grid[i];
+            if (myChar == '1') {
+                redCount++;
+            }
+            else if (myChar == '2') {
+                blueCount++;
+            }
+        }
+        $('#blue-count').text(blueCount);
+        $('#red-count').text(redCount);
+    }
+
     function showTurn(state) {
+        setPlayerCount(state.grid);
         ctx.clearRect(0, 0, c.width, c.height);
         ctx.strokeStyle = 'lightgrey';
         var coordWidth = c.width / state.cols;

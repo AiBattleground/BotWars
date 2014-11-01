@@ -102,7 +102,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountViewModels.cs" />
     <Compile Include="GameSummary.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="PlayerBot.cs" />

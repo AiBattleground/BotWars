@@ -30,11 +30,5 @@ namespace NetBots.WebServer.Host.Controllers
 
             return View();
         }
-
-        public ActionResult Skirmish()
-        {
-            var visibleBots = db.GetVisibleBots(User.Identity.GetUserId());
-            return View(visibleBots);
-        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace NetBots.WebServer.Model
+namespace NetBots.WebServer.Host.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
