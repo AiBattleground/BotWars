@@ -1,0 +1,17 @@
+﻿@model NetBotsHostProject.Models.BattleViewModel
+
+@{
+    ViewBag.Title = "Battle";
+}
+
+<h2>Battle</h2>
+
+@Html.Partial("_WarViewGrid")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#red-name').text('@Model.Bot1.Name');
+        $('#blue-name').text('@Model.Bot2.Name');
+        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: '@Model.Bot1.URL', bot2Url: '@Model.Bot2.URL' });
+    });
+</script>

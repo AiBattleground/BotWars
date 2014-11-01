@@ -1,4 +1,6 @@
-﻿<div id="warview-grid">
+﻿@Scripts.Render("~/bundles/knockout")
+
+<div id="warview-grid">
     <div class="row">
         <div class="col-md-3">
             <div id="red-wrap" class="alert alert-danger parent-div">
@@ -23,3 +25,6 @@
 </div>
 
 @Scripts.Render("~/bundles/signalR")
+
+<script type="text/javascript" src="~/signalr/hubs"></script>
+<script type="text/javascript" src="~/Scripts/WarViewer.js"></script>

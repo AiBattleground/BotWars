@@ -203,6 +203,7 @@
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Hubs\WarViewHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BattleViewModel.cs" />
     <Compile Include="Models\GameSettings.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PlayerBotViewModel.cs" />
@@ -295,6 +296,7 @@
     <Content Include="Views\PlayerBots\GameHistory.cshtml" />
     <Content Include="Views\Battle\_WarViewGrid.cshtml" />
     <Content Include="Views\Battle\PartialOnly.cshtml" />
+    <Content Include="Views\Battle\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

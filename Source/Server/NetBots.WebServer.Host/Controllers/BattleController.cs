@@ -1,4 +1,5 @@
-﻿using System.Web.Caching;
+﻿using System.Data.Entity;
+using System.Web.Caching;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
@@ -10,6 +11,7 @@ using NetBots.WebServer.Data.MsSql.Migrations;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
 using NetBotsHostProject.Helpers;
+using NetBotsHostProject.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -36,6 +38,15 @@ namespace NetBots.WebServer.Host.Controllers
             return RedirectToAction("Skirmish");
         }
 
+        [Route("battle/{bot1Id}/{bot2Id}")]
+        public async Task<ActionResult> Index(int bot1Id, int bot2Id)
+        {
+            var bot1 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == bot1Id);
+            var bot2 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == bot2Id);
+            var model = new BattleViewModel() {Bot1 = bot1, Bot2 = bot2};
+            return View(model);
+        }
+
         public ActionResult PartialOnly()
         {
             return View();
@@ -45,6 +56,7 @@ namespace NetBots.WebServer.Host.Controllers
         {
             return View(_db.GetVisibleBots(User.Identity.GetUserId()));
         }
+
 
         public async Task<ActionResult> NewGame(string bot1Url, string bot2Url)
         {
