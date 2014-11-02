@@ -47,10 +47,10 @@
         var blueSelection = $('#blue-selection').val();
         $('#red-name').text($('#red-selection option:selected').text());
         $('#blue-name').text($('#blue-selection option:selected').text());
-        $('#skirmish-options').hide('slow');
-        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: redSelection, bot2Url: blueSelection }, function() {
+        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: redSelection, bot2Url: blueSelection }, function () {
             $('#skirmish-options').show('slow');
         });
+        $('#skirmish-options').hide('slow');
     });
 
 
