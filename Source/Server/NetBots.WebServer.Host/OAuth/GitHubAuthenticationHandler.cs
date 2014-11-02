@@ -12,7 +12,7 @@ using Microsoft.Owin.Security.Infrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Owin.Security.Providers.GitHub
+namespace Owin.Security.Providers.Nebots.GitHub
 {
     public class GitHubAuthenticationHandler : AuthenticationHandler<GitHubAuthenticationOptions>
     {

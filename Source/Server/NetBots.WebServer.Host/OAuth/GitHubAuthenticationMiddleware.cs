@@ -8,7 +8,7 @@ using Microsoft.Owin.Security.DataHandler;
 using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.Infrastructure;
 
-namespace Owin.Security.Providers.GitHub
+namespace Owin.Security.Providers.Nebots.GitHub
 {
     public class GitHubAuthenticationMiddleware : AuthenticationMiddleware<GitHubAuthenticationOptions>
     {
