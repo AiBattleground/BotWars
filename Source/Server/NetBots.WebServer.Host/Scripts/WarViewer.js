@@ -180,8 +180,7 @@
     var energyImage;
     c = document.getElementById('game');
     ctx = c.getContext('2d');
-    energyImage = new Image();
-    energyImage.src = "../Images/iconSprite.png";
+    energyImage = document.getElementById("energy-image");
     energyImage.onload = function () {
         showTurn({
             rows: 20, cols: 20, maxTurns: 0, turnsElapsed: 0,

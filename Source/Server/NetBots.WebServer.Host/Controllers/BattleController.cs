@@ -38,13 +38,17 @@ namespace NetBots.WebServer.Host.Controllers
             return RedirectToAction("Skirmish");
         }
 
-        [Route("battle/{bot1Id}/{bot2Id}")]
-        public async Task<ActionResult> Index(int bot1Id, int bot2Id)
+        [Route("battle/{bot1Name}/{bot2Name}")]
+        public async Task<ActionResult> Index(string bot1Name, string bot2Name)
         {
-            var bot1 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == bot1Id);
-            var bot2 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == bot2Id);
-            var model = new BattleViewModel() {Bot1 = bot1, Bot2 = bot2};
-            return View(model);
+            var bot1 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Name == bot1Name);
+            var bot2 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Name == bot2Name);
+            if (bot1 != null && bot2 != null)
+            {
+                var model = new BattleViewModel() { Bot1 = bot1, Bot2 = bot2 };
+                return View(model);
+            }
+            throw new ArgumentException("Couldn't find one of the bots");
         }
 
         public ActionResult PartialOnly()
