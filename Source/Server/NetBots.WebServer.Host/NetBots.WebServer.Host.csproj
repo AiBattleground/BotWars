@@ -200,7 +200,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Hubs\WarViewHub.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BattleViewModel.cs" />
     <Compile Include="Models\GameSettings.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PlayerBotViewModel.cs" />
@@ -284,13 +287,15 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Tournament\Index.cshtml" />
-    <Content Include="Views\Battle\Index.cshtml" />
+    <Content Include="Views\Battle\Skirmish.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
     <Content Include="Views\PlayerBots\Index.cshtml" />
     <Content Include="Views\Manage\NewBot.cshtml" />
     <Content Include="Views\Manage\EditBot.cshtml" />
     <Content Include="Views\PlayerBots\GameHistory.cshtml" />
-    <Content Include="Views\Home\Skirmish.cshtml" />
+    <Content Include="Views\Battle\_WarViewGrid.cshtml" />
+    <Content Include="Views\Battle\PartialOnly.cshtml" />
+    <Content Include="Views\Battle\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

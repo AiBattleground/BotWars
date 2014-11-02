@@ -12,7 +12,6 @@ namespace NetBots.WebServer.Data.MsSql
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<PlayerBot> PlayerBots { get; set; }
-        public DbSet<BotRecord> BotRecords { get; set; }
         public DbSet<GameSummary> GameSummaries { get; set; }
 
         public ApplicationDbContext()

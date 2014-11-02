@@ -22,3 +22,22 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.playerbox {
+    border: 2px solid;
+    border-radius: 25px;
+    font-weight: bold
+}
+
+.blue-playerbox {
+    background-color: lightskyblue
+}
+
+.red-playerbox {
+    background-color: pink
+}
+
+.parent-div {
+    overflow:auto
+}

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<PlayerBot>
+
+@{
+    ViewBag.Title = "Battle";
+}
+
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+<div id="skirmish-options" class="container">
+    <div class="row">
+        <div class="col-sm-2 form-group">
+            <label>Red</label>
+            <select id="red-selection" placeholder="choose a bot..." class="form-control">
+                @foreach (var bot in Model)
+                {
+                    <option value="@bot.URL">@bot.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-sm-2 form-group">
+            <label>Blue</label>
+            <select id="blue-selection" placeholder="choose a bot..." class="form-control">
+                @foreach (var bot in Model)
+                {
+                    <option value="@bot.URL">@bot.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <button id="new-game" class="btn">Fight!</button>
+        </div>
+    </div>
+</div>
+<br/>
+
+<div id="warview-wrapper" style="display: none">
+    @Html.Partial("_WarViewGrid")
+</div>
+
+
+<script type="text/javascript">
+    $("#new-game").on('click', function () {
+        $("#warview-wrapper").show("slow");
+        var redSelection = $('#red-selection').val();
+        var blueSelection = $('#blue-selection').val();
+        $('#red-name').text($('#red-selection option:selected').text());
+        $('#blue-name').text($('#blue-selection option:selected').text());
+        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: redSelection, bot2Url: blueSelection }, function () {
+            $('#skirmish-options').show('slow');
+        });
+        $('#skirmish-options').hide('slow');
+    });
+
+
+</script>

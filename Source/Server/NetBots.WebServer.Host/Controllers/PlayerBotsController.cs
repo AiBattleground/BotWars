@@ -10,6 +10,7 @@ using NetBots.WebServer.Model;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Data.MsSql;
 using Microsoft.AspNet.Identity;
+using NetBotsHostProject.Helpers;
 using NetBotsHostProject.Models;
 
 namespace NetBotsHostProject.Controllers
@@ -23,8 +24,8 @@ namespace NetBotsHostProject.Controllers
         public ActionResult Index()
         {
             var userName = User.Identity.GetUserName();
-            var allBots = db.PlayerBots.ToList();
-            var models = allBots.Select(x => GetPlayerBotViewModel(x, userName)).ToList();
+            var bots = db.GetVisibleBots(User.Identity.GetUserId());
+            var models = bots.Select(x => GetPlayerBotViewModel(x, userName)).ToList();
             return View(models);
         }
 
@@ -44,9 +45,9 @@ namespace NetBotsHostProject.Controllers
                 Id = bot.Id,
                 Image = bot.Image,
                 Name = bot.Name,
-                Owner = bot.Owner.UserName,
+                Owner = bot.Owner != null ? bot.Owner.UserName : "",
                 Rank = 0,
-                OwnedByUser = bot.Owner.UserName == userName,
+                OwnedByUser = bot.Owner != null && bot.Owner.UserName == userName,
                 MatchHistory = matchHistory
             };
             return model;

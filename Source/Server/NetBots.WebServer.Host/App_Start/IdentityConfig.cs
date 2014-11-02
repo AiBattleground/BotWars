@@ -94,7 +94,7 @@ namespace NetBots.WebServer.Host
             return manager;
         }
 
-        public async Task<IList<PlayerBot>> GetBotsAsync(string userId)
+        public async Task<IList<PlayerBot>> GetPlayerBotsAsync(string userId)
         {
             var user = await this.FindByIdAsync(userId);
             if (user != null && user.Bots != null)
@@ -125,6 +125,7 @@ namespace NetBots.WebServer.Host
                     myBot.Name = newBot.Name;
                     myBot.URL = newBot.URL;
                     myBot.Image = newBot.Image;
+                    myBot.Private = newBot.Private;
                     await UpdateAsync(user);
                 }
                 else

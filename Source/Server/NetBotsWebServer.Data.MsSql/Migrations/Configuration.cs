@@ -16,6 +16,7 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
+
             string defaultOwnerId = null;
             var defaultOwner = context.Users.FirstOrDefault();
             if (defaultOwner != null)
@@ -26,17 +27,17 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
             var divideByZero = UpsertPlayerBot(new PlayerBot()
             {
                 Id = -1,
-                Name = "DivideByZer0",
+                Name = "Berserkerbot",
                 OwnerId = defaultOwnerId,
-                URL = "http://dividebyzer0.com",
+                URL = "http://berserkerbot.azurewebsites.net/api/bot",
             }, context);
 
             var grahamBot = UpsertPlayerBot(new PlayerBot()
             {
                 Id = -1,
-                Name = "GrahamBot",
+                Name = "RandomBot",
                 OwnerId = defaultOwnerId,
-                URL = "http://graham.technology/bot",
+                URL = "http://randombot.azurewebsites.net/api/bot",
             }, context);
 
 
@@ -50,6 +51,12 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
                     Winner = divideByZero
                 };
                 context.GameSummaries.Add(match);
+            }
+
+            var unownedBots = context.PlayerBots.Where(x => x.Owner == null);
+            foreach (var b in unownedBots)
+            {
+                b.OwnerId = defaultOwnerId;
             }
 
             context.SaveChanges();
