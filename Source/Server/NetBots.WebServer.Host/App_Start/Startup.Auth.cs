@@ -79,11 +79,12 @@ namespace NetBots.WebServer.Host
             //The key changes based on the config file, since what's the the Secret.cs file can't.
             var gitHubClientId = ConfigurationManager.AppSettings["gitHubClientId"];
             var gitHubClientSecret = ConfigurationManager.AppSettings["gitHubClientSecret"];
-            app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
+            var options = new GitHubAuthenticationOptions()
             {
                 ClientId = gitHubClientId,
-                ClientSecret = gitHubClientSecret
-            });
+                ClientSecret = gitHubClientSecret,
+            };
+            app.UseGitHubAuthentication(options);
         }
     }
 }
