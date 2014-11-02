@@ -1,4 +1,4 @@
-﻿namespace Owin.Security.Providers.Nebots.GitHub
+﻿namespace Owin.Netbots.Providers.Nebots.GitHub
 {
     internal static class Constants
     {

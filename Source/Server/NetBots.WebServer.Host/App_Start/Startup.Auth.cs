@@ -10,7 +10,7 @@ using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Model;
 using System.Configuration;
-using Owin.Security.Providers.Nebots.GitHub;
+using Owin.Netbots.Providers.Nebots.GitHub;
 
 
 namespace NetBots.WebServer.Host

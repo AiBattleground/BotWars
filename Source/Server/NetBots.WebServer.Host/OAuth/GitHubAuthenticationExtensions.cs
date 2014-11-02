@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Owin.Security.Providers.Nebots.GitHub
+namespace Owin.Netbots.Providers.Nebots.GitHub
 {
     public static class GitHubAuthenticationExtensions
     {

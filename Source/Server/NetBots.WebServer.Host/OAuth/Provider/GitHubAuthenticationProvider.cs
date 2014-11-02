@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Owin.Security.Providers.Nebots.GitHub
+namespace Owin.Netbots.Providers.Nebots.GitHub
 {
     /// <summary>
     /// Default <see cref="IGitHubAuthenticationProvider"/> implementation.
