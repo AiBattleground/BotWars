@@ -17,6 +17,16 @@ namespace NetBots.WebServer.Host.Controllers
             return View();
         }
 
+        public ActionResult Rules()
+        {
+            return View();
+        }
+
+        public ActionResult Instructions()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

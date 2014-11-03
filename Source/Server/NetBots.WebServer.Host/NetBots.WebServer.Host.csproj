@@ -297,6 +297,8 @@
     <Content Include="Views\Battle\_WarViewGrid.cshtml" />
     <Content Include="Views\Battle\PartialOnly.cshtml" />
     <Content Include="Views\Battle\Index.cshtml" />
+    <Content Include="Views\Home\Rules.cshtml" />
+    <Content Include="Views\Home\Instructions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

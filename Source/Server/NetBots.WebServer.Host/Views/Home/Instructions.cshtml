@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Instructions";
+}
+
+<h2>Instructions</h2>
+
+<p>Communication between the game and the bots is established using JSON data exchanges over HTTP. For every turn, the two bots are given the current game state as JSON. Your bot must accept a POST method at <code>/</code>. The game state will be POSTed to your bot. Your bot is expected to return your set of moves in the appropriate JSON format in the POST response. Each bot is expected to respond with moves within five seconds. If a bot doesn't respond within five seconds, it is disqualified.</p>
+
+<p>This is an example of the game state that will be POSTed to each bot:</p>
+
+<pre><code>"state": {
+  "rows": 4,
+  "cols": 4,
+  "p1": {
+    "energy": 0,
+    "spawn": 5
+  },
+  "p2": {
+    "energy": 0,
+    "spawn": 10
+  },
+  "grid": ".....r....b.....",
+    "maxTurns": 20,
+    "turnsElapsed": 0
+  },
+  "player": "r"
+</code></pre>
+
+<p>Where "player" represents which side the bot is playing as, and is either "r" or "b". p1.spawn and p2.spawn represent the indices of their respective bots' spawn points on the grid string. p1.energy and p2.energy represent the amount of energy each bot currently has. </p>
+
+<h2>The Grid</h2>
+
+<p>The grid is a string where each character represents a space on the grid. </p>
+
+<ul>
+    <li>The grid's dimensions are provided as "rows" and "cols". </li>
+    <li>On the grid, p1 botlets are identified by "r", p2 botlets are identified by "b"</li>
+    <li>Energy is identified by "*"</li>
+    <li>Empty space is identified by "."</li>
+    <li>Botlets killed in the previous turn are identified by "x".</li>
+</ul>
+
+<p>Bots are expected to respond in from the POST with the following format:</p>
+
+<pre><code>[
+  {
+    "from": 12,
+    "to": 11
+  },
+  {
+    "from": 21,
+    "to": 20
+  }
+]
+</code></pre>
+
+<p>Where each item in the array represents a move. "from" must be the index of one of the bot's botlets, and "to" must be the index of a coordinate adjacent to that botlet. Otherwise, the move is ignored.</p>
+
+<p>Bots can be written in any language you wish as long as you meet the HTTP JSON specification defined here and they are publically accessible at the time of the tournament. You can either deploy your bot or use ngrok locally.</p>
+
+<h1>Testing your bot</h1>
+
+<p><strong>Note: the tournament uses HTTP communication so you can write your bot in any language you wish as long as you can read and write over HTTP</strong></p>
+
+<p>After cloning the repo run <code>npm install</code></p>
+
+<p>In order to set up the database server, run <code>mongod</code> in your terminal.</p>
+
+<p>In order to set up the web server, run <code>node app.js</code> in another tab of your terminal.</p>
+
+<p>Go to <code>http://localhost:3000</code> in your browser.</p>
+
+<p>Log in with a Google account and specify your bot URL as you would normally, by using the <code>/bot</code> route.</p>
+
+<p>Your bot will run through HTTP communication now instead of stdin/stdout. In order to test locally you will need one bot running at localhost:1337 (you can use the nodebot in the bots/nodebot folder by running <code>node app.js 1337</code>) and a second bot can be run on any URL you want. We recommend using <a href="https://ngrok.com/">ngrok</a> for your local testing as this is probably what you will use for the real tournament. At the <code>/bot</code> route you will be asked to input the URL for your bot. Then at <code>/test/</code> you can select your user account (which points to your bot URL) and nodebot (which is expected to be running at localhost:1337) and watch them fight to the death.</p>
+
+<p>Go to the <code>/test</code> route to run test matches. In the dropdown menus, you can choose the bots to compete. Click the "new game" button to start and view the match. <strong>Note the <code>/test</code> route can only be used on localhost - not on the production site</strong></p>
+
