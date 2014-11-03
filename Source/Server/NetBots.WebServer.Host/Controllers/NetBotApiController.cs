@@ -12,6 +12,8 @@ using NetBots.GameEngine;
 using NetBots.Web;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Host.Controllers;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace NetBotsHostProject.Controllers
 {
@@ -57,7 +59,10 @@ namespace NetBotsHostProject.Controllers
 
     public class BotId
     {
+        [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("id")]
         public int Id { get; set; }
     }
 }
