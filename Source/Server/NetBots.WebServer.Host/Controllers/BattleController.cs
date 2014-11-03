@@ -1,5 +1,9 @@
 ﻿using System.Web.Caching;
 using Microsoft.Ajax.Utilities;
+﻿using System.Data.Entity;
+using System.Web.Caching;
+using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using NetBots.Core;
 using NetBots.GameEngine;
@@ -8,6 +12,8 @@ using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Data.MsSql.Migrations;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
+using NetBotsHostProject.Helpers;
+using NetBotsHostProject.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -31,8 +37,9 @@ namespace NetBots.WebServer.Host.Controllers
 
         public ActionResult Index()
         {
-            return View(_db.PlayerBots.ToList());
+            return View(_db.GetVisibleBots(User.Identity.GetUserId()));
         }
+
 
         public async Task<ActionResult> NewGame(string bot1Url, string bot2Url)
         {

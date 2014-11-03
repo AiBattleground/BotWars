@@ -27,7 +27,47 @@
         $.connection.hub.start().done(function () { });
     });
 
+    function setPlayerCount(grid) {
+        var redCount = 0;
+        var blueCount = 0;
+        for (var i = 0; i < grid.length; i++) {
+            var myChar = grid[i];
+            if (myChar == '1') {
+                redCount++;
+            }
+            else if (myChar == '2') {
+                blueCount++;
+            }
+        }
+        $('#blue-count').text(blueCount);
+        $('#red-count').text(redCount);
+    }
+
+    function setWinner(state) {
+        if (state.winner != null) {
+            $('#blue-wrap').removeClass('alert-info');
+            $('#red-wrap').removeClass('alert-danger');
+            if (state.winner == 'p1') {
+                $('#red-game-end-message').text("Winner!");
+                $('#blue-game-end-message').text("Loser!");
+                $('#red-wrap').addClass('alert-success');
+                $('#blue-wrap').addClass('alert-warning');
+            }
+            else if (state.winner == 'p2') {
+                $('#blue-game-end-message').text("Winner!");
+                $('#red-game-end-message').text("Loser!");
+                $('#blue-wrap').addClass('alert-success');
+                $('#red-wrap').addClass('alert-warning');
+            }
+        }
+    }
+
     function showTurn(state) {
+        setPlayerCount(state.grid);
+        $('#red-energy').text(state.p1.energy);
+        $('#blue-energy').text(state.p2.energy);
+        setWinner(state);
+        $('#turn-number').text(state.turnsElapsed + " / " + state.maxTurns);
         ctx.clearRect(0, 0, c.width, c.height);
         ctx.strokeStyle = 'lightgrey';
         var coordWidth = c.width / state.cols;
@@ -140,8 +180,7 @@
     var energyImage;
     c = document.getElementById('game');
     ctx = c.getContext('2d');
-    energyImage = new Image();
-    energyImage.src = "../Images/iconSprite.png";
+    energyImage = document.getElementById("energy-image");
     energyImage.onload = function () {
         showTurn({
             rows: 20, cols: 20, maxTurns: 0, turnsElapsed: 0,

@@ -97,6 +97,14 @@
     <Compile Include="Migrations\201410310049253_KeithDub.Designer.cs">
       <DependentUpon>201410310049253_KeithDub.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410311538373_PlayerBots_Privacy_Settings.cs" />
+    <Compile Include="Migrations\201410311538373_PlayerBots_Privacy_Settings.Designer.cs">
+      <DependentUpon>201410311538373_PlayerBots_Privacy_Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411011553239_Remove_Unused_Bot_Recrds.cs" />
+    <Compile Include="Migrations\201411011553239_Remove_Unused_Bot_Recrds.Designer.cs">
+      <DependentUpon>201411011553239_Remove_Unused_Bot_Recrds.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -143,6 +151,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410310049253_KeithDub.resx">
       <DependentUpon>201410310049253_KeithDub.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410311538373_PlayerBots_Privacy_Settings.resx">
+      <DependentUpon>201410311538373_PlayerBots_Privacy_Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411011553239_Remove_Unused_Bot_Recrds.resx">
+      <DependentUpon>201411011553239_Remove_Unused_Bot_Recrds.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

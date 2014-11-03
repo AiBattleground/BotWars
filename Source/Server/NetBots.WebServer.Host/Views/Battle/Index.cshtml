@@ -1,56 +1,17 @@
-﻿@model IEnumerable<PlayerBot>
+﻿@model NetBotsHostProject.Models.BattleViewModel
 
 @{
     ViewBag.Title = "Battle";
 }
 
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-2 form-group">
-            <label>Red</label>
-            <select id="red-selection" placeholder="choose a bot..." class="form-control">
-                @foreach (var bot in Model)
-                {
-                    <option value="@bot.URL">@bot.Name</option>
-                }
-            </select>
-        </div>
-        <div class="col-sm-2 form-group">
-            <label>Blue</label>
-            <select id="blue-selection" placeholder="choose a bot..." class="form-control">
-                @foreach (var bot in Model)
-                {
-                    <option value="@bot.URL">@bot.Name</option>
-                }
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <button id="new-game" class="btn">Fight!</button>
-        </div>
-    </div>
-</div>
+<h2>Battle</h2>
 
-<p>Our aerial reconnaissance vehicles are picking up the following feed of the battle as it unfolds. </p>
-<canvas id="game" height="500" width="500" style="border-color: lightgrey; border-style: solid; border-width:2px;"></canvas>
-<p>Our bots color is <span data-bind="text: color"></span>.</p>
-<p> We have <span class="energy-news" data-bind="text: ourEnergy"></span> energy in reserves.</p>
-<p> Our Enemey has <span class="energy-news" data-bind="text: theirEnergy"></span> energy in reserves.</p>
-<p>The battle will continue for <span id="moves-left" data-bind="text: movesRemaining"></span> cycles.</p>
-<p></p>
+@Html.Partial("_WarViewGrid")
 
-@Scripts.Render("~/bundles/signalR")
-@Scripts.Render("~/bundles/knockout")
-
-<script type="text/javascript" src="~/signalr/hubs"></script>
-<script type="text/javascript" src="~/Scripts/WarViewer.js"></script>
 <script type="text/javascript">
-    $("#new-game").on('click', function () {
-        var redSelection = $('#red-selection').val();
-        var blueSelection = $('#blue-selection').val();
-        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: redSelection, bot2Url: blueSelection });
-        });
+    $(document).ready(function () {
+        $('#red-name').text('@Model.Bot1.Name');
+        $('#blue-name').text('@Model.Bot2.Name');
+        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: '@Model.Bot1.URL', bot2Url: '@Model.Bot2.URL' });
+    });
 </script>

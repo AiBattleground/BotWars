@@ -14,7 +14,6 @@ using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Host.Controllers;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
-
 namespace NetBotsHostProject.Controllers
 {
     public class NetBotApiController : ApiController

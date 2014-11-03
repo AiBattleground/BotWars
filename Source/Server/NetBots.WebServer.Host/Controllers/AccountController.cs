@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
 
 namespace NetBots.WebServer.Host.Controllers
@@ -361,6 +362,10 @@ namespace NetBots.WebServer.Host.Controllers
             {
                 return RedirectToAction("Index", "Manage");
             }
+            if (String.IsNullOrWhiteSpace(model.UserName))
+            {
+                model.UserName = model.Email;
+            }
 
             if (ModelState.IsValid)
             {
@@ -370,7 +375,7 @@ namespace NetBots.WebServer.Host.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
