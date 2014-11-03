@@ -8,18 +8,22 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using NetBots.GameEngine;
 using NetBots.Web;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Host.Controllers;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+
 namespace NetBotsHostProject.Controllers
 {
+    [EnableCors("*", "*", "*")]
     public class NetBotApiController : ApiController
     {
         readonly ApplicationDbContext _db = new ApplicationDbContext();
 
+        [Route("api/botlist")]
         public async Task<IHttpActionResult> GetBotList()
         {
             //todo: Get only visible ones once the private bots branch is merged in.
