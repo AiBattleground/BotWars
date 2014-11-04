@@ -159,7 +159,7 @@ namespace NetBots.WebServer.Host.Controllers
                 Grid = new string('.', settings.boardSize * settings.boardSize),
                 MaxTurns = 200,
                 TurnsElapsed = 0,
-                //GameId = GameHelper.GenerateRandomGameId()
+                GameId = GameHelper.GenerateRandomGameId()
             };
             return startingGame;
         }
