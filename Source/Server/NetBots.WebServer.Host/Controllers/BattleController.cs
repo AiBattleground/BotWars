@@ -66,7 +66,7 @@ namespace NetBots.WebServer.Host.Controllers
         {
 
             GameState startingState = GetNewGameState();
-            Game game = new Game(startingState, GetPlayers(20, bot1Url, bot2Url));
+            Game game = new Game(startingState, bot1Url, bot2Url);
             game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
 
             int currentTurn = 0;
@@ -164,38 +164,8 @@ namespace NetBots.WebServer.Host.Controllers
             return startingGame;
         }
 
-        public IEnumerable<BotPlayer> GetPlayers(int boardWidth, string bot1Url, string bot2Url)
-        {
-            BotPlayer red = new BotPlayer()
-            {
-                PlayerName = "p1",
-                BotletId = '1',
-                Energy = 1,
-                Uri = GetNormalizedUri(bot1Url),
-                Spawn = boardWidth + 1,
-                Resource = Resource.P1Botlet,
-                deadBotletId = 'x'
-            };
-            BotPlayer blue = new BotPlayer()
-            {
-                PlayerName = "p2",
-                BotletId = '2',
-                Energy = 1,
-                Uri = GetNormalizedUri(bot2Url),
-                Spawn = boardWidth * (boardWidth - 1) - 2,
-                Resource = Resource.P2Botlet,
-                deadBotletId = 'X'
-            };
-            return new List<BotPlayer>() { red, blue };
-        }
+        
 
-        private string GetNormalizedUri(string uri)
-        {
-            if (!(uri.StartsWith("http://") || uri.StartsWith("https://")))
-            {
-                uri = "http://" + uri;
-            }
-            return uri;
-        }
+        
     }
 }
