@@ -308,11 +308,14 @@ namespace NetBots.GameEngine
                     switch (grid[move.To])
                     {
                         //this rule seems weird, it implies that you can collect/spawn on same turn.
+                        //but you would have to see the energy spawn next to your bot the move before
+                        //and know the rule in order to take advantage of the quick-spawn.
                         case  '*':
                             if (botPlayer.PlayerName == "p1")
                                 GameState.P1.Energy++;
                             else
                                 GameState.P2.Energy++;
+                            grid[move.To] = botPlayer.BotletId;
                             break;
                         case '.':
                             grid[move.To] = botPlayer.BotletId;
