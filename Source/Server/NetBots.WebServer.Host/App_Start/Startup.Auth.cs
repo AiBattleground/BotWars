@@ -9,7 +9,8 @@ using Owin;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Model;
-using Owin.Security.Providers.GitHub;
+using System.Configuration;
+using Owin.Netbots.Providers.Nebots.GitHub;
 
 
 namespace NetBots.WebServer.Host
@@ -76,13 +77,14 @@ namespace NetBots.WebServer.Host
         private static void SetupGitHubAuth(IAppBuilder app)
         {
             //The key changes based on the config file, since what's the the Secret.cs file can't.
-            var gitHubIdKey = System.Configuration.ConfigurationManager.AppSettings["gitHubIdKey"];
-            var gitHubSecretKey = System.Configuration.ConfigurationManager.AppSettings["gitHubSecretKey"];
-            app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
+            var gitHubClientId = ConfigurationManager.AppSettings["gitHubClientId"];
+            var gitHubClientSecret = ConfigurationManager.AppSettings["gitHubClientSecret"];
+            var options = new GitHubAuthenticationOptions()
             {
-                ClientId = Secrets.GetSecret(gitHubIdKey),
-                ClientSecret = Secrets.GetSecret(gitHubSecretKey)
-            });
+                ClientId = gitHubClientId,
+                ClientSecret = gitHubClientSecret,
+            };
+            app.UseGitHubAuthentication(options);
         }
     }
 }

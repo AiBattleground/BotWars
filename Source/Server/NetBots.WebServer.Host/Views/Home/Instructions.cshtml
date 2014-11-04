@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Instructions";
+}
+
+<h2>Instructions</h2>
+
+<p>Communication between the game and the bots is established using JSON data exchanges over HTTP. For every turn, the two bots are given the current game state as JSON. Your bot must accept a POST method at <code>/</code>. The game state will be POSTed to your bot. Your bot is expected to return your set of moves in the appropriate JSON format in the POST response. Each bot is expected to respond with moves within five seconds. If a bot doesn't respond within five seconds, it is disqualified.</p>
+
+<p>This is an example of the game state that will be POSTed to each bot:</p>
+
+<pre><code>"state": {
+  "rows": 4,
+  "cols": 4,
+  "p1": {
+    "energy": 0,
+    "spawn": 5
+  },
+  "p2": {
+    "energy": 0,
+    "spawn": 10
+  },
+  "grid": ".....1....2.....",
+    "maxTurns": 20,
+    "turnsElapsed": 0
+  },
+  "player": "1"
+</code></pre>
+
+<p>Where "player" represents which side the bot is playing as, and is either "1" or "2". p1.spawn and p2.spawn represent the indices of their respective bots' spawn points on the grid string. p1.energy and p2.energy represent the amount of energy each bot currently has. </p>
+
+<h2>The Grid</h2>
+
+<p>The grid is a string where each character represents a space on the grid. </p>
+
+<ul>
+    <li>The grid's dimensions are provided as "rows" and "cols". </li>
+    <li>On the grid, p1 botlets are identified by "r", p2 botlets are identified by "b"</li>
+    <li>Energy is identified by "*"</li>
+    <li>Empty space is identified by "."</li>
+    <li>Botlets killed in the previous turn are identified by "x".</li>
+</ul>
+
+<p>Bots are expected to respond in from the POST with the following format:</p>
+
+<pre><code>[
+  {
+    "from": 12,
+    "to": 11
+  },
+  {
+    "from": 21,
+    "to": 20
+  }
+]
+</code></pre>
+
+<p>Where each item in the array represents a move. "from" must be the index of one of the bot's botlets, and "to" must be the index of a coordinate adjacent to that botlet. Otherwise, the move is ignored.</p>
+
+<p>Bots can be written in any language you wish as long as you meet the HTTP JSON specification defined here and they are publically accessible at the time of the tournament. You can either deploy your bot or use ngrok locally.</p>
+
+<h1>Testing your bot</h1>
+
+<p><strong>You can use any language or tools to program a bot that you want!</strong></p>
+
+<p>All you have to do is create an API that can accept a POST request contianing the MoveRequest object and return a list of moves for it's bot.
+    Even if you're not an expert programmer, we're here to help.</p>
+<p>If you like the C-like languages, someone has made a "starter kit" using the C# language. You can <a href="https://github.com/Pharylon/NetBotsStarterKit">check the repo out on Github</a>. 
+    It includes a sample bot, and already does all the heavy lifting of serializing and deserializing the objects.</p>
+<p>If you hate Microsoft, that's OK! Being the awesome counterculture Python/Javascript/whatever guy you are, I know you won't have any problems. But, as you develop your own project, maybe think about
+    creating your own starter kit in the language of your choice. We're trying to help people hone their programming chops in a fun way, and you can help!</p>
+<p>You'll also probably want the Netbot Debug Assitant. When you're developing your own bot, you're probably going to have it running on localhost, so we've made a handy bridge for you. 
+    You can check out the <a href="https://github.com/Pharylon/NetBotsTestEnvironment">source reop here</a>, but mainly you'll want to use it by 
+    just downloading <a href="http://pharylon.github.io/netbots-debug/NetBotLocalAssistant.exe">this exe</a> and following the instructions.</p>
+

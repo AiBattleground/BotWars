@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Model;
-using Owin.Security.Providers.ArcGISOnline.Provider;
 
 namespace NetBotsHostProject.Helpers
 {

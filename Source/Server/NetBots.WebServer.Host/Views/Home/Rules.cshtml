@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Rules";
+}
+
+<h2>Rules</h2>
+
+<p>Ai Battleground Bot Wars is a Turn Based Strategy (TBS) game where two competitors build sentient bots to battle til the death.</p>
+
+<p>The field consists of a 20 by 20 grid. There are two spawn points at opposite corners for the players. Player 1 is represented by red botlets and Player 2 is represented by blue botlets. One botlet for each bot is spawned in the first turn. </p>
+
+<p>Energy is spawned randomly around the field every three turns. If a botlet gathers energy (by moving adjacent to it), another botlet will be spawned for that bot on the next turn. Each botlet of a bot's color can be moved one space per turn (up, down, left, or right, so no diagonals). If a bot submits turns in an invalid format, it will be disqualified. Invalid moves will be ignored and the bot will miss their turn.</p>
+
+<h2>Battles</h2>
+
+<p>The goal is to eliminate all botlets of the opponent's botlets. If botlets of differing colors are adjacent after moving, a battle will commence. </p>
+
+<ul>
+    <li>In the event of a battle, the botlet with the most opposing botlets adjacent will die. </li>
+    <li>If both botlets involved in a battle have the same number of opposing botlets adjacent, both will die.</li>
+    <li>If two botlets (regardless of color) move to the same position, both will die. </li>
+    <li>The 'x' represents a dead bot but it is essentially an empty space. You can move to it.</li>
+</ul>
+
+<p>Here are some examples, where '1' represents Player 1's botlet, '2' represents Player 2's botlet, '.' represents an empty space, and 'x' represents a dead botlet:</p>
+
+<p>Same number of botlets</p>
+
+<pre><code>.....     .....
+.12..  &gt;  .xx..
+.....     .....
+</code></pre>
+
+<p>Two Botlets vs. One Botlet</p>
+
+<pre><code>.....     .....
+.121.  &gt;  .1x1.
+.....     .....
+</code></pre>
+
+<p>Multiple Battles</p>
+
+<pre><code>...12     ...xx
+.121.  &gt;  .1xx.
+...2.     ...2.
+</code></pre>
+
+<p>Mo1e Battles</p>
+
+<pre><code>...12.     ...x2.
+.212..  &gt;  .2xx..
+.212..     .2xx..
+...12.     ...x2.
+</code></pre>
+
+<h2>Spawn Razing</h2>
+
+<p>If a botlet moves onto an opposing bot's spawn, that spawn is razed and no more botlets can be produced for the opposing bot.</p>
+
+<h2>Turns</h2>
+
+<p>The order actions are carried out in each turn is as follows:</p>
+
+<ol>
+    <li>Botlets are moved according to commands provided by the bot</li>
+    <li>If opposing botlets are adjacent, battle(s) take place to determine which botlets die</li>
+    <li>If a botlet is on an opposing bot's spawn at this point, the spawn is razed (disabled)</li>
+    <li>If a bot has sufficient energy, and his/her spawn is not disabled, a botlet is added at his/her spawn point, and the bot's energy is decremented by one</li>
+    <li>If any botlets are adjacent to energy, that energy is consumed and the respective bot's energy is incremented by one. If opposing botlets are adjacent to the same energy, the energy is removed and neither bot gets it</li>
+    <li>If a sufficient number of turns have passed since the last energy was spawned (3), two more are randomly but symmetrically spawned on the field</li>
+</ol>
+
+<p>The game ends when either one bot's botlets are completely eliminated or when the turn limit (200 turns) has been reached. If the turn limit is reached, the bot with more botlets on the field is declared the winner.</p>

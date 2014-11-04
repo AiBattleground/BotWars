@@ -52,9 +52,8 @@ namespace NetBots.WebServer.Host.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Email/UserName")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
