@@ -108,7 +108,7 @@ namespace NetBots.WebServer.Host.Controllers
         private GameSettings _GetGameSettings()
         {
             string[] userData;
-            string dataFile = Server.MapPath("~/App_Data/GameSettings.json");
+            string dataFile = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/GameSettings.json");
             if (System.IO.File.Exists(dataFile))
             {
                 userData = System.IO.File.ReadAllLines(dataFile);
@@ -128,7 +128,6 @@ namespace NetBots.WebServer.Host.Controllers
         public GameState GetNewGameState()
         {
             GameSettings settings = _GetGameSettings();
-
             var startingGame = new GameState()
             {
                 Rows = settings.boardSize,
@@ -142,6 +141,8 @@ namespace NetBots.WebServer.Host.Controllers
             };
             return startingGame;
         }
+
+        
 
         public IEnumerable<BotPlayer> GetPlayers(int boardWidth, string bot1Url, string bot2Url)
         {
@@ -170,7 +171,7 @@ namespace NetBots.WebServer.Host.Controllers
 
         private string GetNormalizedUri(string uri)
         {
-            if (!(uri.StartsWith("http://") || uri.StartsWith("https://")))
+            if (uri != null && (!(uri.StartsWith("http://") || uri.StartsWith("https://"))))
             {
                 uri = "http://" + uri;
             }
