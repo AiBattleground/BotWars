@@ -15,6 +15,7 @@ using NetBots.Web;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Host.Controllers;
 using NetBots.WebServer.Host.Models;
+using NetBotsHostProject.Helpers;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 
@@ -26,10 +27,9 @@ namespace NetBotsHostProject.Controllers
         readonly ApplicationDbContext _db = new ApplicationDbContext();
 
         [Route("api/botlist")]
-        public async Task<IHttpActionResult> GetBotList()
+        public IHttpActionResult GetBotList()
         {
-            //todo: Get only visible ones once the private bots branch is merged in.
-            var visibleBots = await _db.PlayerBots.ToListAsync();
+            var visibleBots = _db.GetVisibleBots();
             var returnObjects = visibleBots.Select(x => new BotIdApiModel() { Name = x.Name, Id = x.Id });
             return Ok(returnObjects);
         }
@@ -61,7 +61,8 @@ namespace NetBotsHostProject.Controllers
             }
             var opponent = game.Players.First(x => x.Uri != null);
             var opponentMoves = await BattleController.GetPlayerMovesAsync(opponent, apiModel.GameState);
-            game.UpdateGameState(new[] { apiModel.ClientMoves, opponentMoves });
+            var clientMoves = new PlayerMoves() {Moves = apiModel.ClientMoves, PlayerName = opponentMoves.PlayerName == "p1" ? "p2" : "p1"};
+            game.UpdateGameState(new[] { clientMoves, opponentMoves });
             return Ok(game.GameState);
         }
 
@@ -92,6 +93,6 @@ namespace NetBotsHostProject.Controllers
         public GameState GameState { get; set; }
 
         [JsonProperty("clientMoves")]
-        public PlayerMoves ClientMoves { get; set; }
+        public BotletMove[] ClientMoves { get; set; }
     }
 }

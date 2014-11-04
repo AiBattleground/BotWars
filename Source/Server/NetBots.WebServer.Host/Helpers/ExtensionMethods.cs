@@ -14,6 +14,12 @@ namespace NetBotsHostProject.Helpers
         {
             var visibleBots = db.PlayerBots.Where(x => !x.Private || x.OwnerId == userId).ToList();
             return visibleBots;
-        } 
+        }
+
+        public static IList<PlayerBot> GetVisibleBots(this ApplicationDbContext db)
+        {
+            var visibleBots = db.PlayerBots.Where(x => !x.Private).ToList();
+            return visibleBots;
+        }
     }
 }
