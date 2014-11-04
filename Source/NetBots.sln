@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Data.MsSq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.WebServer.Model", "Server\NetBots.WebServer.Model\NetBots.WebServer.Model.csproj", "{88F05E4E-7146-44B9-BA3D-2ED19EFD9411}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{95BFAC3E-039F-4767-8BB3-AF7D5592FD7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Tests", "NetBots.Tests\NetBots.Tests.csproj", "{750EC65E-FD0F-4924-AA95-283B4103C501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +90,10 @@ Global
 		{88F05E4E-7146-44B9-BA3D-2ED19EFD9411}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88F05E4E-7146-44B9-BA3D-2ED19EFD9411}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88F05E4E-7146-44B9-BA3D-2ED19EFD9411}.Release|Any CPU.Build.0 = Release|Any CPU
+		{750EC65E-FD0F-4924-AA95-283B4103C501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{750EC65E-FD0F-4924-AA95-283B4103C501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{750EC65E-FD0F-4924-AA95-283B4103C501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{750EC65E-FD0F-4924-AA95-283B4103C501}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,5 +111,6 @@ Global
 		{F99950B9-00DA-4C9E-9884-3E5BC5CD184F} = {0BAC5D52-4DF8-42F2-ADD8-2124C840F14D}
 		{533E848F-1DDD-4E33-A268-963E48018425} = {0BAC5D52-4DF8-42F2-ADD8-2124C840F14D}
 		{88F05E4E-7146-44B9-BA3D-2ED19EFD9411} = {0BAC5D52-4DF8-42F2-ADD8-2124C840F14D}
+		{750EC65E-FD0F-4924-AA95-283B4103C501} = {95BFAC3E-039F-4767-8BB3-AF7D5592FD7C}
 	EndGlobalSection
 EndGlobal
