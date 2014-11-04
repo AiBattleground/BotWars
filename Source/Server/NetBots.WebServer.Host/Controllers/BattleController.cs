@@ -1,6 +1,4 @@
-﻿using System.Web.Caching;
-using Microsoft.Ajax.Utilities;
-﻿using System.Data.Entity;
+﻿﻿using System.Data.Entity;
 using System.Web.Caching;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
@@ -37,6 +35,29 @@ namespace NetBots.WebServer.Host.Controllers
 
         public ActionResult Index()
         {
+            return RedirectToAction("Skirmish");
+        }
+
+        [Route("battle/{bot1Name}/{bot2Name}")]
+        public async Task<ActionResult> Index(string bot1Name, string bot2Name)
+        {
+            var bot1 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Name == bot1Name);
+            var bot2 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Name == bot2Name);
+            if (bot1 != null && bot2 != null)
+            {
+                var model = new BattleViewModel() { Bot1 = bot1, Bot2 = bot2 };
+                return View(model);
+            }
+            throw new ArgumentException("Couldn't find one of the bots");
+        }
+
+        public ActionResult PartialOnly()
+        {
+            return View();
+        }
+
+        public ActionResult Skirmish()
+        {
             return View(_db.GetVisibleBots(User.Identity.GetUserId()));
         }
 
@@ -49,7 +70,7 @@ namespace NetBots.WebServer.Host.Controllers
             game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
 
             int currentTurn = 0;
-            while(game.GameState.Winner == null && currentTurn < TurnLimit)
+            while (game.GameState.Winner == null && currentTurn < TurnLimit)
             {
                 var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
                 var playersMoves = await Task.WhenAll(myTasks);
@@ -100,7 +121,7 @@ namespace NetBots.WebServer.Host.Controllers
             {
                 client = new HttpClient();
                 var oneMinute = new TimeSpan(0, 0, 1, 0);
-                cache.Add(botUrl, client , null, Cache.NoAbsoluteExpiration, oneMinute, CacheItemPriority.High, null);
+                cache.Add(botUrl, client, null, Cache.NoAbsoluteExpiration, oneMinute, CacheItemPriority.High, null);
             }
             return client;
         }
@@ -128,6 +149,7 @@ namespace NetBots.WebServer.Host.Controllers
         public GameState GetNewGameState()
         {
             GameSettings settings = _GetGameSettings();
+
             var startingGame = new GameState()
             {
                 Rows = settings.boardSize,
@@ -137,12 +159,10 @@ namespace NetBots.WebServer.Host.Controllers
                 Grid = new string('.', settings.boardSize * settings.boardSize),
                 MaxTurns = 200,
                 TurnsElapsed = 0,
-                GameId = GameHelper.GenerateRandomGameId()
+                //GameId = GameHelper.GenerateRandomGameId()
             };
             return startingGame;
         }
-
-        
 
         public IEnumerable<BotPlayer> GetPlayers(int boardWidth, string bot1Url, string bot2Url)
         {
@@ -171,7 +191,7 @@ namespace NetBots.WebServer.Host.Controllers
 
         private string GetNormalizedUri(string uri)
         {
-            if (uri != null && (!(uri.StartsWith("http://") || uri.StartsWith("https://"))))
+            if (!(uri.StartsWith("http://") || uri.StartsWith("https://")))
             {
                 uri = "http://" + uri;
             }
