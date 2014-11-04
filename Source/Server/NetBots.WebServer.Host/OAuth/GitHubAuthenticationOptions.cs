@@ -4,7 +4,7 @@ using System.Net.Http;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 
-namespace Owin.Security.Providers.GitHub
+namespace Owin.Netbots.Providers.Nebots.GitHub
 {
     public class GitHubAuthenticationOptions : AuthenticationOptions
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Owin.Security.Providers.GitHub
+namespace Owin.Netbots.Providers.Nebots.GitHub
 {
     /// <summary>
     /// Specifies callback methods which the <see cref="GitHubAuthenticationMiddleware"></see> invokes to enable developer control over the authentication process. />

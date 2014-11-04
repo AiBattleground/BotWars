@@ -4,7 +4,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Provider;
 
-namespace Owin.Security.Providers.GitHub
+namespace Owin.Netbots.Providers.Nebots.GitHub
 {
     /// <summary>
     /// Provides context information to middleware providers.
