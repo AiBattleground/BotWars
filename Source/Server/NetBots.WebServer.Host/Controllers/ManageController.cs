@@ -53,6 +53,15 @@ namespace NetBots.WebServer.Host.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
+            if (TempData["ErrorMessage"] != null || (message != null && message == ManageMessageId.Error))
+            {
+                ViewBag.StatusMessage = TempData["ErrorMessage"];
+                ViewBag.AlertClasses = "alert alert-danger";
+            }
+            else if (!String.IsNullOrWhiteSpace(ViewBag.StatusMessage))
+            {
+                ViewBag.AlertClasses = "alert alert-success";
+            }
 
             var model = new IndexViewModel
             {
@@ -373,7 +382,8 @@ namespace NetBots.WebServer.Host.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
-            Error
+            Error,
+            BotName
         }
 
 #endregion
@@ -387,7 +397,14 @@ namespace NetBots.WebServer.Host.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> NewBot(PlayerBot newBot)
         {
-            await UserManager.AddBotAsync(User.Identity.GetUserId(), newBot);
+            try
+            {
+                await UserManager.AddBotAsync(User.Identity.GetUserId(), newBot);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
             return RedirectToAction("Index");
         }
 
@@ -407,7 +424,14 @@ namespace NetBots.WebServer.Host.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditBot(PlayerBot model)
         {
-            await UserManager.UpdateBotAsync(User.Identity.GetUserId(), model);
+            try
+            {
+                await UserManager.UpdateBotAsync(User.Identity.GetUserId(), model);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
             return RedirectToAction("Index");
         }
 

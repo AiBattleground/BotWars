@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -109,6 +110,11 @@ namespace NetBots.WebServer.Host
 
         public async Task AddBotAsync(string userId, PlayerBot bot)
         {
+            var db = new ApplicationDbContext();
+            if (db.PlayerBots.Any(x => x.Name == bot.Name))
+            {
+                throw new ArgumentException("A bot with that name already exists");
+            }
             var user = await this.FindByIdAsync(userId);
             user.Bots.Add(bot);
             await this.UpdateAsync(user);
@@ -116,6 +122,11 @@ namespace NetBots.WebServer.Host
 
         public async Task UpdateBotAsync(string userId, PlayerBot newBot)
         {
+            var db = new ApplicationDbContext();
+            if (db.PlayerBots.Any(x => x.Name == newBot.Name && x.Id != newBot.Id))
+            {
+                throw new ArgumentException("A bot with that name already exists");
+            }
             var user = await this.FindByIdAsync(userId);
             if (user != null)
             {

@@ -86,8 +86,14 @@ namespace NetBots.WebServer.Host.Controllers
 
         private void SaveGameResult(string bot1Url, string bot2Url, Game game)
         {
+  
             var p1 = _db.PlayerBots.First(x => x.URL == bot1Url);
             var p2 = _db.PlayerBots.First(x => x.URL == bot2Url);
+            if (String.IsNullOrWhiteSpace(game.GameState.Winner))
+            {
+                //If the game progressed to the turn limit, the winner won't be set yet, so we do it here.
+                SetWinnerByBotCount(game); 
+            }
             var gameResult = new GameSummary()
             {
                 Player1 = p1,
@@ -97,6 +103,16 @@ namespace NetBots.WebServer.Host.Controllers
             };
             _db.GameSummaries.Add(gameResult);
             _db.SaveChanges();
+        }
+
+        private static void SetWinnerByBotCount(Game game)
+        {
+            var p1Count = game.GameState.Grid.Count(x => x == '1');
+            var p2Count = game.GameState.Grid.Count(x => x == '2');
+            if (p1Count > p2Count)
+                game.GameState.Winner = "p1";
+            else if (p2Count > p1Count)
+                game.GameState.Winner = "p2";
         }
 
         public static async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)

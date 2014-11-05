@@ -5,11 +5,11 @@
 
 <h2>@ViewBag.Title.</h2>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
+        <div class="@ViewBag.AlertClasses">@ViewBag.StatusMessage</div>
         @*<dt>@Html.DisplayNameFor(m => m.Name)</dt>
         <dd>
             <div id="name-update-alert"></div>
