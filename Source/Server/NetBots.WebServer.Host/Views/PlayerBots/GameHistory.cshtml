@@ -18,7 +18,11 @@
                 @Html.DisplayFor(modelItem => item.GetPlayers().FirstOrDefault(x => x.Id != Model.Id).Name)
             </td>
             <td>
-                @if (item.Winner.Id == Model.Id)
+                @if (item.Winner == null)
+                {
+                    <div>Tie</div>
+                }
+                else if (item.Winner.Id == Model.Id)
                 {
                     <div class="success">Yes</div>
                 }
@@ -34,10 +38,14 @@
 <table class="table">
     <tr>
         <td>Total Wins:</td>
-        <td>@Model.MatchHistory.Count(x => x.Winner.Id == Model.Id)</td>
+        <td>@Model.MatchHistory.Count(x => x.Winner != null && x.Winner.Id == Model.Id)</td>
     </tr>
     <tr>
         <td>Total Losses:</td>
-        <td>@Model.MatchHistory.Count(x => x.Winner.Id != Model.Id)</td>
+        <td>@Model.MatchHistory.Count(x => x.Winner != null && x.Winner.Id != Model.Id)</td>
+    </tr>
+    <tr>
+        <td>Total Ties:</td>
+        <td>@Model.MatchHistory.Count(x => x.Winner == null)</td>
     </tr>
 </table>
