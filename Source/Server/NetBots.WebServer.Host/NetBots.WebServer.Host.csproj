@@ -306,6 +306,7 @@
     <Content Include="Views\Battle\Index.cshtml" />
     <Content Include="Views\Home\Rules.cshtml" />
     <Content Include="Views\Home\Instructions.cshtml" />
+    <Content Include="Views\Home\Schedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
