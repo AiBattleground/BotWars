@@ -11,7 +11,6 @@ using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Data.MsSql;
 using Microsoft.AspNet.Identity;
 using NetBotsHostProject.Helpers;
-using NetBotsHostProject.Models;
 
 namespace NetBotsHostProject.Controllers
 {

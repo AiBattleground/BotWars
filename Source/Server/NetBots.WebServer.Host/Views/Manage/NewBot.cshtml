@@ -13,13 +13,13 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.EditorFor(m => m.Name, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.URL, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.EditorFor(m => m.URL, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.URL, new { @class = "form-control" })
                 </div>
             </div>
             <div class="form-group">
@@ -34,9 +34,8 @@
                     @Html.EditorFor(m => m.Private, new { @class = "form-control" })
                 </div>
             </div>
-        <br />
         <div class="row">
-            <div class="col-md-offset-1">
+            <div class="col-md-offset-2" style="margin-top: 100px">
                 <input type="submit" value="Create Bot" class="btn btn-primary" />
             </div>
 

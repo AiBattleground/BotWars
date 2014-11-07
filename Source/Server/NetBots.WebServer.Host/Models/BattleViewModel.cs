@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using NetBots.WebServer.Model;
 
-namespace NetBotsHostProject.Models
+namespace NetBots.WebServer.Host.Models
 {
     public class BattleViewModel
     {
