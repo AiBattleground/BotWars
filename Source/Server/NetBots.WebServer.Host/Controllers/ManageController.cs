@@ -424,26 +424,21 @@ namespace NetBots.WebServer.Host.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditBot(PlayerBotViewModel model)
         {
-<<<<<<< HEAD
             try
             {
-                await UserManager.UpdateBotAsync(User.Identity.GetUserId(), model);
+                if (model.Delete)
+            {
+                await UserManager.DeleteBot(User.Identity.GetUserId(), model.Id);
+            }
+                else
+                {
+                    await UserManager.UpdateBotAsync(User.Identity.GetUserId(), model);
+                }
             }
             catch (ArgumentException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
             }
-=======
-            if (model.Delete)
-            {
-                await UserManager.DeleteBot(User.Identity.GetUserId(), model.Id);
-            }
-            else
-            {
-                await UserManager.UpdateBotAsync(User.Identity.GetUserId(), model);
-            }
-            
->>>>>>> master
             return RedirectToAction("Index");
         }
 

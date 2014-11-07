@@ -123,7 +123,7 @@ namespace NetBots.WebServer.Host
         public async Task UpdateBotAsync(string userId, PlayerBotViewModel model)
         {
             var db = new ApplicationDbContext();
-            if (db.PlayerBots.Any(x => x.Name == newBot.Name && x.Id != newBot.Id))
+            if (db.PlayerBots.Any(x => x.Name == model.Name && x.Id != model.Id))
             {
                 throw new ArgumentException("A bot with that name already exists");
             }
