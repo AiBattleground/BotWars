@@ -1,39 +1,39 @@
-﻿﻿@model PlayerBot
+﻿﻿@model PlayerBotViewModel
 
 @{
     ViewBag.Title = "Update Bot";
 }
 
 <h2>@ViewBag.Title</h2>
+<br/>
 
 <div class="container">
     @using (Html.BeginForm("EditBot", "Manage"))
     {
         @Html.AntiForgeryToken()
-            <div class="form-group">
-                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.EditorFor(m => m.Name, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.URL, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.EditorFor(m => m.URL, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-2 control-label">
-                    Private
-                    <span class="glyphicon  glyphicon-question-sign" data-toggle="tooltip"
-                          data-placement="top" title="Bots marked as private cannot be seen by other players. This is useful when experimenting with a new bot">
-                    </span>
-                </label>
+        @Html.HiddenFor(x => x.Id)
 
-                <div class="col-md-10">
-                    @Html.EditorFor(m => m.Private, new { @class = "form-control" })
-                </div>
-            </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Url, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Url, new { @class = "form-control", })
+        </div>
+        <div class="form-group">
+            @Html.EditorFor(m => m.Private, new { @class = "form-control" })
+            <label class=" control-label">
+                Private
+                <span class="glyphicon  glyphicon-question-sign" data-toggle="tooltip"
+                      data-placement="top" title="Bots marked as private cannot be seen by other players. This is useful when experimenting with a new bot">
+                </span>
+            </label>
+        </div>
+        <div class="form-group">
+            @Html.EditorFor(m => m.Delete, new { @class = "form-control" })
+            @Html.LabelFor(m => m.Delete, new { @class = "control-label text-danger" })
+        </div>
         <br />
         <div class="row">
             <div class="col-md-offset-1">

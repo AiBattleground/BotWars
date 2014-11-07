@@ -12,7 +12,6 @@ using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
 using NetBotsHostProject.Controllers;
-using NetBotsHostProject.Models;
 
 namespace NetBots.WebServer.Host.Controllers
 {
@@ -398,16 +397,25 @@ namespace NetBots.WebServer.Host.Controllers
             var foundBot = userBots.FirstOrDefault(x => x.Id == id);
             if (foundBot != null)
             {
-                return View(foundBot);
+                var model = new PlayerBotViewModel(foundBot);
+                return View(model);
             }
             return View("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditBot(PlayerBot model)
+        public async Task<ActionResult> EditBot(PlayerBotViewModel model)
         {
-            await UserManager.UpdateBotAsync(User.Identity.GetUserId(), model);
+            if (model.Delete)
+            {
+                await UserManager.DeleteBot(User.Identity.GetUserId(), model.Id);
+            }
+            else
+            {
+                await UserManager.UpdateBotAsync(User.Identity.GetUserId(), model);
+            }
+            
             return RedirectToAction("Index");
         }
 

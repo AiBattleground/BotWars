@@ -114,29 +114,46 @@ namespace NetBots.WebServer.Host
             await this.UpdateAsync(user);
         }
 
-        public async Task UpdateBotAsync(string userId, PlayerBot newBot)
+        public async Task UpdateBotAsync(string userId, PlayerBotViewModel model)
         {
             var user = await this.FindByIdAsync(userId);
             if (user != null)
             {
-                var myBot = user.Bots.FirstOrDefault(x => x.Id == newBot.Id);
+                var myBot = user.Bots.FirstOrDefault(x => x.Id == model.Id);
                 if (myBot != null)
                 {
-                    myBot.Name = newBot.Name;
-                    myBot.URL = newBot.URL;
-                    myBot.Image = newBot.Image;
-                    myBot.Private = newBot.Private;
+                    myBot.Name = model.Name;
+                    myBot.URL = model.Url;
+                    myBot.Image = model.Image;
+                    myBot.Private = model.Private;
                     await UpdateAsync(user);
                 }
                 else
                 {
-                    throw new ArgumentException("Could not find newBot");
+                    throw new ArgumentException("Could not find bot");
                 }
             }
             else
             {
                 throw new ArgumentException("Could not find user");
             }
+        }
+
+        public async Task DeleteBot(string userId, int botId)
+        {
+            var user = await this.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var botToRemove = user.Bots.FirstOrDefault(x => x.Id == botId);
+                if (botToRemove != null)
+                {
+                    user.Bots.Remove(botToRemove);
+                    await UpdateAsync(user);
+                    return;
+                }
+                throw new ArgumentException("Could not find bot");
+            }
+            throw new ArgumentException("Could not find user");
         }
     }
 

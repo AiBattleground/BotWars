@@ -11,7 +11,6 @@ using NetBots.WebServer.Data.MsSql.Migrations;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
 using NetBotsHostProject.Helpers;
-using NetBotsHostProject.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
