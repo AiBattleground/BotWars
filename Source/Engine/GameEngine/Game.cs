@@ -104,9 +104,7 @@ namespace NetBots.GameEngine
             int botsAdjacentToEnergy = 0;
             foreach (BotPlayer player in Players)
             {
-                int playersBotsAdjacentToEnergy = adjacentPositions
-                    .Where(a => GameState.Grid[a] == player.BotletId)
-                    .Count();
+                int playersBotsAdjacentToEnergy = adjacentPositions.Count(a => GameState.Grid[a] == player.BotletId);
                 if (playersBotsAdjacentToEnergy > botsAdjacentToEnergy)
                     winningPlayer = player;
                 else if (playersBotsAdjacentToEnergy == botsAdjacentToEnergy)

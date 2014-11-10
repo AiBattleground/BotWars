@@ -4,7 +4,7 @@ namespace NetBots.Bot.Interface
 {
     public class GameState
     {
-        [JsonProperty("gameId")]        public int GameId { get; set; }
+        [JsonProperty("gameId")]        public string GameId { get; set; }
         [JsonProperty("turnId")]        public int TurnId { get; set; }
         [JsonProperty("apiKey")]        public string ApiKey { get; set; }
         [JsonProperty("secretKey")]     public string SecretKey { get; set; }

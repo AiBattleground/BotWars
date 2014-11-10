@@ -1,4 +1,4 @@
-﻿using System.Data.Entity;
+﻿﻿using System.Data.Entity;
 using System.Web.Caching;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
@@ -69,7 +69,7 @@ namespace NetBots.WebServer.Host.Controllers
             game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
 
             int currentTurn = 0;
-            while(game.GameState.Winner == null && currentTurn < TurnLimit)
+            while (game.GameState.Winner == null && currentTurn < TurnLimit)
             {
                 var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
                 var playersMoves = await Task.WhenAll(myTasks);
@@ -85,8 +85,14 @@ namespace NetBots.WebServer.Host.Controllers
 
         private void SaveGameResult(string bot1Url, string bot2Url, Game game)
         {
+  
             var p1 = _db.PlayerBots.First(x => x.URL == bot1Url);
             var p2 = _db.PlayerBots.First(x => x.URL == bot2Url);
+            if (String.IsNullOrWhiteSpace(game.GameState.Winner))
+            {
+                //If the game progressed to the turn limit, the winner won't be set yet, so we do it here.
+                SetWinnerByBotCount(game); 
+            }
             var gameResult = new GameSummary()
             {
                 Player1 = p1,
@@ -96,6 +102,16 @@ namespace NetBots.WebServer.Host.Controllers
             };
             _db.GameSummaries.Add(gameResult);
             _db.SaveChanges();
+        }
+
+        private static void SetWinnerByBotCount(Game game)
+        {
+            var p1Count = game.GameState.Grid.Count(x => x == '1');
+            var p2Count = game.GameState.Grid.Count(x => x == '2');
+            if (p1Count > p2Count)
+                game.GameState.Winner = "p1";
+            else if (p2Count > p1Count)
+                game.GameState.Winner = "p2";
         }
 
         public static async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
@@ -120,7 +136,7 @@ namespace NetBots.WebServer.Host.Controllers
             {
                 client = new HttpClient();
                 var oneMinute = new TimeSpan(0, 0, 1, 0);
-                cache.Add(botUrl, client , null, Cache.NoAbsoluteExpiration, oneMinute, CacheItemPriority.High, null);
+                cache.Add(botUrl, client, null, Cache.NoAbsoluteExpiration, oneMinute, CacheItemPriority.High, null);
             }
             return client;
         }
@@ -128,7 +144,7 @@ namespace NetBots.WebServer.Host.Controllers
         private GameSettings _GetGameSettings()
         {
             string[] userData;
-            string dataFile = Server.MapPath("~/App_Data/GameSettings.json");
+            string dataFile = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/GameSettings.json");
             if (System.IO.File.Exists(dataFile))
             {
                 userData = System.IO.File.ReadAllLines(dataFile);
@@ -158,7 +174,7 @@ namespace NetBots.WebServer.Host.Controllers
                 Grid = new string('.', settings.boardSize * settings.boardSize),
                 MaxTurns = 200,
                 TurnsElapsed = 0,
-                //GameId = GameHelper.GenerateRandomGameId()
+                GameId = GameHelper.GenerateRandomGameId()
             };
             return startingGame;
         }
