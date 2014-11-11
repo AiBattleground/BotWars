@@ -42,8 +42,8 @@ namespace NetBotsHostProject.Controllers
             var gamestate = battleController.GetNewGameState();
             var opponent = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == apiModel.OpponentId);
             var opponentUrl = opponent.URL;
-            var side1Url = apiModel.Side == "p1" ? "" : opponentUrl;
-            var side2Url = apiModel.Side == "p2" ? "" : opponentUrl;
+            var side1Url = apiModel.Side.ToLower() == "p1" ? "" : opponentUrl;
+            var side2Url = apiModel.Side.ToLower() == "p2" ? "" : opponentUrl;
             Game game = new Game(gamestate, side1Url, side2Url);
             HttpContext.Current.Cache.Add(gamestate.GameId, game, null, Cache.NoAbsoluteExpiration, new TimeSpan(0, 0, 10, 0), CacheItemPriority.High, null);
             return Ok(gamestate);
@@ -58,9 +58,9 @@ namespace NetBotsHostProject.Controllers
             {
                 return BadRequest("Could not find that GameState in cache.");
             }
-            var opponent = game.Players.First(x => x.Uri != "");
+            var opponent = game.Players.First(x => x.Uri.Replace("http://", "") != "");
             var opponentMoves = await BattleController.GetPlayerMovesAsync(opponent, apiModel.GameState);
-            var clientMoves = new PlayerMoves() {Moves = apiModel.ClientMoves, PlayerName = opponentMoves.PlayerName == "p1" ? "p2" : "p1"};
+            var clientMoves = new PlayerMoves() {Moves = apiModel.ClientMoves, PlayerName = opponentMoves.PlayerName.ToLower() == "p1" ? "p2" : "p1"};
             game.UpdateGameState(new[] { clientMoves, opponentMoves });
             return Ok(game.GameState);
         }
