@@ -36,14 +36,14 @@ namespace NetBotsHostProject.Controllers
 
         [Route("api/startgame")]
         [HttpPost]
-        public async Task<IHttpActionResult> StartGame(StartGameApiModel apiModel)
+        public async Task<IHttpActionResult> StartGame(StartGameApiModel startGameModel)
         {
             var battleController = new BattleController();
             var gamestate = battleController.GetNewGameState();
-            var opponent = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == apiModel.OpponentId);
+            var opponent = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == startGameModel.OpponentId);
             var opponentUrl = opponent.URL;
-            var side1Url = apiModel.Side.ToLower() == "p1" ? "" : opponentUrl;
-            var side2Url = apiModel.Side.ToLower() == "p2" ? "" : opponentUrl;
+            var side1Url = startGameModel.Side.ToLower() == "p1" ? "" : opponentUrl;
+            var side2Url = startGameModel.Side.ToLower() == "p2" ? "" : opponentUrl;
             Game game = new Game(gamestate, side1Url, side2Url);
             HttpContext.Current.Cache.Add(gamestate.GameId, game, null, Cache.NoAbsoluteExpiration, new TimeSpan(0, 0, 10, 0), CacheItemPriority.High, null);
             return Ok(gamestate);
@@ -51,16 +51,16 @@ namespace NetBotsHostProject.Controllers
 
         [Route("api/updategame")]
         [HttpPost]
-        public async Task<IHttpActionResult> UpdateGameState(UpdateGameApiModel apiModel)
+        public async Task<IHttpActionResult> UpdateGameState(UpdateGameApiModel updateGameModel)
         {
-            var game = HttpContext.Current.Cache[apiModel.GameState.GameId] as Game;
+            var game = HttpContext.Current.Cache[updateGameModel.GameState.GameId] as Game;
             if (game == null)
             {
                 return BadRequest("Could not find that GameState in cache.");
             }
             var opponent = game.Players.First(x => x.Uri != null && x.Uri.Replace("http://", "") != "");
-            var opponentMoves = await BattleController.GetPlayerMovesAsync(opponent, apiModel.GameState);
-            var clientMoves = new PlayerMoves() {Moves = apiModel.ClientMoves, PlayerName = opponentMoves.PlayerName.ToLower() == "p1" ? "p2" : "p1"};
+            var opponentMoves = await BattleController.GetPlayerMovesAsync(opponent, updateGameModel.GameState);
+            var clientMoves = new PlayerMoves() {Moves = updateGameModel.ClientMoves, PlayerName = opponentMoves.PlayerName.ToLower() == "p1" ? "p2" : "p1"};
             game.UpdateGameState(new[] { clientMoves, opponentMoves });
             return Ok(game.GameState);
         }
