@@ -1,14 +1,12 @@
 ﻿﻿using System.Data.Entity;
 using System.Web.Caching;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using NetBots.Core;
 using NetBots.GameEngine;
 using NetBots.Web;
 using NetBots.WebServer.Data.MsSql;
-using NetBots.WebServer.Data.MsSql.Migrations;
-using NetBots.WebServer.Host.Models;
+﻿using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
 using NetBotsHostProject.Helpers;
 using Newtonsoft.Json;
@@ -17,12 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.SignalR.Hubs;
-using NetBots.WebServer.Host.Hubs;
+﻿using System.Threading.Tasks;
+﻿using System.Web.Mvc;
+﻿using NetBots.WebServer.Host.Hubs;
 
 namespace NetBots.WebServer.Host.Controllers
 {

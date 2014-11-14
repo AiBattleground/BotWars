@@ -81,18 +81,38 @@
 
 <p>All you have to do is create an API that can accept a POST request contianing the MoveRequest object and return a list of moves for it's bot.
     Even if you're not an expert programmer, we're here to help.</p>
-<p>If you like the C-like languages, someone has made a "starter kit" using the C# language. You can <a href="https://github.com/Pharylon/NetBotsStarterKit">check the repo out on Github</a>. 
+<p>If you like the C-like languages, someone has made a "starter kit" using the C# language. You can <a href="https://github.com/AiBattleground/NetBotsStarterKit">check the repo out on Github</a>. 
     It includes a sample bot, and already does all the heavy lifting of serializing and deserializing the objects.</p>
 <p>If you hate Microsoft, that's OK! Being the awesome counterculture Python/Javascript/whatever guy you are, I know you won't have any problems. But, as you develop your own project, maybe think about
     creating your own starter kit in the language of your choice. We're trying to help people hone their programming chops in a fun way, and you can help!</p>
 <p>You'll also probably want the Netbots Debug Assitant. When you're developing your own bot, you're probably going to have it running on localhost. Obviously, this site can't connect
-    to your localhost so we've made a handy bridge for you.  You can check out the <a href="https://github.com/Pharylon/NetBotsTestEnvironment">source reop here</a>, 
+    to your localhost so we've made a handy bridge for you.  You can check out the <a href="https://github.com/AiBattleground/NetBotsDebugAssistant">source reop here</a>, 
     but mainly you'll want to use it by just downloading <a href="http://pharylon.github.io/">this zip.</a>Just extract the files, lauch the exe and following the instructions.</p>
 
 <h2>Step By Step Guide For Using the Starter Kit</h2>
 <p>If you wish to use the C# Starter Kit, here is a detailed step-by-step guide.</p>
-<p>First, you'll need Visual Studio. If you don't already have it, the <a href="http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-web"> Express version</a> 
-    is freely available from microsoft.</p>
-<p>Next, you'll need the NetBots Starter Kit. The <a href="https://github.com/Pharylon/NetBotsStarterKit">Github repo is here</a>. If you're comfortable with git, you can fork it
-    into your own Repo. If not, you can download <a href="https://github.com/Pharylon/NetBotsStarterKit/archive/master.zip">the zip file</a> directly and extract it. Once you have it downloaded</p>
-<p>Next, download <a href="http://pharylon.github.io/">NetBots Debug Assitant</a>. Extract the files in the Zip and double click on NetBotsClient.sln, and it should launch in Visual Studio.</p>
+<p>First, you'll need to download a few things.<p>
+<ul>
+    <li><a href="http://www.visualstudio.com/news/vs2013-community-vs">Visual Studio 2013</a>, if you don't already have it.</li>
+    <li>The NetBots Starter Kit. If you're famililar with git, <a href="https://github.com/AiBattleground/NetBotsStarterKit">fork the repo</a>. 
+        Otherwise, <a href="https://github.com/AiBattleground/NetBotsStarterKit/archive/master.zip">download the zip.</a></li>
+    <li><a href="https://github.com/AiBattleground/NetBotsDebugAssistant">NetBots Debug Assitant</a></li>
+</ul> 
+<p>Open the NetBots Starter Kit in Visual Studio (double-click on the .sln file). In the menus, select "DEBUG -> Start Debugging." If you get an error that the solution 
+    cannot be started, find the NetbotsClient.Host project on the Solution Explorer, right-click it, 
+    and choose "Set as Start Up Project." Then try again. A web browser window should open. The address should be something like <a href="http://localhost:59345/">http://localhost:59345/</a>
+    We will refer to this as the "client root address" in the rest of these instructions.
+</p>
+<p>Now extract the files in the NetBots Debug Assistnat zip file and double-click on the .exe. A console app should open telling you what address to put into 
+    your web browser (currently, it is http://localhost:9001, but if htis address doesn't work, check the Console screen to make sure it hasn't changed since this writing).</p>
+<p>Go to that address in your web browser. You should see a page similar to the NetBots Skirmish page. In the "Your Bot" field, type "[client root address]/berserkerbot". 
+    For instance, ifyour client root address was http://localhost:59345/, you should type http://localhost:59345/berserkerbot. Check the "Enable CORS box," and then select
+    your opponent from the drop down menu. Then hit the "Fight" button. You now have a fight going on between the starter kit demo bot and a bot on aibattleground.com!</p>
+<p>Now go back to Visual Studio. In the Solution Explorer (normally your right-most pane) you should see a list of projects.
+    If it is not already, expand the NetBotsClient.Ai project. Inside that project, you should see a folder called "DemoBots." If you expand this folder, you should see
+    "BerserkerBot" and "Randombot" classes. Set a breakpoint at the top of BerserkerBot's GetMoves() method. Do this by positioning your cursor at the first line and hitting F9. A red ball
+    should appear on the left. Start a new fight, and the breakpoint should be hit.</p>
+<p> You should familiarize yourself with this code a bit to get a feel for some basic bot logic. Once you're ready, you can write your own. If you create a new class, you have to
+    implement the IRobot interface. Otherwise, if you want, just rename the BerserkerBot or RandomBot class and get started. When you hit "Debug -> Start Debugging" again your
+    new bot will be at an address such as "[client root address]/className". For instance, if your new bot's class was called FooBot, and your root address was http://localhost:59345/,
+    then when using the Debug Assistant, you'd type in http://localhost:59345/foobot as the address of your bot.</p>
