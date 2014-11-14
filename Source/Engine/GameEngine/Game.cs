@@ -14,14 +14,14 @@ namespace NetBots.GameEngine
         private readonly IDice _myDice;
         public GameState GameState;
         public List<BotPlayer> Players;
-        int _energySpawnFrequency;
+        public int EnergySpawnFrequency;
 
         public Game(GameState gameState, string p1Url, string p2Url, IDice dice)
         {
             GameState = gameState;
             _myDice = dice;
             Players = GetPlayers(gameState.Cols, p1Url, p2Url);
-            _energySpawnFrequency = 5;
+            EnergySpawnFrequency = 5;
         }
 
         public Game(GameState gameState, string p1Url, string p2Url)
@@ -194,7 +194,7 @@ namespace NetBots.GameEngine
         private void _PlaceEnergy()
         {
             List<Tuple<int,int>> symetricEmptySpaces =  _GetSymetricEmptySpaces();
-            if (GameState.TurnsElapsed % _energySpawnFrequency == 0 && symetricEmptySpaces.Count > 0)
+            if (GameState.TurnsElapsed % EnergySpawnFrequency == 0 && symetricEmptySpaces.Count > 0)
             {
                 Tuple<int, int> emptySpaces = _GetRandomPairOfEmptySpaces(symetricEmptySpaces);
                 _PlaceEnergy(emptySpaces);

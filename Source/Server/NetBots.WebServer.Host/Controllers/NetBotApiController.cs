@@ -58,7 +58,7 @@ namespace NetBotsHostProject.Controllers
             {
                 return BadRequest("Could not find that GameState in cache.");
             }
-            var opponent = game.Players.First(x => x.Uri.Replace("http://", "") != "");
+            var opponent = game.Players.First(x => x.Uri != null && x.Uri.Replace("http://", "") != "");
             var opponentMoves = await BattleController.GetPlayerMovesAsync(opponent, apiModel.GameState);
             var clientMoves = new PlayerMoves() {Moves = apiModel.ClientMoves, PlayerName = opponentMoves.PlayerName.ToLower() == "p1" ? "p2" : "p1"};
             game.UpdateGameState(new[] { clientMoves, opponentMoves });

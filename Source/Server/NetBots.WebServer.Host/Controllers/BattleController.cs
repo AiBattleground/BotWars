@@ -67,19 +67,20 @@ namespace NetBots.WebServer.Host.Controllers
             GameState startingState = GetNewGameState();
             Game game = new Game(startingState, bot1Url, bot2Url);
             game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
+            var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
 
             int currentTurn = 0;
-            while (game.GameState.Winner == null && currentTurn < TurnLimit)
+            while (game.GameState.Winner == null && currentTurn <= TurnLimit)
             {
                 var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
                 var playersMoves = await Task.WhenAll(myTasks);
                 game.UpdateGameState(playersMoves);
-                var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
                 await Task.Delay(100);
                 currentTurn++;
             }
             SaveGameResult(bot1Url, bot2Url, game);
+            hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
             return new EmptyResult();
         }
 
@@ -148,7 +149,7 @@ namespace NetBots.WebServer.Host.Controllers
             if (System.IO.File.Exists(dataFile))
             {
                 userData = System.IO.File.ReadAllLines(dataFile);
-                if (userData == null)
+                if (userData.Length == 0)
                 {
                     throw new Exception("The file is empty.");
                 }

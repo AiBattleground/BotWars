@@ -10,6 +10,10 @@
 <p>This is an example of the game state that will be POSTed to each bot:</p>
 
 <pre><code>"state": {
+  "gameId":"9LAoswlJU21Osy9N51Z9",
+  "turnId":0,
+  "apiKey":null,
+  "secretKey":null,
   "rows": 4,
   "cols": 4,
   "p1": {
@@ -24,22 +28,33 @@
     "maxTurns": 20,
     "turnsElapsed": 0
   },
-  "player": "1"
+  "player": "p1"
 </code></pre>
 
 <p>Where "player" represents which side the bot is playing as, and is either "1" or "2". p1.spawn and p2.spawn represent the indices of their respective bots' spawn points on the grid string. p1.energy and p2.energy represent the amount of energy each bot currently has. </p>
-
+<p></p>
 <h2>The Grid</h2>
 
 <p>The grid is a string where each character represents a space on the grid. </p>
 
 <ul>
     <li>The grid's dimensions are provided as "rows" and "cols". </li>
-    <li>On the grid, p1 botlets are identified by "r", p2 botlets are identified by "b"</li>
+    <li>On the grid, p1 botlets are identified by "1", p2 botlets are identified by "2"</li>
     <li>Energy is identified by "*"</li>
     <li>Empty space is identified by "."</li>
     <li>Botlets killed in the previous turn are identified by "x".</li>
 </ul>
+
+<p>Note that the grid can be visualized by formatting it according to the number of rows and columns. In the above example, we know the grid is 4 rows long and 4 columns wide, so the
+    grid of ".....1....2....." can be visualized as follows:</p>
+
+<pre><code>....
+.1..
+..2.
+....
+</code></pre>
+
+<p>And so we see that the two bots are actually diagonal to each other!</p>
 
 <p>Bots are expected to respond in from the POST with the following format:</p>
 
@@ -57,7 +72,8 @@
 
 <p>Where each item in the array represents a move. "from" must be the index of one of the bot's botlets, and "to" must be the index of a coordinate adjacent to that botlet. Otherwise, the move is ignored.</p>
 
-<p>Bots can be written in any language you wish as long as you meet the HTTP JSON specification defined here and they are publically accessible at the time of the tournament. You can either deploy your bot or use ngrok locally.</p>
+<p>Bots can be written in any language you wish as long as you meet the HTTP JSON specification defined here and they are publically accessible at the time of the tournament. After any given tournament,
+    you must leave your bot API accessible for play until the next tournament, so players can practice against yours.</p>
 
 <h1>Testing your bot</h1>
 
@@ -73,3 +89,10 @@
     to your localhost so we've made a handy bridge for you.  You can check out the <a href="https://github.com/Pharylon/NetBotsTestEnvironment">source reop here</a>, 
     but mainly you'll want to use it by just downloading <a href="http://pharylon.github.io/">this zip.</a>Just extract the files, lauch the exe and following the instructions.</p>
 
+<h2>Step By Step Guide For Using the Starter Kit</h2>
+<p>If you wish to use the C# Starter Kit, here is a detailed step-by-step guide.</p>
+<p>First, you'll need Visual Studio. If you don't already have it, the <a href="http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-web"> Express version</a> 
+    is freely available from microsoft.</p>
+<p>Next, you'll need the NetBots Starter Kit. The <a href="https://github.com/Pharylon/NetBotsStarterKit">Github repo is here</a>. If you're comfortable with git, you can fork it
+    into your own Repo. If not, you can download <a href="https://github.com/Pharylon/NetBotsStarterKit/archive/master.zip">the zip file</a> directly and extract it. Once you have it downloaded</p>
+<p>Next, download <a href="http://pharylon.github.io/">NetBots Debug Assitant</a>. Extract the files in the Zip and double click on NetBotsClient.sln, and it should launch in Visual Studio.</p>
