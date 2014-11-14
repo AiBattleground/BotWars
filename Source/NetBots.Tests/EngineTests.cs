@@ -71,6 +71,40 @@ namespace NetBots.Tests
             var grid = gameState.Grid;
             Assert.IsTrue(grid.IndexOf('1') != 7);
         }
+
+        [TestMethod]
+        public void EnergyNeverCollected()
+        {
+            var gameState = new GameState();
+            gameState.Cols = 6;
+            gameState.Rows = 6;
+            gameState.MaxTurns = 5;
+            gameState.TurnsElapsed = 1;
+            gameState.Grid = "1....." +
+                             "*2...." +
+                             "......" +
+                             "......" +
+                             "......" +
+                             "......";
+            gameState.P1 = new Player() { Spawn = 0 };
+            gameState.P2 = new Player() { Spawn = gameState.Grid.Length - 1 };
+            var game = new Game(gameState, "", "");
+            game.EnergySpawnFrequency = 100000;
+           
+            var p1moves = new PlayerMoves()
+            {
+                PlayerName = "p1",
+                Moves = new[] { new BotletMove(0, 0) }
+            };
+            for (int i = 0; i < 200; i++)
+            {
+                game.UpdateGameState(new[] { p1moves });
+            }
+            var grid = gameState.Grid;
+            Assert.IsTrue(grid.IndexOf('1') == 0);
+            Assert.IsTrue(grid.IndexOf('2') == 7);
+            Assert.IsTrue(grid.IndexOf('*') == 6);
+        }
     }
 }
  

@@ -1,14 +1,12 @@
 ﻿﻿using System.Data.Entity;
 using System.Web.Caching;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using NetBots.Core;
 using NetBots.GameEngine;
 using NetBots.Web;
 using NetBots.WebServer.Data.MsSql;
-using NetBots.WebServer.Data.MsSql.Migrations;
-using NetBots.WebServer.Host.Models;
+﻿using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
 using NetBotsHostProject.Helpers;
 using Newtonsoft.Json;
@@ -17,12 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.SignalR.Hubs;
-using NetBots.WebServer.Host.Hubs;
+﻿using System.Threading.Tasks;
+﻿using System.Web.Mvc;
+﻿using NetBots.WebServer.Host.Hubs;
 
 namespace NetBots.WebServer.Host.Controllers
 {
@@ -67,19 +62,20 @@ namespace NetBots.WebServer.Host.Controllers
             GameState startingState = GetNewGameState();
             Game game = new Game(startingState, bot1Url, bot2Url);
             game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
+            var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
 
             int currentTurn = 0;
-            while (game.GameState.Winner == null && currentTurn < TurnLimit)
+            while (game.GameState.Winner == null && currentTurn <= TurnLimit)
             {
                 var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
                 var playersMoves = await Task.WhenAll(myTasks);
                 game.UpdateGameState(playersMoves);
-                var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
                 await Task.Delay(100);
                 currentTurn++;
             }
             SaveGameResult(bot1Url, bot2Url, game);
+            hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
             return new EmptyResult();
         }
 
@@ -148,7 +144,7 @@ namespace NetBots.WebServer.Host.Controllers
             if (System.IO.File.Exists(dataFile))
             {
                 userData = System.IO.File.ReadAllLines(dataFile);
-                if (userData == null)
+                if (userData.Length == 0)
                 {
                     throw new Exception("The file is empty.");
                 }
