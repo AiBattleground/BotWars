@@ -1,5 +1,6 @@
 ﻿﻿using System.Data.Entity;
 using System.Web.Caching;
+﻿using Microsoft.Ajax.Utilities;
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using NetBots.Core;
@@ -79,6 +80,25 @@ namespace NetBots.WebServer.Host.Controllers
             return new EmptyResult();
         }
 
+        private static Task<PlayerMoves[]> GetReturnedMoves(IEnumerable<Task<PlayerMoves>> myTasks)
+        {
+            var onlyTheGoodMoves = new TaskCompletionSource<PlayerMoves[]>();
+            List<PlayerMoves> moves = new List<PlayerMoves>();
+            foreach (var t in myTasks)
+            {
+                var awaiter = t.GetAwaiter();
+                awaiter.OnCompleted(() =>
+                {
+                    if (!t.IsCanceled && !t.IsFaulted)
+                    {
+                        moves.Add(t.Result);
+                    }
+                });
+            }
+            return onlyTheGoodMoves.Task;
+            
+        }
+
         private void SaveGameResult(string bot1Url, string bot2Url, Game game)
         {
   
@@ -112,16 +132,24 @@ namespace NetBots.WebServer.Host.Controllers
 
         public static async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
         {
-            MoveRequest moveRequest = new MoveRequest() { State = gameState, Player = player.PlayerName };
-            string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
-            HttpClient client = GetClient(player.Uri);
-            var content = new StringContent(jsonMoveRequest, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(player.Uri, content);
-            response.EnsureSuccessStatusCode();
-            var responseJson = await response.Content.ReadAsStringAsync();
-            var moves = JsonConvert.DeserializeObject<List<BotletMove>>(responseJson);
-            var playerMove = new PlayerMoves() { Moves = moves, PlayerName = player.PlayerName };
-            return playerMove;
+            try
+            {
+                MoveRequest moveRequest = new MoveRequest() {State = gameState, Player = player.PlayerName};
+                string jsonMoveRequest = JsonConvert.SerializeObject(moveRequest);
+                HttpClient client = GetClient(player.Uri);
+                var content = new StringContent(jsonMoveRequest, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(player.Uri, content);
+                response.EnsureSuccessStatusCode();
+                var responseJson = await response.Content.ReadAsStringAsync();
+                var moves = JsonConvert.DeserializeObject<List<BotletMove>>(responseJson);
+                var playerMove = new PlayerMoves() {Moves = moves, PlayerName = player.PlayerName};
+                return playerMove;
+            }
+            catch (TaskCanceledException ex)
+            {
+                //This means the Http Client timed out. We return an empy move list instead.
+                return new PlayerMoves(); 
+            }
         }
 
         private static HttpClient GetClient(string botUrl)
@@ -133,6 +161,7 @@ namespace NetBots.WebServer.Host.Controllers
                 client = new HttpClient();
                 var oneMinute = new TimeSpan(0, 0, 1, 0);
                 cache.Add(botUrl, client, null, Cache.NoAbsoluteExpiration, oneMinute, CacheItemPriority.High, null);
+                client.Timeout = new TimeSpan(0, 0, 0, 3);
             }
             return client;
         }

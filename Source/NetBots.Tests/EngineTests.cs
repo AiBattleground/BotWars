@@ -28,6 +28,7 @@ namespace NetBots.Tests
             gameState.P1 = new Player() { Spawn = 0 };
             gameState.P2 = new Player() { Spawn = gameState.Grid.Length - 1 };
             var game = new Game(gameState, "", "");
+            game.EnergySpawnFrequency = 1000;
             var p1moves = new PlayerMoves()
             {
                 PlayerName = "p1",
@@ -40,6 +41,14 @@ namespace NetBots.Tests
             p1moves.Moves = new[] {new BotletMove(1, 7)};
             game.UpdateGameState(new[] {p1moves});
             Assert.IsTrue(gameState.Grid.IndexOf('1') == 7);
+
+            p1moves.Moves = new[] { new BotletMove(7, 6) };
+            game.UpdateGameState(new[] { p1moves });
+            Assert.IsTrue(gameState.Grid.IndexOf('1') == 6);
+
+            p1moves.Moves = new[] { new BotletMove(6, 0) };
+            game.UpdateGameState(new[] { p1moves });
+            Assert.IsTrue(gameState.Grid.IndexOf('1') == 0);
         }
 
         [TestMethod]
