@@ -12,6 +12,37 @@ namespace NetBots.Tests
     public class EngineTests
     {
         [TestMethod]
+        public void BotsCanMove()
+        {
+            var gameState = new GameState();
+            gameState.Cols = 6;
+            gameState.Rows = 6;
+            gameState.MaxTurns = 5;
+            gameState.TurnsElapsed = 0;
+            gameState.Grid = "1....." +
+                             "......" +
+                             "......" +
+                             "......" +
+                             "......" +
+                             "......";
+            gameState.P1 = new Player() { Spawn = 0 };
+            gameState.P2 = new Player() { Spawn = gameState.Grid.Length - 1 };
+            var game = new Game(gameState, "", "");
+            var p1moves = new PlayerMoves()
+            {
+                PlayerName = "p1",
+                Moves = new[] { new BotletMove(0, 1) }
+            };
+            game.UpdateGameState(new[] { p1moves });
+            var grid = gameState.Grid;
+            Assert.IsTrue(grid.IndexOf('1') == 1);
+
+            p1moves.Moves = new[] {new BotletMove(1, 7)};
+            game.UpdateGameState(new[] {p1moves});
+            Assert.IsTrue(gameState.Grid.IndexOf('1') == 7);
+        }
+
+        [TestMethod]
         public void EnergyBug()
         {
             var gameState = new GameState();
@@ -70,6 +101,33 @@ namespace NetBots.Tests
             game.UpdateGameState(new[] { p1moves });
             var grid = gameState.Grid;
             Assert.IsTrue(grid.IndexOf('1') != 7);
+        }
+
+        [TestMethod]
+        public void Issue18_Teleport()
+        {
+            var gameState = new GameState();
+            gameState.Cols = 6;
+            gameState.Rows = 6;
+            gameState.MaxTurns = 5;
+            gameState.TurnsElapsed = 0;
+            gameState.Grid = "1....." +
+                             "......" +
+                             "......" +
+                             "......" +
+                             "......" +
+                             "......";
+            gameState.P1 = new Player() { Spawn = 0 };
+            gameState.P2 = new Player() { Spawn = gameState.Grid.Length - 1 };
+            var game = new Game(gameState, "", "");
+            var p1moves = new PlayerMoves()
+            {
+                PlayerName = "p1",
+                Moves = new[] { new BotletMove(0, gameState.Grid.Length - 1) }
+            };
+            game.UpdateGameState(new[] { p1moves });
+            var grid = gameState.Grid;
+            Assert.IsTrue(grid.IndexOf('1') != gameState.Grid.Length - 1);
         }
 
         [TestMethod]
