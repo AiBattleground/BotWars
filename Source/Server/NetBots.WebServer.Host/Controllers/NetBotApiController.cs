@@ -44,7 +44,7 @@ namespace NetBotsHostProject.Controllers
             var opponentUrl = opponent.URL;
             var side1Url = startGameModel.Side.ToLower() == "p1" ? "" : opponentUrl;
             var side2Url = startGameModel.Side.ToLower() == "p2" ? "" : opponentUrl;
-            Game game = new Game(gamestate, side1Url, side2Url);
+            Game game = new Game(gamestate, side1Url, side2Url, startGameModel.Seed);
             HttpContext.Current.Cache.Add(gamestate.GameId, game, null, Cache.NoAbsoluteExpiration, new TimeSpan(0, 0, 10, 0), CacheItemPriority.High, null);
             return Ok(gamestate);
         }
