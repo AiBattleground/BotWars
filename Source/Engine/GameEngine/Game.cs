@@ -263,8 +263,11 @@ namespace NetBots.GameEngine
             foreach(BotletMove move in moves){
                 List<bool> requirements = new List<bool>();
                 requirements.Add(GameState.Grid[move.From] == botletId);
+                requirements.Add(
+                    Math.Abs(move.To - move.From) <= 1 || 
+                    move.To % GameState.Cols == move.From % GameState.Cols && Math.Abs(move.From - move.To) == GameState.Cols);
                 requirements.Add(!validMoves.Select(m=>m.From).Contains(move.From));
-                requirements.Add(move.To >=0 && move.To<GameState.Grid.Length);
+                requirements.Add(move.To >=0 && move.To < GameState.Grid.Length);
                 if (requirements.All(r=>r==true))
                 {
                     validMoves.Add(move);
