@@ -1,5 +1,6 @@
 ﻿﻿using System.Data.Entity;
 using System.Web.Caching;
+﻿using System.Web.Http.Results;
 ﻿using Microsoft.Ajax.Utilities;
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
@@ -57,27 +58,42 @@ namespace NetBots.WebServer.Host.Controllers
         }
 
 
-        public async Task<ActionResult> NewGame(string bot1Url, string bot2Url)
+        public async Task<ActionResult> NewGame(int bot1Id, int bot2Id)
         {
-
-            GameState startingState = GetNewGameState();
-            Game game = new Game(startingState, bot1Url, bot2Url);
-            game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
-            var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
-
-            int currentTurn = 0;
-            while (game.GameState.Winner == null && currentTurn <= TurnLimit)
+            var bot1 = _db.PlayerBots.FirstOrDefault(x => x.Id == bot1Id);
+            var bot2 = _db.PlayerBots.FirstOrDefault(x => x.Id == bot2Id);
+            if (bot1 != null && bot2 != null)
             {
-                var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
-                var playersMoves = await Task.WhenAll(myTasks);
-                game.UpdateGameState(playersMoves);
-                hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
-                await Task.Delay(100);
-                currentTurn++;
+                GameState startingState = GetNewGameState();
+                Game game = new Game(startingState, bot1.URL, bot2.URL);
+                game.UpdateGameState(new List<PlayerMoves>()); //Do this get the starting bots to spawn.
+                var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
+
+                int currentTurn = 1;
+                while (game.GameState.Winner == null && currentTurn < TurnLimit)
+                {
+                    var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
+                    var playersMoves = await Task.WhenAll(myTasks);
+                    game.UpdateGameState(playersMoves);
+                    hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(GetWarViewModel(game, bot1.Name, bot2.Name)));
+                    await Task.Delay(100);
+                    currentTurn++;
+                }
+                SaveGameResult(bot1.URL, bot2.URL, game);
+                hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(GetWarViewModel(game, bot1.Name, bot2.Name)));
             }
-            SaveGameResult(bot1Url, bot2Url, game);
-            hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(game.GameState));
             return new EmptyResult();
+        }
+
+        private static WarViewModel GetWarViewModel(Game game, string p1Name, string p2Name)
+        {
+            var model = new WarViewModel()
+            {
+                P1Name = p1Name,
+                P2Name = p2Name,
+                State = game.GameState
+            };
+            return model;
         }
 
         private static Task<PlayerMoves[]> GetReturnedMoves(IEnumerable<Task<PlayerMoves>> myTasks)

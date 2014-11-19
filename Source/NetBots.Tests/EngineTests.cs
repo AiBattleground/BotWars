@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetBots.Core;
 using NetBots.GameEngine;
 using NetBots.Web;
+using NetBotsHostProject.Controllers;
+using Newtonsoft.Json;
 
 namespace NetBots.Tests
 {
@@ -171,6 +173,14 @@ namespace NetBots.Tests
             Assert.IsTrue(grid.IndexOf('1') == 0);
             Assert.IsTrue(grid.IndexOf('2') == 7);
             Assert.IsTrue(grid.IndexOf('*') == 6);
+        }
+
+        [TestMethod]
+        public void CanDeserializeJson()
+        {
+            var json = "{\"gameState\":{\"gameId\":\"8eZDZ7u1cuAn987E1856\",\"apiKey\":null,\"secretKey\":null,\"rows\":20,\"cols\":20,\"p1\":{\"energy\":1,\"spawn\":21,\"spawnDisabled\":false},\"p2\":{\"energy\":1,\"spawn\":378,\"spawnDisabled\":false},\"grid\":\"................................................................................................................................................................................................................................................................................................................................................................................................................\",\"maxTurns\":200,\"turnsElapsed\":0,\"winner\":null},\"p1Moves\":null,\"p2Moves\":null}";
+            var moveReq = JsonConvert.DeserializeObject<UpdateGameApiModel>(json);
+            Assert.IsTrue(moveReq != null);
         }
     }
 }

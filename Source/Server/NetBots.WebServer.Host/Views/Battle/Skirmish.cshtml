@@ -13,7 +13,7 @@
             <select id="red-selection" placeholder="choose a bot..." class="form-control">
                 @foreach (var bot in Model)
                 {
-                    <option value="@bot.URL">@bot.Name</option>
+                    <option value="@bot.Id">@bot.Name</option>
                 }
             </select>
         </div>
@@ -22,7 +22,7 @@
             <select id="blue-selection" placeholder="choose a bot..." class="form-control">
                 @foreach (var bot in Model)
                 {
-                    <option value="@bot.URL">@bot.Name</option>
+                    <option value="@bot.Id">@bot.Name</option>
                 }
             </select>
         </div>
@@ -47,7 +47,7 @@
         var blueSelection = $('#blue-selection').val();
         $('#red-name').text($('#red-selection option:selected').text());
         $('#blue-name').text($('#blue-selection option:selected').text());
-        $.post('@Url.Action("NewGame", "Battle")', { bot1Url: redSelection, bot2Url: blueSelection }, function () {
+        $.post('@Url.Action("NewGame", "Battle")', { bot1Id: redSelection, bot2Id: blueSelection }, function () {
             $('#skirmish-options').show('slow');
         });
         $('#skirmish-options').hide('slow');

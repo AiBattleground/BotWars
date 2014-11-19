@@ -98,7 +98,7 @@ namespace NetBotsHostProject.Controllers
 
         private static async Task<PlayerMoves> FetchPlayerMoves(Game game, GameState gameState, string pName)
         {
-            var player = game.Players.First(x => x.PlayerName.ToLower() == pName);
+            var player = game.Players.First(x => x.PlayerName.ToLower() == pName.ToLower());
             var playerMoves = await BattleController.GetPlayerMovesAsync(player, gameState);
             return playerMoves;
         }

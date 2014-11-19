@@ -19,9 +19,9 @@
 
     $(function () {
         var news = $.connection.warViewHub;
-        news.client.sendLatestMove = function (moveRequest) {
-            var state = JSON.parse(moveRequest);
-            showTurn(state);
+        news.client.sendLatestMove = function (warViewJson) {
+            var warviewModel = JSON.parse(warViewJson);
+            showTurn(warviewModel);
             //warNews.update(data);
         };
         $.connection.hub.start().done(function () { });
@@ -43,29 +43,37 @@
         $('#red-count').text(redCount);
     }
 
-    function setWinner(state) {
-        if (state.winner != null) {
-            $('#blue-wrap').removeClass('alert-info');
-            $('#red-wrap').removeClass('alert-danger');
-            if (state.winner == 'p1') {
-                $('#red-game-end-message').text("Winner!");
-                $('#blue-game-end-message').text("Loser!");
-                $('#red-wrap').addClass('alert-success');
-                $('#blue-wrap').addClass('alert-warning');
-            }
-            else if (state.winner == 'p2') {
-                $('#blue-game-end-message').text("Winner!");
-                $('#red-game-end-message').text("Loser!");
-                $('#blue-wrap').addClass('alert-success');
-                $('#red-wrap').addClass('alert-warning');
+        function setWinner(state) {
+            if (state.winner != null) {
+                $('#blue-wrap').removeClass('alert-info');
+                $('#red-wrap').removeClass('alert-danger');
+                if (state.winner == 'p1') {
+                    $('#red-game-end-message').text("Winner!");
+                    $('#blue-game-end-message').text("Loser!");
+                    $('#red-wrap').addClass('alert-success');
+                    $('#blue-wrap').addClass('alert-warning');
+                } else if (state.winner == 'p2') {
+                    $('#blue-game-end-message').text("Winner!");
+                    $('#red-game-end-message').text("Loser!");
+                    $('#blue-wrap').addClass('alert-success');
+                    $('#red-wrap').addClass('alert-warning');
+                }
+            } else {
+                $('#red-game-end-message').text("");
+                $('#blue-game-end-message').text("");
+                $('#red-wrap').addClass('alert-danger');
+                $('#blue-wrap').addClass('alert-info');
             }
         }
-    }
 
-    function showTurn(state) {
+
+        function showTurn(warViewModel) {
+        var state = warViewModel.state;
         setPlayerCount(state.grid);
         $('#red-energy').text(state.p1.energy);
         $('#blue-energy').text(state.p2.energy);
+        $("#red-name").text(warViewModel.p1Name);
+        $("#blue-name").text(warViewModel.p2Name);
         setWinner(state);
         $('#turn-number').text(state.turnsElapsed + " / " + state.maxTurns);
         ctx.clearRect(0, 0, c.width, c.height);
