@@ -80,25 +80,6 @@ namespace NetBots.WebServer.Host.Controllers
             return new EmptyResult();
         }
 
-        private static Task<PlayerMoves[]> GetReturnedMoves(IEnumerable<Task<PlayerMoves>> myTasks)
-        {
-            var onlyTheGoodMoves = new TaskCompletionSource<PlayerMoves[]>();
-            List<PlayerMoves> moves = new List<PlayerMoves>();
-            foreach (var t in myTasks)
-            {
-                var awaiter = t.GetAwaiter();
-                awaiter.OnCompleted(() =>
-                {
-                    if (!t.IsCanceled && !t.IsFaulted)
-                    {
-                        moves.Add(t.Result);
-                    }
-                });
-            }
-            return onlyTheGoodMoves.Task;
-            
-        }
-
         private void SaveGameResult(string bot1Url, string bot2Url, Game game)
         {
   
