@@ -79,7 +79,7 @@ namespace NetBots.WebServer.Host.Controllers
                     await Task.Delay(100);
                     currentTurn++;
                 }
-                SaveGameResult(bot1.URL, bot2.URL, game);
+                SaveGameResult(bot1.Id, bot2.Id, game);
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(GetWarViewModel(game, bot1.Name, bot2.Name)));
             }
             return new EmptyResult();
@@ -96,30 +96,11 @@ namespace NetBots.WebServer.Host.Controllers
             return model;
         }
 
-        private static Task<PlayerMoves[]> GetReturnedMoves(IEnumerable<Task<PlayerMoves>> myTasks)
+        private void SaveGameResult(int bot1Id, int bot2Id, Game game)
         {
-            var onlyTheGoodMoves = new TaskCompletionSource<PlayerMoves[]>();
-            List<PlayerMoves> moves = new List<PlayerMoves>();
-            foreach (var t in myTasks)
-            {
-                var awaiter = t.GetAwaiter();
-                awaiter.OnCompleted(() =>
-                {
-                    if (!t.IsCanceled && !t.IsFaulted)
-                    {
-                        moves.Add(t.Result);
-                    }
-                });
-            }
-            return onlyTheGoodMoves.Task;
-            
-        }
 
-        private void SaveGameResult(string bot1Url, string bot2Url, Game game)
-        {
-  
-            var p1 = _db.PlayerBots.First(x => x.URL == bot1Url);
-            var p2 = _db.PlayerBots.First(x => x.URL == bot2Url);
+            var p1 = _db.PlayerBots.First(x => x.Id == bot1Id);
+            var p2 = _db.PlayerBots.First(x => x.Id == bot2Id);
             if (String.IsNullOrWhiteSpace(game.GameState.Winner))
             {
                 //If the game progressed to the turn limit, the winner won't be set yet, so we do it here.
