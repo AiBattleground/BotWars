@@ -159,9 +159,8 @@ namespace NetBots.WebServer.Host.Controllers
             if (client == null)
             {
                 client = new HttpClient();
-                var oneMinute = new TimeSpan(0, 0, 1, 0);
-                cache.Add(botUrl, client, null, Cache.NoAbsoluteExpiration, oneMinute, CacheItemPriority.High, null);
-                client.Timeout = new TimeSpan(0, 0, 0, 3);
+                client.Timeout = TimeSpan.FromSeconds(3);
+                cache.Add(botUrl, client, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(5), CacheItemPriority.High, null);
             }
             return client;
         }

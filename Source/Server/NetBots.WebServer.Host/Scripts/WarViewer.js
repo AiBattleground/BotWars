@@ -59,6 +59,8 @@
                     $('#red-wrap').addClass('alert-warning');
                 }
             } else {
+                $('#red-wrap').removeClass('alert-success alert-warning');
+                $('#blue-wrap').removeClass('alert-success alert-warning');
                 $('#red-game-end-message').text("");
                 $('#blue-game-end-message').text("");
                 $('#red-wrap').addClass('alert-danger');
