@@ -147,19 +147,24 @@ namespace NetBots.WebServer.Host
 
         public async Task DeleteBot(string userId, int botId)
         {
-            var user = await this.FindByIdAsync(userId);
-            if (user != null)
+            using (var db = new ApplicationDbContext())
             {
-                var botToRemove = user.Bots.FirstOrDefault(x => x.Id == botId);
-                if (botToRemove != null)
+                var user = await db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+                if (user != null)
                 {
-                    user.Bots.Remove(botToRemove);
-                    await UpdateAsync(user);
-                    return;
+                    var botToRemove = db.PlayerBots.FirstOrDefault(x => x.Id == botId);
+                    if (botToRemove != null)
+                    {
+                        var games = db.GameSummaries.Where(x => x.Player1.Id == botToRemove.Id || x.Player2.Id == botToRemove.Id);
+                        db.GameSummaries.RemoveRange(games);
+                        db.PlayerBots.Remove(botToRemove);
+                        await db.SaveChangesAsync();
+                        return;
+                    }
+                    throw new ArgumentException("Could not find bot");
                 }
-                throw new ArgumentException("Could not find bot");
+                throw new ArgumentException("Could not find user");
             }
-            throw new ArgumentException("Could not find user");
         }
     }
 
