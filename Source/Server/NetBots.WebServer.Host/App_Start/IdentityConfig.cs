@@ -115,6 +115,10 @@ namespace NetBots.WebServer.Host
             {
                 throw new ArgumentException("A bot with that name already exists");
             }
+            if (db.PlayerBots.Any(x => x.URL == bot.URL))
+            {
+                throw new ArgumentException("A bot with that URL already exists");
+            }
             var user = await this.FindByIdAsync(userId);
             user.Bots.Add(bot);
             await this.UpdateAsync(user);
@@ -122,44 +126,56 @@ namespace NetBots.WebServer.Host
 
         public async Task UpdateBotAsync(string userId, PlayerBotViewModel model)
         {
-            var user = await this.FindByIdAsync(userId);
-            if (user != null)
+            using (var db = new ApplicationDbContext())
             {
-                var myBot = user.Bots.FirstOrDefault(x => x.Id == model.Id);
-                if (myBot != null)
+                var user = await db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+                if (user != null)
                 {
-                    myBot.Name = model.Name;
-                    myBot.URL = model.Url;
-                    myBot.Image = model.Image;
-                    myBot.Private = model.Private;
-                    await UpdateAsync(user);
+                    var botToUpdate = db.PlayerBots.FirstOrDefault(x => x.Id == model.Id && x.OwnerId == user.Id);
+                    if (botToUpdate != null)
+                    {
+                        if (db.PlayerBots.Any(x => x.Name == model.Name && x.Id != model.Id))
+                        {
+                            throw new ArgumentException("A bot with that name already exists");
+                        }
+                        botToUpdate.Name = model.Name;
+                        botToUpdate.URL = model.Url;
+                        botToUpdate.Image = model.Image;
+                        botToUpdate.Private = model.Private;
+                        await db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Could not find bot");
+                    }
                 }
                 else
                 {
-                    throw new ArgumentException("Could not find bot");
+                    throw new ArgumentException("Could not find user");
                 }
-            }
-            else
-            {
-                throw new ArgumentException("Could not find user");
             }
         }
 
         public async Task DeleteBot(string userId, int botId)
         {
-            var user = await this.FindByIdAsync(userId);
-            if (user != null)
+            using (var db = new ApplicationDbContext())
             {
-                var botToRemove = user.Bots.FirstOrDefault(x => x.Id == botId);
-                if (botToRemove != null)
+                var user = await db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+                if (user != null)
                 {
-                    user.Bots.Remove(botToRemove);
-                    await UpdateAsync(user);
-                    return;
+                    var botToRemove = db.PlayerBots.FirstOrDefault(x => x.Id == botId && x.OwnerId == user.Id);
+                    if (botToRemove != null)
+                    {
+                        var games = db.GameSummaries.Where(x => x.Player1.Id == botToRemove.Id || x.Player2.Id == botToRemove.Id);
+                        db.GameSummaries.RemoveRange(games);
+                        db.PlayerBots.Remove(botToRemove);
+                        await db.SaveChangesAsync();
+                        return;
+                    }
+                    throw new ArgumentException("Could not find bot");
                 }
-                throw new ArgumentException("Could not find bot");
+                throw new ArgumentException("Could not find user");
             }
-            throw new ArgumentException("Could not find user");
         }
     }
 

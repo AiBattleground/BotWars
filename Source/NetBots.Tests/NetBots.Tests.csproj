@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -70,6 +74,13 @@
       <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
       <Name>NetBots.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Server\NetBots.WebServer.Host\NetBots.WebServer.Host.csproj">
+      <Project>{F99950B9-00DA-4C9E-9884-3E5BC5CD184F}</Project>
+      <Name>NetBots.WebServer.Host</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
