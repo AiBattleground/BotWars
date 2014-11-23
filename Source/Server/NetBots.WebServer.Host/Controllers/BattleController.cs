@@ -83,7 +83,7 @@ namespace NetBots.WebServer.Host.Controllers
                 SaveGameResult(bot1.Id, bot2.Id, game);
                 hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(GetWarViewModel(game, bot1.Name, bot2.Name)));
                 //We dont' really update the moves here, we just send one final move request to let the bot know if it won or lost
-                game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState)); 
+                await Task.WhenAll(game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState))); 
             }
             return new EmptyResult();
         }
