@@ -84,6 +84,11 @@ namespace NetBotsHostProject.Controllers
             var p2Moves = await GetPlayerMoves(game, apiModel.GameState, "p2", apiModel.P2Moves);
 
             game.UpdateGameState(new[] { p1Moves, p2Moves });
+            if (game.GameState.Winner != null)
+            {
+                await GetPlayerMoves(game, apiModel.GameState, "p1", apiModel.P1Moves);
+                await GetPlayerMoves(game, apiModel.GameState, "p2", apiModel.P2Moves);
+            }
             return Ok(game.GameState);
         }
 
