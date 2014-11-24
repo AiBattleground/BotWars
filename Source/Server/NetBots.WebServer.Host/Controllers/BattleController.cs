@@ -93,9 +93,9 @@ namespace NetBots.WebServer.Host.Controllers
             }
             catch (Exception ex)
             {
-                //Do some logging here eventually. At least for now we can see the error in fiddler or something, I guess.
-                //And the main thing is it returns OK to the front end so it knows everything is over.
-                return Json(ex);
+                //Do some logging here eventually. .
+                //The main thing is it returns OK to the front end so it knows everything is over.
+                return new EmptyResult();
             }
             
         }
