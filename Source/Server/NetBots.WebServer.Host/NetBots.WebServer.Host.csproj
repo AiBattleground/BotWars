@@ -214,6 +214,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BattleViewModel.cs" />
     <Compile Include="Models\GameSettings.cs" />
+    <Compile Include="Models\HttpMove.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PlayerBotViewModel.cs" />
     <Compile Include="OAuth\Constants.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\alert.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

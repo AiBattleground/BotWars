@@ -25,5 +25,7 @@ namespace NetBots.WebServer.Host.Hubs
         public string P2Name { get; set; }
         [JsonProperty("state")]
         public GameState State { get; set; }
+        [JsonProperty("alert")]
+        public string Alert { get; set; }
     }
 }

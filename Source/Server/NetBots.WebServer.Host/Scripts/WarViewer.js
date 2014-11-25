@@ -70,6 +70,7 @@
 
 
         function showTurn(warViewModel) {
+        showAnyAlerts(warViewModel.alert);
         var state = warViewModel.state;
         setPlayerCount(state.grid);
         $('#red-energy').text(state.p1.energy);
@@ -186,6 +187,37 @@
         return { x: x, y: y };
     }
 
+    function showAnyAlerts(alert) {
+        if (alert != null && alert.length > 0) {
+            var alertDiv = $('<div />', {
+                "class": 'alert alert-danger alert-dismissable',
+                "role": 'alert',
+                id: 'game-alert'
+            });
+            var button = $('<button/>', {
+                "class": "close",
+                "type": "button",
+                "data-dismiss": "alert"
+            });
+            var span1 = $('<span/>', {
+                "aria-hidden": "true",
+                text: "x"
+            });
+            var span2 = $('<span/>', {
+                "class": "sr-only",
+                text: "Close"
+            });
+            var text = $('<p/>', {
+                text: alert
+            });
+            button.append(span1);
+            button.append(span2);
+            alertDiv.append(button);
+            alertDiv.append(text);
+            $("#flavor-text").append(alertDiv);
+        }
+}
+
     var ctx;
     var energyImage;
     c = document.getElementById('game');
@@ -208,4 +240,3 @@
     }
     window.warNews = new NewsViewModel();
     ko.applyBindings(window.warNews);
-

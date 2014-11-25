@@ -1,5 +1,7 @@
 ﻿﻿using System.Data.Entity;
-using System.Web.Caching;
+﻿using System.Net;
+﻿using System.Web.Caching;
+﻿using System.Web.Http;
 ﻿using System.Web.Http.Results;
 ﻿using Microsoft.Ajax.Utilities;
 ﻿using Microsoft.AspNet.Identity;
@@ -11,7 +13,8 @@ using NetBots.WebServer.Data.MsSql;
 ﻿using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
 using NetBotsHostProject.Helpers;
-using Newtonsoft.Json;
+﻿using NetBotsHostProject.Models;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +37,7 @@ namespace NetBots.WebServer.Host.Controllers
             return RedirectToAction("Skirmish");
         }
 
-        [Route("battle/{bot1Name}/{bot2Name}")]
+        [System.Web.Mvc.Route("battle/{bot1Name}/{bot2Name}")]
         public async Task<ActionResult> Index(string bot1Name, string bot2Name)
         {
             var bot1 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Name == bot1Name);
@@ -74,12 +77,17 @@ namespace NetBots.WebServer.Host.Controllers
                     int currentTurn = 1;
                     while (game.GameState.Winner == null && currentTurn < TurnLimit)
                     {
+
                         var delay = Task.Delay(100);
                         var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
-                        var playersMoves = await Task.WhenAll(myTasks);
-                        game.UpdateGameState(playersMoves);
-                        hub.Clients.All.sendLatestMove(
-                            JsonConvert.SerializeObject(GetWarViewModel(game, bot1.Name, bot2.Name)));
+                        var httpMoves = await Task.WhenAll(myTasks);
+                        game.UpdateGameState(httpMoves.Select(x => x.PlayerMoves));
+                        var model = GetWarViewModel(game, bot1.Name, bot2.Name);
+                        if (!ValidateMoves(httpMoves, game))
+                        {
+                            model.Alert = GetAlert(httpMoves);
+                        }
+                        hub.Clients.All.sendLatestMove(JsonConvert.SerializeObject(model));
                         await delay;
                         currentTurn++;
                     }
@@ -93,11 +101,39 @@ namespace NetBots.WebServer.Host.Controllers
             }
             catch (Exception ex)
             {
-                //Do some logging here eventually. .
+                //Do some logging here eventually. 
                 //The main thing is it returns OK to the front end so it knows everything is over.
+                var ex2 = ex;
                 return new EmptyResult();
             }
             
+        }
+
+        private string GetAlert(HttpMove[] httpMoves)
+        {
+            var alert = "";
+            foreach (var httpMove in httpMoves.Where(x => x.HttpMoveResponse == HttpMoveResponse.Error))
+            {
+                alert += httpMove.PlayerMoves.PlayerName + " returned an error:\r\n";
+                alert += httpMove.Exception.Message + "\r\n";
+            }
+            return alert;
+        }
+
+        private bool ValidateMoves(HttpMove[] httpMoves, Game game)
+        {
+            if (httpMoves.Any(x => x.HttpMoveResponse == HttpMoveResponse.Error))
+            {
+                //If both returned an error, don't set a winner. 
+                if (httpMoves.Any(x => x.HttpMoveResponse != HttpMoveResponse.Error))
+                {
+                    var badOne = httpMoves.First(x => x.HttpMoveResponse == HttpMoveResponse.Error);
+                    var winnerName = badOne.PlayerMoves.PlayerName.ToLower() == "p1" ? "p2" : "p1";
+                    game.GameState.Winner = winnerName;
+                }
+                return false;
+            }
+            return true;
         }
 
         private static WarViewModel GetWarViewModel(Game game, string p1Name, string p2Name)
@@ -142,7 +178,7 @@ namespace NetBots.WebServer.Host.Controllers
                 game.GameState.Winner = "p2";
         }
 
-        public static async Task<PlayerMoves> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
+        public static async Task<HttpMove> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
         {
             try
             {
@@ -155,13 +191,39 @@ namespace NetBots.WebServer.Host.Controllers
                 var responseJson = await response.Content.ReadAsStringAsync();
                 var moves = JsonConvert.DeserializeObject<List<BotletMove>>(responseJson);
                 var playerMove = new PlayerMoves() {Moves = moves, PlayerName = player.PlayerName};
-                return playerMove;
+                var httpMove = new HttpMove()
+                {
+                    HttpMoveResponse = HttpMoveResponse.OK,
+                    PlayerMoves = playerMove
+                };
+                return httpMove;
             }
             catch (TaskCanceledException ex)
             {
                 //This means the Http Client timed out. We return an empy move list instead.
-                return new PlayerMoves(); 
+                return GetEmptyHttpMove(player.PlayerName, HttpMoveResponse.Timeout);
             }
+            catch (HttpRequestException ex)
+            {
+                //This means a 400 returned or something like that, which is a disqualification.
+                return GetEmptyHttpMove(player.PlayerName, HttpMoveResponse.Error, ex);
+            }
+        }
+
+        private static HttpMove GetEmptyHttpMove(string pName, HttpMoveResponse response, HttpRequestException ex = null)
+        {
+            var pMove = new PlayerMoves()
+            {
+                Moves = new BotletMove[0],
+                PlayerName = pName
+            };
+            var httpMove = new HttpMove()
+            {
+                PlayerMoves = pMove,
+                HttpMoveResponse = response,
+                Exception = ex
+            };
+            return httpMove;
         }
 
         private static HttpClient GetClient(string botUrl)
