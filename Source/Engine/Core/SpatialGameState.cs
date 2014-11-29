@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NetBots.WebModels;
 
-namespace NetBots.Core
+namespace NetBots.EngineModels
 {
 
     public class SpatialGameState : GameState

@@ -7,8 +7,8 @@
     <ProjectGuid>{1522E445-FFD4-43D3-81C7-B3C672199666}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetBots.Core</RootNamespace>
-    <AssemblyName>NetBots.Core</AssemblyName>
+    <RootNamespace>NetBots.EngineModels</RootNamespace>
+    <AssemblyName>NetBots.EngineModels</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

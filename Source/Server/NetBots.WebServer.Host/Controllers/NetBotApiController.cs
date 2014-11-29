@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using Microsoft.Ajax.Utilities;
-using NetBots.Core;
 using NetBots.GameEngine;
 using NetBots.WebModels;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Host.Controllers;
-using NetBots.WebServer.Host.Models;
-using NetBots.WebServer.Model;
 using NetBotsHostProject.Helpers;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace NetBotsHostProject.Controllers

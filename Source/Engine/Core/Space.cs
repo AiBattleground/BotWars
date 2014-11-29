@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NetBots.Core
+namespace NetBots.EngineModels
 {
     public class Space : IEquatable<Space>
     {

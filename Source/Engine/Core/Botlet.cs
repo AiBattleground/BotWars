@@ -1,5 +1,5 @@
 ﻿
-namespace NetBots.Core
+namespace NetBots.EngineModels
 {
     public class Botlet
     {

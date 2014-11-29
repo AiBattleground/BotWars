@@ -4,7 +4,7 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.GameEngine", "Engine\GameEngine\NetBots.GameEngine.csproj", "{D00242D7-0A4B-4789-8591-CBF0A1FF9FE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.Core", "Engine\Core\NetBots.Core.csproj", "{1522E445-FFD4-43D3-81C7-B3C672199666}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBots.EngineModels", "Engine\Core\NetBots.EngineModels.csproj", "{1522E445-FFD4-43D3-81C7-B3C672199666}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{0BAC5D52-4DF8-42F2-ADD8-2124C840F14D}"
 EndProject

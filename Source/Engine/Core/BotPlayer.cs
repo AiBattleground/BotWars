@@ -1,6 +1,6 @@
 ﻿using NetBots.WebModels;
 
-namespace NetBots.Core
+namespace NetBots.EngineModels
 {
     public class BotPlayer : Player
     {
