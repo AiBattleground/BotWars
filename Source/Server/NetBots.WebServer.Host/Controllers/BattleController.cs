@@ -6,8 +6,8 @@
 ﻿using Microsoft.Ajax.Utilities;
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
-using NetBots.EngineModels;
-using NetBots.GameEngine;
+﻿using NetBots.EngineModels;
+﻿using NetBots.GameEngine;
 using NetBots.WebModels;
 using NetBots.WebServer.Data.MsSql;
 ﻿using NetBots.WebServer.Host.Models;

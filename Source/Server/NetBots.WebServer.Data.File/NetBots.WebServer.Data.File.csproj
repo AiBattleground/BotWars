@@ -43,13 +43,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Engine\WebModels\NetBots.WebModels.csproj">
+      <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
+      <Name>NetBots.WebModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetBots.WebServer.Repository\NetBots.WebServer.Repository.csproj">
       <Project>{15a37fb4-f50c-4924-b6c2-0de95b5abf12}</Project>
       <Name>NetBots.WebServer.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\NetBots.Web\NetBots.WebModels.csproj">
-      <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
-      <Name>NetBots.WebModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -41,7 +41,7 @@
     <Compile Include="Space.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetBots.Web\NetBots.WebModels.csproj">
+    <ProjectReference Include="..\WebModels\NetBots.WebModels.csproj">
       <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
       <Name>NetBots.WebModels</Name>
     </ProjectReference>

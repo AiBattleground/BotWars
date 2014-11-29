@@ -58,7 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Core\NetBots.EngineModels.csproj">
+    <ProjectReference Include="..\Engine\EngineModels\NetBots.EngineModels.csproj">
       <Project>{1522e445-ffd4-43d3-81c7-b3c672199666}</Project>
       <Name>NetBots.EngineModels</Name>
     </ProjectReference>
@@ -66,7 +66,7 @@
       <Project>{d00242d7-0a4b-4789-8591-cbf0a1ff9fe6}</Project>
       <Name>NetBots.GameEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Engine\NetBots.Web\NetBots.WebModels.csproj">
+    <ProjectReference Include="..\Engine\WebModels\NetBots.WebModels.csproj">
       <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
       <Name>NetBots.WebModels</Name>
     </ProjectReference>
