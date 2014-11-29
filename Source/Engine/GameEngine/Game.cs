@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NetBots.Bot.Interface;
 using NetBots.Core;
 
 namespace NetBots.GameEngine

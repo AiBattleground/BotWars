@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NetBots.Bot.Interface;
 
 namespace NetBots.GameEngine
 {
