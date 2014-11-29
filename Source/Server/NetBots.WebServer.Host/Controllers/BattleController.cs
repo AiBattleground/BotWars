@@ -8,7 +8,7 @@
 using Microsoft.AspNet.SignalR;
 using NetBots.Core;
 using NetBots.GameEngine;
-using NetBots.Web;
+using NetBots.WebModels;
 using NetBots.WebServer.Data.MsSql;
 ﻿using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;

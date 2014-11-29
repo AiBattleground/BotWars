@@ -11,8 +11,8 @@
     <iconUrl>https://raw.githubusercontent.com/AiBattleground/BotWars/master/Source/Server/NetBots.WebServer.Host/Images/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-    <copyright>Copyright 2014</copyright>
-    <tags>Tag1 Tag2</tags>
+    <releaseNotes>Initial Release.</releaseNotes>
+    <copyright>Copyright Patrick Graham, Pharylon 2014</copyright>
+    <tags></tags>
   </metadata>
 </package>

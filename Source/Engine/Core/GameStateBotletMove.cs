@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using NetBots.WebModels;
 
 namespace NetBots.Core
 {
-    using Web;
 
     class GameStateBotletMove
     {

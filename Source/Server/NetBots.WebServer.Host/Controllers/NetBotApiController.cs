@@ -12,7 +12,7 @@ using System.Web.Http.Cors;
 using Microsoft.Ajax.Utilities;
 using NetBots.Core;
 using NetBots.GameEngine;
-using NetBots.Web;
+using NetBots.WebModels;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Host.Controllers;
 using NetBots.WebServer.Host.Models;

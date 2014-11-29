@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
-using NetBots.Web;
+using NetBots.WebModels;
 using Newtonsoft.Json;
 
 namespace NetBots.WebServer.Host.Hubs

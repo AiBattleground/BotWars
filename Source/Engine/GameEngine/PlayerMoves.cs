@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
+using NetBots.WebModels;
 
 namespace NetBots.GameEngine
 {
-    using Web;
-
     public class PlayerMoves
     {
         public string PlayerName { get; set; }

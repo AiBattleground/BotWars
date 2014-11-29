@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NetBots.Core;
+using NetBots.WebModels;
 
 namespace NetBots.GameEngine
 {
-    using Web;
 
     public class Game
     {

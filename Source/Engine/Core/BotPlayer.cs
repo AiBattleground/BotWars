@@ -1,8 +1,7 @@
-﻿
+﻿using NetBots.WebModels;
+
 namespace NetBots.Core
 {
-    using Web;
-   
     public class BotPlayer : Player
     {
         public string PlayerName { get; set; }

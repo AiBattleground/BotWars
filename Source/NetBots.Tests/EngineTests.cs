@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetBots.Core;
 using NetBots.GameEngine;
-using NetBots.Web;
+using NetBots.WebModels;
 using NetBotsHostProject.Controllers;
 using Newtonsoft.Json;
 

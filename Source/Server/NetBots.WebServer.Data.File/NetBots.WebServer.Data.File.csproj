@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -47,9 +47,9 @@
       <Project>{15a37fb4-f50c-4924-b6c2-0de95b5abf12}</Project>
       <Name>NetBots.WebServer.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Engine\NetBots.Web\NetBots.Web.csproj">
+    <ProjectReference Include="..\..\Engine\NetBots.Web\NetBots.WebModels.csproj">
       <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
-      <Name>NetBots.Web</Name>
+      <Name>NetBots.WebModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace NetBots.Web
+namespace NetBots.WebModels
 {
     public class Player
     {
