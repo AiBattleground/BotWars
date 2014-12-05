@@ -78,7 +78,7 @@ namespace NetBots.WebServer.Host.Controllers
                     while (game.GameState.Winner == null && currentTurn < TurnLimit)
                     {
 
-                        var delay = Task.Delay(100);
+                        var delay = Task.Delay(200);
                         var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
                         var httpMoves = await Task.WhenAll(myTasks);
                         game.UpdateGameState(httpMoves.Select(x => x.PlayerMoves));
