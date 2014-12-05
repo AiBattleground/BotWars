@@ -24,8 +24,18 @@
             showTurn(warviewModel);
             //warNews.update(data);
         };
-        $.connection.hub.start().done(function () { });
+
+        $.connection.hub.start().done(function() {
+            getHub = function() {
+                return news;
+            }
+        });
     });
+
+    function getHub() {
+        //Will return null if not initialized yet.
+        return null;
+    }
 
     function setPlayerCount(grid) {
         var redCount = 0;

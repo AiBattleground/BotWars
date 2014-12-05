@@ -210,6 +210,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Hubs\WarGameManager.cs" />
     <Compile Include="Hubs\WarViewHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BattleViewModel.cs" />

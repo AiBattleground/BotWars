@@ -18,6 +18,7 @@ using NetBots.WebServer.Host.Controllers;
 using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
 using NetBotsHostProject.Helpers;
+using NetBotsHostProject.Hubs;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 
@@ -40,36 +41,25 @@ namespace NetBotsHostProject.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> StartGame(StartGameApiModel apiModel)
         {
-            var battleController = new BattleController();
-            var gamestate = battleController.GetNewGameState();
-            var p1Url = await GetPlayerUrl(apiModel.P1Id);
-            var p2Url = await GetPlayerUrl(apiModel.P2Id);
-            Game game = GetGame(gamestate, p1Url, p2Url, apiModel.Seed);
+            var gameManager = new WarGameManager();
+            var gamestate = gameManager.GetNewGameState();
+            var p1Url = await GetPlayerUrl(apiModel.P1Id, gameManager);
+            var p2Url = await GetPlayerUrl(apiModel.P2Id, gameManager);
+            Game game = gameManager.GetGame(gamestate, p1Url, p2Url, apiModel.Seed);
             HttpContext.Current.Cache.Add(gamestate.GameId, game, null, Cache.NoAbsoluteExpiration, new TimeSpan(0, 0, 10, 0), CacheItemPriority.High, null);
             return Ok(gamestate);
         }
 
-        private async Task<string> GetPlayerUrl(int id)
+        private async Task<string> GetPlayerUrl(int id, WarGameManager manager)
         {
-            if (id > 0)
+            var bot = await manager.GetPlayerBot(id);
+            if (bot != null)
             {
-                var bot = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == id);
                 return bot.URL;
             }
             return "";
         }
-
-        private static Game GetGame(GameState gamestate, string side1Url, string side2Url, int seed)
-        {
-            if (seed != 0)
-            {
-                return new Game(gamestate, side1Url, side2Url);
-            }
-            else
-            {
-                return new Game(gamestate, side1Url, side2Url, seed);
-            }
-        }
+       
 
         [Route("api/updategame")]
         [HttpPost]
@@ -104,7 +94,7 @@ namespace NetBotsHostProject.Controllers
         private static async Task<PlayerMoves> FetchPlayerMoves(Game game, GameState gameState, string pName)
         {
             var player = game.Players.First(x => x.PlayerName.ToLower() == pName.ToLower());
-            var httpMoves = await BattleController.GetPlayerMovesAsync(player, gameState);
+            var httpMoves = await WarGameManager.GetPlayerMovesAsync(player, gameState);
             return httpMoves.PlayerMoves;
         }
 
