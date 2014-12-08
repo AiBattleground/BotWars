@@ -18,13 +18,13 @@ namespace NetBots.WebServer.Host.Hubs
         public static void SendGameState(WarViewModel model, string userId)
         {
             var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
-            hub.Clients.User(userId).Send(model);
+            hub.Clients.User(userId).sendLatestMove(model);
         }
 
         public static void BroadcastGameState(WarViewModel model)
         {
             var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
-            hub.Clients.All.Broadcast(model);
+            hub.Clients.All.sendLatestMove(model);
         }
 
         public async Task<string> StartGame(int bot1Id, int bot2Id)

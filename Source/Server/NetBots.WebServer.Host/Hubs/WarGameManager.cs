@@ -52,7 +52,7 @@ namespace NetBotsHostProject.Hubs
                         {
                             model.Alert = GetAlert(httpMoves);
                         }
-                        WarViewHub.SendGameState(model, userId);
+                        WarViewHub.BroadcastGameState(model);
                         await delay;
                         currentTurn++;
                     }

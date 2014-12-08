@@ -41,16 +41,19 @@
 
 
 <script type="text/javascript">
+
     $("#new-game").on('click', function () {
         $("#warview-wrapper").show("slow");
         var redSelection = $('#red-selection').val();
         var blueSelection = $('#blue-selection').val();
         $('#red-name').text($('#red-selection option:selected').text());
         $('#blue-name').text($('#blue-selection option:selected').text());
-        $.post('@Url.Action("NewGame", "Battle")', { bot1Id: redSelection, bot2Id: blueSelection }, function () {
+        var hub = getHub();
+        hub.server.startGame(redSelection, blueSelection);
+        @*$.post('@Url.Action("NewGame", "Battle")', { bot1Id: redSelection, bot2Id: blueSelection }, function () {
             $('#skirmish-options').show('slow');
-        });
-        $('#skirmish-options').hide('slow');
+        });*@
+        //$('#skirmish-options').hide('slow');
     });
 
 

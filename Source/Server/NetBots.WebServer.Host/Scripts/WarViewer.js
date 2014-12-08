@@ -18,16 +18,14 @@
         }
 
     $(function () {
-        var news = $.connection.warViewHub;
-        news.client.sendLatestMove = function (warViewJson) {
-            var warviewModel = JSON.parse(warViewJson);
+        var hub = $.connection.warViewHub;
+        hub.client.sendLatestMove = function (warviewModel) {
             showTurn(warviewModel);
-            //warNews.update(data);
         };
 
         $.connection.hub.start().done(function() {
             getHub = function() {
-                return news;
+                return hub;
             }
         });
     });
@@ -234,19 +232,29 @@
     ctx = c.getContext('2d');
     energyImage = document.getElementById("energy-image");
     energyImage.onload = function () {
-        showTurn({
-            rows: 20, cols: 20, maxTurns: 0, turnsElapsed: 0,
-            grid: "................................................................................................................................................................................................................................................................................................................................................................................................................",
-            maxTurns: 200,
-            p1: {
-                energy: 1,
-                spawn: 21
+        var model = {
+            grid: {
+                rows: 20,
+                cols: 20,
+                maxTurns: 0,
+                turnsElapsed: 0,
+                grid: "................................................................................................................................................................................................................................................................................................................................................................................................................",
+                maxTurns: 200,
+                p1: {
+                    energy: 1,
+                    spawn: 21
+                },
+                p2: {
+                    energy: 1,
+                    spawn: 378
+                }
             },
-            p2: {
-                energy: 1,
-                spawn: 378
-            }
-        });
+            p1Name: "Player 1",
+            p2Name: "Player 2",
+            alert: null
+    };
+
+        showTurn(model);
     }
     window.warNews = new NewsViewModel();
     ko.applyBindings(window.warNews);

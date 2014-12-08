@@ -105,6 +105,10 @@
     <Compile Include="Migrations\201411011553239_Remove_Unused_Bot_Recrds.Designer.cs">
       <DependentUpon>201411011553239_Remove_Unused_Bot_Recrds.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412082107410_Rankings.cs" />
+    <Compile Include="Migrations\201412082107410_Rankings.Designer.cs">
+      <DependentUpon>201412082107410_Rankings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -157,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411011553239_Remove_Unused_Bot_Recrds.resx">
       <DependentUpon>201411011553239_Remove_Unused_Bot_Recrds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412082107410_Rankings.resx">
+      <DependentUpon>201412082107410_Rankings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,6 +12,7 @@ namespace NetBots.WebServer.Model
         public string URL { get; set; }
         public byte[] Image { get; set; }
         public bool Private { get; set; }
+        public int LadderRank { get; set; }
 
         public string OwnerId { get; set; }
         public virtual ApplicationUser Owner { get; set; }

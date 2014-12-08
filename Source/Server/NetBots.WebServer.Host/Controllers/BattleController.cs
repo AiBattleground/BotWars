@@ -58,11 +58,6 @@ namespace NetBots.WebServer.Host.Controllers
         {
             return View(_db.GetVisibleBots(User.Identity.GetUserId()));
         }
-
-
-
-
-        
         
 
         
