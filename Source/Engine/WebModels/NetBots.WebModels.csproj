@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CC14806D-A223-4BA6-BA55-3DDE0F3A612B}</ProjectGuid>
+    <ProjectGuid>{96ADD411-CEDB-4089-8E9A-02257175D90F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetBots.WebServer.Data.File</RootNamespace>
-    <AssemblyName>NetBots.WebServer.Data.File</AssemblyName>
+    <RootNamespace>NetBots.WebModels</RootNamespace>
+    <AssemblyName>NetBots.WebModels</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,18 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameStateFileDao.cs" />
+    <Compile Include="BotletMove.cs" />
+    <Compile Include="GameState.cs" />
+    <Compile Include="MoveRequest.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engine\WebModels\NetBots.WebModels.csproj">
-      <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
-      <Name>NetBots.WebModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NetBots.WebServer.Repository\NetBots.WebServer.Repository.csproj">
-      <Project>{15a37fb4-f50c-4924-b6c2-0de95b5abf12}</Project>
-      <Name>NetBots.WebServer.Repository</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using Microsoft.AspNet.SignalR;
 using NetBots.GameEngine;
-using NetBots.Web;
 using NetBotsHostProject.Hubs;
+using NetBots.WebModels;
 using Newtonsoft.Json;
 
 namespace NetBots.WebServer.Host.Hubs

@@ -58,21 +58,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Clients\NetBots.Bot.Interface\NetBots.Bot.Interface.csproj">
-      <Project>{d9526b9d-c0f6-408c-934c-b7e99112101f}</Project>
-      <Name>NetBots.Bot.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Engine\Core\NetBots.Core.csproj">
+    <ProjectReference Include="..\Engine\EngineModels\NetBots.EngineModels.csproj">
       <Project>{1522e445-ffd4-43d3-81c7-b3c672199666}</Project>
-      <Name>NetBots.Core</Name>
+      <Name>NetBots.EngineModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\Engine\GameEngine\NetBots.GameEngine.csproj">
       <Project>{d00242d7-0a4b-4789-8591-cbf0a1ff9fe6}</Project>
       <Name>NetBots.GameEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Engine\NetBots.Web\NetBots.Web.csproj">
+    <ProjectReference Include="..\Engine\WebModels\NetBots.WebModels.csproj">
       <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
-      <Name>NetBots.Web</Name>
+      <Name>NetBots.WebModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\Server\NetBots.WebServer.Host\NetBots.WebServer.Host.csproj">
       <Project>{F99950B9-00DA-4C9E-9884-3E5BC5CD184F}</Project>

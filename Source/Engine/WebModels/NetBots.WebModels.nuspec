@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://raw.githubusercontent.com/AiBattleground/BotWars/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/AiBattleground</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/AiBattleground/BotWars/master/Source/Server/NetBots.WebServer.Host/Images/logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial Release.</releaseNotes>
+    <copyright>Copyright Patrick Graham, Pharylon 2014</copyright>
+    <tags></tags>
+  </metadata>
+</package>

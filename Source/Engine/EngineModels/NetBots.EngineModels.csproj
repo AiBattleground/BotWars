@@ -4,13 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CC14806D-A223-4BA6-BA55-3DDE0F3A612B}</ProjectGuid>
+    <ProjectGuid>{1522E445-FFD4-43D3-81C7-B3C672199666}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetBots.WebServer.Data.File</RootNamespace>
-    <AssemblyName>NetBots.WebServer.Data.File</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>NetBots.EngineModels</RootNamespace>
+    <AssemblyName>NetBots.EngineModels</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,26 +32,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="GameStateFileDao.cs" />
+    <Compile Include="Botlet.cs" />
+    <Compile Include="BotPlayer.cs" />
+    <Compile Include="GameStateBotletMove.cs" />
+    <Compile Include="SpatialGameState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.cs" />
+    <Compile Include="Space.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engine\WebModels\NetBots.WebModels.csproj">
+    <ProjectReference Include="..\WebModels\NetBots.WebModels.csproj">
       <Project>{96add411-cedb-4089-8e9a-02257175d90f}</Project>
       <Name>NetBots.WebModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NetBots.WebServer.Repository\NetBots.WebServer.Repository.csproj">
-      <Project>{15a37fb4-f50c-4924-b6c2-0de95b5abf12}</Project>
-      <Name>NetBots.WebServer.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

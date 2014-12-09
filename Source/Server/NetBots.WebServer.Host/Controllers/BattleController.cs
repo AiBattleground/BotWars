@@ -6,9 +6,9 @@
 ﻿using Microsoft.Ajax.Utilities;
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
-using NetBots.Core;
-using NetBots.GameEngine;
-using NetBots.Web;
+﻿using NetBots.EngineModels;
+﻿using NetBots.GameEngine;
+using NetBots.WebModels;
 using NetBots.WebServer.Data.MsSql;
 ﻿using NetBots.WebServer.Host.Models;
 using NetBots.WebServer.Model;
@@ -58,8 +58,6 @@ namespace NetBots.WebServer.Host.Controllers
         {
             return View(_db.GetVisibleBots(User.Identity.GetUserId()));
         }
-        
-
         
     }
 }

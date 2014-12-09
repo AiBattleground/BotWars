@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NetBots.WebModels;
+using NetBots.WebServer.Repository;
 
 namespace NetBots.WebServer.Data.File
 {
-    using Repository;
-    using Web;
 
     public class GameStateFileDao : IRepository<GameState>
     {
