@@ -1,4 +1,6 @@
-﻿using Microsoft.Owin;
+﻿using System.Web;
+using Microsoft.AspNet.SignalR;
+using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(NetBots.WebServer.Host.Startup))]
@@ -8,8 +10,8 @@ namespace NetBots.WebServer.Host
     {
         public void Configuration(IAppBuilder app)
         {
-            app.MapSignalR();
             ConfigureAuth(app);
+            app.MapSignalR();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.Data.Entity.Core.Objects;
+using Microsoft.AspNet.Identity.EntityFramework;
+using NetBots.WebServer.Data.MsSql.Migrations;
 using NetBots.WebServer.Model;
 using System;
 using System.Collections.Generic;

@@ -36,17 +36,18 @@ namespace NetBotsHostProject.Controllers
         public async Task<IHttpActionResult> StartGame(StartGameApiModel apiModel)
         {
             var gameManager = new WarGameManager();
-            var gamestate = gameManager.GetNewGameState();
-            var p1Url = await GetPlayerUrl(apiModel.P1Id, gameManager);
-            var p2Url = await GetPlayerUrl(apiModel.P2Id, gameManager);
+            var gameId = GameHelper.GenerateRandomGameId();
+            var gamestate = WarGameManager.GetNewGameState(gameId);
+            var p1Url = await GetPlayerUrl(apiModel.P1Id);
+            var p2Url = await GetPlayerUrl(apiModel.P2Id);
             Game game = gameManager.GetGame(gamestate, p1Url, p2Url, apiModel.Seed);
             HttpContext.Current.Cache.Add(gamestate.GameId, game, null, Cache.NoAbsoluteExpiration, new TimeSpan(0, 0, 10, 0), CacheItemPriority.High, null);
             return Ok(gamestate);
         }
 
-        private async Task<string> GetPlayerUrl(int id, WarGameManager manager)
+        private async Task<string> GetPlayerUrl(int id)
         {
-            var bot = await manager.GetPlayerBot(id);
+            var bot = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == id);
             if (bot != null)
             {
                 return bot.URL;
@@ -76,7 +77,7 @@ namespace NetBotsHostProject.Controllers
             return Ok(game.GameState);
         }
 
-        private static async Task<PlayerMoves> GetPlayerMoves(Game game, GameState gameState, string pName, BotletMove[] existingMoves)
+        private async Task<PlayerMoves> GetPlayerMoves(Game game, GameState gameState, string pName, BotletMove[] existingMoves)
         {
             if (existingMoves != null)
             {
@@ -85,10 +86,11 @@ namespace NetBotsHostProject.Controllers
             return await FetchPlayerMoves(game, gameState, pName);
         }
 
-        private static async Task<PlayerMoves> FetchPlayerMoves(Game game, GameState gameState, string pName)
+        private async Task<PlayerMoves> FetchPlayerMoves(Game game, GameState gameState, string pName)
         {
+
             var player = game.Players.First(x => x.PlayerName.ToLower() == pName.ToLower());
-            var httpMoves = await WarGameManager.GetPlayerMovesAsync(player, gameState);
+            var httpMoves = await new WarGameManager().GetPlayerMovesAsync(player, gameState);
             return httpMoves.PlayerMoves;
         }
 

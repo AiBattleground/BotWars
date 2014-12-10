@@ -2,6 +2,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using NetBots.WebServer.Model;
 
 namespace NetBots.WebServer.Data.MsSql.Migrations
@@ -47,7 +48,6 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
                 {
                     Player1 = grahamBot,
                     Player2 = divideByZero,
-                    TournamentGame = false,
                     Winner = divideByZero
                 };
                 context.GameSummaries.Add(match);
@@ -59,8 +59,19 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
                 b.OwnerId = defaultOwnerId;
             }
 
+            SetSomeoneAsRankOne(context);
             context.SaveChanges();
             base.Seed(context);
+        }
+
+        private void SetSomeoneAsRankOne(ApplicationDbContext context)
+        {
+            if (context.PlayerBots.All(x => x.LadderRank == 0))
+            {
+                var moc = context.PlayerBots.FirstOrDefault(x => x.Name.ToLower().Contains("murder of crows"));
+                moc.LadderRank = 1;
+                
+            }
         }
 
         private PlayerBot UpsertPlayerBot(PlayerBot bot, ApplicationDbContext context)

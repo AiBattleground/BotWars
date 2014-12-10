@@ -22,26 +22,20 @@ namespace NetBotsHostProject.Hubs
 {
     public class WarGameManager
     {
-        readonly ApplicationDbContext _db = new ApplicationDbContext();
         private const int TurnLimit = 200;
 
-        public async Task<string> StartGame(int bot1Id, int bot2Id, string userId)
+        public async Task<PlayerBot> RunGame(string gameId, PlayerBot bot1, PlayerBot bot2, Action<WarViewModel> updateClient)
         {
             try
             {
-                var bot1 = _db.PlayerBots.FirstOrDefault(x => x.Id == bot1Id);
-                var bot2 = _db.PlayerBots.FirstOrDefault(x => x.Id == bot2Id);
                 if (bot1 != null && bot2 != null)
                 {
-                    GameState startingState = GetNewGameState();
-                    Game game = new Game(startingState, bot1.URL, bot2.URL);
-                    game.UpdateGameState(new List<PlayerMoves>()); //Do this to get the starting bots to spawn.
-                    //var hub = GlobalHost.ConnectionManager.GetHubContext<WarViewHub>();
+                    var gameState = GetNewGameState(gameId);
+                    Game game = new Game(gameState, bot1.URL, bot2.URL);
 
-                    int currentTurn = 1;
+                    int currentTurn = 0;
                     while (game.GameState.Winner == null && currentTurn < TurnLimit)
                     {
-
                         var delay = Task.Delay(200);
                         var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
                         var httpMoves = await Task.WhenAll(myTasks);
@@ -51,22 +45,20 @@ namespace NetBotsHostProject.Hubs
                         {
                             model.Alert = GetAlert(httpMoves);
                         }
-                        WarViewHub.BroadcastGameState(model);
+                        updateClient(model);
                         await delay;
                         currentTurn++;
                     }
-                    SaveGameResult(bot1.Id, bot2.Id, game);
+                    var winnerBot = GetWinningBot(game, bot1, bot2);
                     var finalModel = GetWarViewModel(game, bot1.Name, bot2.Name);
-                    WarViewHub.SendGameState(finalModel, userId);
+                    updateClient(finalModel);
                     await Task.WhenAll(game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState)));
-                    return game.GameState.Winner;
+                    return winnerBot;
                 }
                 return null;
             }
             catch (Exception ex)
             {
-                //Do some logging here eventually. 
-                //The main thing is it returns OK to the front end so it knows everything is over.
                 var ex2 = ex;
                 return null;
             }
@@ -101,7 +93,7 @@ namespace NetBotsHostProject.Hubs
             return true;
         }
 
-        private static WarViewModel GetWarViewModel(Game game, string p1Name, string p2Name)
+        public static WarViewModel GetWarViewModel(Game game, string p1Name, string p2Name)
         {
             var model = new WarViewModel()
             {
@@ -112,38 +104,42 @@ namespace NetBotsHostProject.Hubs
             return model;
         }
 
-        private void SaveGameResult(int bot1Id, int bot2Id, Game game)
+        private static PlayerBot GetWinningBot(Game game, PlayerBot bot1, PlayerBot bot2)
         {
-
-            var p1 = _db.PlayerBots.First(x => x.Id == bot1Id);
-            var p2 = _db.PlayerBots.First(x => x.Id == bot2Id);
             if (String.IsNullOrWhiteSpace(game.GameState.Winner))
             {
-                //If the game progressed to the turn limit, the winner won't be set yet, so we do it here.
                 SetWinnerByBotCount(game);
             }
-            var gameResult = new GameSummary()
+            if (game.GameState.Winner == "p1")
             {
-                Player1 = p1,
-                Player2 = p2,
-                TournamentGame = false,
-                Winner = game.GameState.Winner == "p1" ? p1 : game.GameState.Winner == "p2" ? p2 : null
-            };
-            _db.GameSummaries.Add(gameResult);
-            _db.SaveChanges();
+                return bot1;
+            }
+            else if (game.GameState.Winner == "p2")
+            {
+                return bot2;
+            }
+            else
+            {
+                return null;
+            }
         }
 
+        //If the game progressed to the turn limit, we set the winner by number of bots
         private static void SetWinnerByBotCount(Game game)
         {
             var p1Count = game.GameState.Grid.Count(x => x == '1');
             var p2Count = game.GameState.Grid.Count(x => x == '2');
             if (p1Count > p2Count)
+            {
                 game.GameState.Winner = "p1";
+            }
             else if (p2Count > p1Count)
+            {
                 game.GameState.Winner = "p2";
+            }
         }
 
-        public static async Task<HttpMove> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
+        public async Task<HttpMove> GetPlayerMovesAsync(BotPlayer player, GameState gameState)
         {
             try
             {
@@ -204,7 +200,7 @@ namespace NetBotsHostProject.Hubs
             return client;
         }
 
-        private GameSettings GetGameSettings()
+        private static GameSettings GetGameSettings()
         {
             string[] userData;
             string dataFile = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/GameSettings.json");
@@ -224,7 +220,7 @@ namespace NetBotsHostProject.Hubs
             return JsonConvert.DeserializeObject<GameSettings>(string.Join("\n", userData));
         }
 
-        public GameState GetNewGameState()
+        public static GameState GetNewGameState(string gameId)
         {
             GameSettings settings = GetGameSettings();
 
@@ -237,7 +233,7 @@ namespace NetBotsHostProject.Hubs
                 Grid = new string('.', settings.boardSize * settings.boardSize),
                 MaxTurns = 200,
                 TurnsElapsed = 0,
-                GameId = GameHelper.GenerateRandomGameId()
+                GameId = gameId
             };
             return startingGame;
         }
@@ -253,19 +249,7 @@ namespace NetBotsHostProject.Hubs
                 return new Game(gamestate, side1Url, side2Url, seed);
             }
         }
-
-        public async Task<PlayerBot> GetPlayerBot(int id)
-        {
-            if (id > 0)
-            {
-                var bot = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Id == id);
-                if (bot != null)
-                {
-                    return bot;
-                }
-            }
-            return null;
-        }
-
     }
+
+
 }

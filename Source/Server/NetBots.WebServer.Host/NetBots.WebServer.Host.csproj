@@ -91,6 +91,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SendGrid.SmtpApi">
+      <HintPath>..\..\packages\SendGrid.SmtpApi.1.1.3\lib\net40\SendGrid.SmtpApi.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGridMail">
+      <HintPath>..\..\packages\Sendgrid.5.0.0\lib\SendGridMail.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -212,10 +218,12 @@
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Hubs\WarGameManager.cs" />
     <Compile Include="Hubs\WarViewHub.cs" />
+    <Compile Include="Hubs\WarViewModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BattleViewModel.cs" />
     <Compile Include="Models\GameSettings.cs" />
     <Compile Include="Models\HttpMove.cs" />
+    <Compile Include="Models\LadderMatchViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PlayerBotViewModel.cs" />
     <Compile Include="OAuth\Constants.cs" />
@@ -315,11 +323,13 @@
     <Content Include="Views\Manage\EditBot.cshtml" />
     <Content Include="Views\PlayerBots\GameHistory.cshtml" />
     <Content Include="Views\Battle\_WarViewGrid.cshtml" />
-    <Content Include="Views\Battle\PartialOnly.cshtml" />
+    <Content Include="Views\Battle\Watch.cshtml" />
     <Content Include="Views\Battle\Index.cshtml" />
     <Content Include="Views\Home\Rules.cshtml" />
     <Content Include="Views\Home\Instructions.cshtml" />
     <Content Include="Views\Home\Schedule.cshtml" />
+    <Content Include="Views\Battle\Ladder.cshtml" />
+    <Content Include="Views\Battle\LadderMatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

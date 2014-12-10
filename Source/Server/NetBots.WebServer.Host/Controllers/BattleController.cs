@@ -1,32 +1,23 @@
 ﻿﻿using System.Data.Entity;
-﻿using System.Net;
-﻿using System.Web.Caching;
-﻿using System.Web.Http;
-﻿using System.Web.Http.Results;
+﻿using System.Linq;
+﻿using System.Net.Mail;
+﻿using System.Web.Routing;
 ﻿using Microsoft.Ajax.Utilities;
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.SignalR;
-﻿using NetBots.EngineModels;
 ﻿using NetBots.GameEngine;
-using NetBots.WebModels;
-using NetBots.WebServer.Data.MsSql;
+﻿using NetBots.WebServer.Data.MsSql;
 ﻿using NetBots.WebServer.Host.Models;
-using NetBots.WebServer.Model;
-using NetBotsHostProject.Helpers;
-﻿using NetBotsHostProject.Models;
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
+﻿using NetBots.WebServer.Model;
+﻿using NetBotsHostProject.Helpers;
+﻿using System;
 ﻿using System.Threading.Tasks;
 ﻿using System.Web.Mvc;
-﻿using NetBots.WebServer.Host.Hubs;
+﻿using NetBotsHostProject.Models;
+﻿using SendGrid;
 
 namespace NetBots.WebServer.Host.Controllers
 {
-    [System.Web.Mvc.Authorize]
+    [Authorize]
     public class BattleController : Controller
     {
         readonly ApplicationDbContext _db = new ApplicationDbContext();
@@ -36,20 +27,7 @@ namespace NetBots.WebServer.Host.Controllers
             return RedirectToAction("Skirmish");
         }
 
-        [System.Web.Mvc.Route("battle/{bot1Name}/{bot2Name}")]
-        public async Task<ActionResult> Index(string bot1Name, string bot2Name)
-        {
-            var bot1 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Name == bot1Name);
-            var bot2 = await _db.PlayerBots.FirstOrDefaultAsync(x => x.Name == bot2Name);
-            if (bot1 != null && bot2 != null)
-            {
-                var model = new BattleViewModel() { Bot1 = bot1, Bot2 = bot2 };
-                return View(model);
-            }
-            throw new ArgumentException("Couldn't find one of the bots");
-        }
-
-        public ActionResult PartialOnly()
+        public ActionResult Watch(string matchId)
         {
             return View();
         }
@@ -58,6 +36,83 @@ namespace NetBots.WebServer.Host.Controllers
         {
             return View(_db.GetVisibleBots(User.Identity.GetUserId()));
         }
+
+        public ActionResult Ladder()
+        {
+            var bots = _db.GetVisibleBots(User.Identity.GetUserId());
+            var rankedBots = bots.Where(x => x.LadderRank != 0).OrderBy(x => x.LadderRank).ToList();
+            var unrankedBots = bots.Where(x => x.LadderRank == 0);
+            rankedBots.AddRange(unrankedBots); //Ensure unranked bots are listed last.
+            return View(rankedBots);
+        }
+
+
+        [Route("Battle/Ladder/{botId}")]
+        public async Task<ActionResult> LadderMatch(int botId)
+        {
+            var myBot =
+                await _db.PlayerBots.FirstOrDefaultAsync(
+                    x => x.Id == botId && x.Owner.UserName == HttpContext.User.Identity.Name);
+            if (myBot != null)
+            {
+                var latestLadderMatch =
+                    _db.GameSummaries.Where(x => x.GameType == GameType.Ladder && 
+                        x.Initiater.UserName == User.Identity.Name && 
+                        (x.Player1.Id == botId || x.Player2.Id == botId))
+                            .OrderByDescending(x => x.DateTime)
+                            .FirstOrDefault();
+                if (latestLadderMatch != null && DateTime.Now - latestLadderMatch.DateTime < TimeSpan.FromHours(1))
+                {
+                    var whenCanPlayAgain = (latestLadderMatch.DateTime + TimeSpan.FromHours(1)).ToShortTimeString();
+                    ViewBag.ErrorText = "It has been less than an hour since your last ladder match.\r\n" +
+                                        "You can play on the ladder again at " + whenCanPlayAgain;
+                    return View();
+                }
+                var enemyBot = await GetEnemyBot(myBot.LadderRank);
+                if (enemyBot != null)
+                {
+                    var model = GetLadderMatchModel(myBot.Id, enemyBot.Id);
+                    return View(model);
+                }
+            }
+            ViewBag.ErrorText = "Something went wrong trying to start the ladder match!";
+            return View();
+        }
+
+        private static LadderMatchViewModel GetLadderMatchModel(int playerId, int enemyId)
+        {
+            var p1 = new Random().Next(0, 2) == 1;
+            if (p1)
+            {
+                return new LadderMatchViewModel()
+                {
+                    ChallengerId = playerId,
+                    DefenderId = enemyId
+                };
+            }
+            else
+            {
+                return new LadderMatchViewModel()
+                {
+                    ChallengerId = enemyId,
+                    DefenderId = playerId
+                };
+            }
+        }
+
+        private async Task<PlayerBot> GetEnemyBot(int myRank)
+        {
+            if (myRank == 0)
+            {
+                return await _db.PlayerBots.OrderByDescending(x => x.LadderRank).FirstAsync();
+            }
+            else
+            {
+                return await _db.PlayerBots.FirstOrDefaultAsync(x => x.LadderRank == myRank - 1);
+            }
+        }
+
+
         
     }
 }

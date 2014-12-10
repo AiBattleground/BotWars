@@ -109,6 +109,14 @@
     <Compile Include="Migrations\201412082107410_Rankings.Designer.cs">
       <DependentUpon>201412082107410_Rankings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412092021461_ladder_updates.cs" />
+    <Compile Include="Migrations\201412092021461_ladder_updates.Designer.cs">
+      <DependentUpon>201412092021461_ladder_updates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412092135150_Added_Match_Creator_To_Game_History.cs" />
+    <Compile Include="Migrations\201412092135150_Added_Match_Creator_To_Game_History.Designer.cs">
+      <DependentUpon>201412092135150_Added_Match_Creator_To_Game_History.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -164,6 +172,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412082107410_Rankings.resx">
       <DependentUpon>201412082107410_Rankings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412092021461_ladder_updates.resx">
+      <DependentUpon>201412092021461_ladder_updates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412092135150_Added_Match_Creator_To_Game_History.resx">
+      <DependentUpon>201412092135150_Added_Match_Creator_To_Game_History.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

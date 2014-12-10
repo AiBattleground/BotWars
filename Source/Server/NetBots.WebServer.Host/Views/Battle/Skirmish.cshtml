@@ -42,18 +42,27 @@
 
 <script type="text/javascript">
 
-    $("#new-game").on('click', function () {
-        $("#warview-wrapper").show("slow");
-        var redSelection = $('#red-selection').val();
-        var blueSelection = $('#blue-selection').val();
-        $('#red-name').text($('#red-selection option:selected').text());
-        $('#blue-name').text($('#blue-selection option:selected').text());
-        var hub = getHub();
-        hub.server.startGame(redSelection, blueSelection);
-        @*$.post('@Url.Action("NewGame", "Battle")', { bot1Id: redSelection, bot2Id: blueSelection }, function () {
-            $('#skirmish-options').show('slow');
-        });*@
-        //$('#skirmish-options').hide('slow');
+    $(function () {
+        var hub = $.connection.warViewHub;
+        hub.client.sendLatestMove = function (warviewModel) {
+            showTurn(warviewModel);
+        };
+        $.connection.hub.start().done(function () {
+            $("#new-game").on('click', function () {
+                $("#warview-wrapper").show("slow");
+                var redSelection = $('#red-selection').val();
+                var blueSelection = $('#blue-selection').val();
+                $('#red-name').text($('#red-selection option:selected').text());
+                $('#blue-name').text($('#blue-selection option:selected').text());
+                var hub = $.connection.warViewHub;
+                hub.client.sendLatestMove = function (warviewModel) {
+                    showTurn(warviewModel);
+                };
+                $.connection.hub.start().done(function () {
+                    hub.server.startSkirmish(redSelection, blueSelection);
+                });
+            });
+        });
     });
 
 

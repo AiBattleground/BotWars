@@ -1,0 +1,54 @@
+﻿@model NetBotsHostProject.Models.LadderMatchViewModel
+
+@{
+    ViewBag.Title = "Ladder Match";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@if (ViewBag.ErrorText != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorText</div>
+}
+
+<div id="countdown">
+    <h4>Match Will Start in...</h4>
+    <h4 id="big-letters"></h4>
+</div>
+
+
+<div id="warview-wrapper" style="display: none">
+    @Html.Partial("_WarViewGrid")
+</div>
+
+
+
+@if (Model != null)
+{
+    <script>
+        $(document).ready(function() {
+            var hub = $.connection.warViewHub;
+            hub.client.countDown = function(secondsLeft) {
+                if (!$('#countdown').is(":visible")) {
+                    $('#countdown').show();
+                }
+                $('#big-letters').text(secondsLeft);
+                if (secondsLeft == 0) {
+                    $('#countdown').hide();
+                }
+            }
+            hub.client.sendLatestMove = function (warviewModel) {
+                if (!$('#warview-wrapper').is(":visible")) {
+                    $('#warview-wrapper').show();
+                }
+                showTurn(warviewModel);
+            };
+
+            $.connection.hub.start().done(function () {
+                hub.server.startLadderMatch(@Model.ChallengerId, @Model.DefenderId);
+            });
+        });
+    </script>
+}
+

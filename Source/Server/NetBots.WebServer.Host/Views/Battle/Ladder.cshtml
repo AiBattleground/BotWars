@@ -1,0 +1,49 @@
+﻿@model IEnumerable<PlayerBot>
+
+@{
+    ViewBag.Title = "Ladder";
+}
+
+<h2>title</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LadderRank)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Owner)
+        </th>
+        <th>
+            @Html.Display("Match History")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(m => item.LadderRank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner.UserName)
+            </td>
+            <td>
+                @Html.ActionLink("Match History", "GameHistory", "PlayerBots", new { botId = item.Id }, null)
+            </td>
+            <td>
+                @if (item.LadderRank != 1 && item.Owner.UserName == User.Identity.Name)
+                {
+                    @Html.ActionLink("Ladder Match", "LadderMatch", new{botId = item.Id}, null)
+                }
+            </td>
+        </tr>
+    }
+
+</table>
