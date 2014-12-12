@@ -49,6 +49,7 @@
         };
         $.connection.hub.start().done(function () {
             $("#new-game").on('click', function () {
+                $('#skirmish-options').hide('slow');
                 $("#warview-wrapper").show("slow");
                 var redSelection = $('#red-selection').val();
                 var blueSelection = $('#blue-selection').val();
@@ -59,7 +60,10 @@
                     showTurn(warviewModel);
                 };
                 $.connection.hub.start().done(function () {
-                    hub.server.startSkirmish(redSelection, blueSelection);
+                    hub.server.startSkirmish(redSelection, blueSelection).done(function()
+                    {
+                        $('#skirmish-options').show('slow');
+                    });
                 });
             });
         });

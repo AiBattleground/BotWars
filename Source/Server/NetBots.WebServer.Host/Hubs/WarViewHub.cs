@@ -1,22 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Net.Mail;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.UI;
 using Microsoft.AspNet.SignalR;
 using NetBots.GameEngine;
 using NetBots.WebServer.Data.MsSql;
 using NetBots.WebServer.Model;
 using NetBotsHostProject.Helpers;
 using NetBotsHostProject.Hubs;
-using NetBots.WebModels;
-using Newtonsoft.Json;
 using SendGrid;
 
 namespace NetBots.WebServer.Host.Hubs

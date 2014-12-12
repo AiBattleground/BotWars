@@ -26,17 +26,18 @@ namespace NetBotsHostProject.Hubs
 
         public async Task<PlayerBot> RunGame(string gameId, PlayerBot bot1, PlayerBot bot2, Action<WarViewModel> updateClient)
         {
+            Game game = null;
             try
             {
                 if (bot1 != null && bot2 != null)
                 {
                     var gameState = GetNewGameState(gameId);
-                    Game game = new Game(gameState, bot1.URL, bot2.URL);
+                    game = new Game(gameState, bot1.URL, bot2.URL);
 
                     int currentTurn = 0;
                     while (game.GameState.Winner == null && currentTurn < TurnLimit)
                     {
-                        var delay = Task.Delay(200);
+                        var delay = Task.Delay(250);
                         var myTasks = game.Players.Select(p => GetPlayerMovesAsync(p, game.GameState));
                         var httpMoves = await Task.WhenAll(myTasks);
                         game.UpdateGameState(httpMoves.Select(x => x.PlayerMoves));
@@ -59,7 +60,12 @@ namespace NetBotsHostProject.Hubs
             }
             catch (Exception ex)
             {
-                var ex2 = ex;
+                if (game != null && game.GameState.Winner != null)
+                {
+                    var winner = GetWinningBot(game, bot1, bot2);
+                    return winner;
+                }
+                var e2 = ex;
                 return null;
             }
         }
@@ -189,13 +195,14 @@ namespace NetBotsHostProject.Hubs
 
         private static HttpClient GetClient(string botUrl)
         {
-            var cache = System.Web.HttpContext.Current.Cache;
+            var cache = HttpContext.Current.Cache;
             var client = cache[botUrl] as HttpClient;
             if (client == null)
             {
                 client = new HttpClient();
-                client.Timeout = TimeSpan.FromSeconds(3);
-                cache.Add(botUrl, client, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(5), CacheItemPriority.High, null);
+                client.Timeout = TimeSpan.FromSeconds(3); //Give the bot time to "wake up" on first call
+                cache.Add(botUrl, client, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(5),
+                    CacheItemPriority.High, null);
             }
             return client;
         }

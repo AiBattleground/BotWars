@@ -46,8 +46,6 @@ namespace NetBots.WebServer.Host.Controllers
             return View(rankedBots);
         }
 
-
-        [Route("Battle/Ladder/{botId}")]
         public async Task<ActionResult> LadderMatch(int botId)
         {
             var myBot =
@@ -66,17 +64,17 @@ namespace NetBots.WebServer.Host.Controllers
                     var whenCanPlayAgain = (latestLadderMatch.DateTime + TimeSpan.FromHours(1)).ToShortTimeString();
                     ViewBag.ErrorText = "It has been less than an hour since your last ladder match.\r\n" +
                                         "You can play on the ladder again at " + whenCanPlayAgain;
-                    return View();
+                    return View("LadderMatch");
                 }
                 var enemyBot = await GetEnemyBot(myBot.LadderRank);
                 if (enemyBot != null)
                 {
                     var model = GetLadderMatchModel(myBot.Id, enemyBot.Id);
-                    return View(model);
+                    return View("LadderMatch", model);
                 }
             }
             ViewBag.ErrorText = "Something went wrong trying to start the ladder match!";
-            return View();
+            return View("LadderMatch");
         }
 
         private static LadderMatchViewModel GetLadderMatchModel(int playerId, int enemyId)
