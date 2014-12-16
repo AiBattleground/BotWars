@@ -18,46 +18,46 @@ namespace NetBots.WebServer.Data.MsSql.Migrations
         protected override void Seed(ApplicationDbContext context)
         {
 
-            string defaultOwnerId = null;
-            var defaultOwner = context.Users.FirstOrDefault();
-            if (defaultOwner != null)
-            {
-                defaultOwnerId = defaultOwner.Id;
-            }
+            //string defaultOwnerId = null;
+            //var defaultOwner = context.Users.FirstOrDefault();
+            //if (defaultOwner != null)
+            //{
+            //    defaultOwnerId = defaultOwner.Id;
+            //}
 
-            var divideByZero = UpsertPlayerBot(new PlayerBot()
-            {
-                Id = -1,
-                Name = "Berserkerbot",
-                OwnerId = defaultOwnerId,
-                URL = "http://berserkerbot.azurewebsites.net/api/bot",
-            }, context);
+            //var divideByZero = UpsertPlayerBot(new PlayerBot()
+            //{
+            //    Id = -1,
+            //    Name = "Berserkerbot",
+            //    OwnerId = defaultOwnerId,
+            //    URL = "http://berserkerbot.azurewebsites.net/api/bot",
+            //}, context);
 
-            var grahamBot = UpsertPlayerBot(new PlayerBot()
-            {
-                Id = -1,
-                Name = "RandomBot",
-                OwnerId = defaultOwnerId,
-                URL = "http://randombot.azurewebsites.net/api/bot",
-            }, context);
+            //var grahamBot = UpsertPlayerBot(new PlayerBot()
+            //{
+            //    Id = -1,
+            //    Name = "RandomBot",
+            //    OwnerId = defaultOwnerId,
+            //    URL = "http://randombot.azurewebsites.net/api/bot",
+            //}, context);
 
 
-            if (!context.GameSummaries.Any())
-            {
-                var match = new GameSummary()
-                {
-                    Player1 = grahamBot,
-                    Player2 = divideByZero,
-                    Winner = divideByZero
-                };
-                context.GameSummaries.Add(match);
-            }
+            //if (!context.GameSummaries.Any())
+            //{
+            //    var match = new GameSummary()
+            //    {
+            //        Player1 = grahamBot,
+            //        Player2 = divideByZero,
+            //        Winner = divideByZero
+            //    };
+            //    context.GameSummaries.Add(match);
+            //}
 
-            var unownedBots = context.PlayerBots.Where(x => x.Owner == null);
-            foreach (var b in unownedBots)
-            {
-                b.OwnerId = defaultOwnerId;
-            }
+            //var unownedBots = context.PlayerBots.Where(x => x.Owner == null);
+            //foreach (var b in unownedBots)
+            //{
+            //    b.OwnerId = defaultOwnerId;
+            //}
 
             SetSomeoneAsRankOne(context);
             context.SaveChanges();

@@ -46,7 +46,9 @@
             };
 
             $.connection.hub.start().done(function () {
-                hub.server.startLadderMatch(@Model.ChallengerId, @Model.DefenderId);
+                hub.server.startLadderMatch(@Model.ChallengerId, @Model.DefenderId).done(function() {
+                    window.location.href = '@Url.Action("Ladder", "Battle", null, Request.Url.Scheme)';
+                });
             });
         });
     </script>

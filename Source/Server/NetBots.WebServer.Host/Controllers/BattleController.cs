@@ -59,7 +59,7 @@ namespace NetBots.WebServer.Host.Controllers
                         (x.Player1.Id == botId || x.Player2.Id == botId))
                             .OrderByDescending(x => x.DateTime)
                             .FirstOrDefault();
-                if (latestLadderMatch != null && DateTime.Now - latestLadderMatch.DateTime < TimeSpan.FromHours(1))
+                if (latestLadderMatch != null && DateTime.Now - latestLadderMatch.DateTime < TimeSpan.FromMilliseconds(1))
                 {
                     var whenCanPlayAgain = (latestLadderMatch.DateTime + TimeSpan.FromHours(1)).ToShortTimeString();
                     ViewBag.ErrorText = "It has been less than an hour since your last ladder match.\r\n" +
