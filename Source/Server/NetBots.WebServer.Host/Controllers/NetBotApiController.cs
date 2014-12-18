@@ -86,7 +86,9 @@ namespace NetBotsHostProject.Controllers
 
         private static async Task<PlayerMoves> GetPlayerMoves(Game game, GameState gameState, string pName, BotletMove[] existingMoves)
         {
-            if (existingMoves != null)
+            var player = game.Players.First(x => x.PlayerName.ToLower() == pName.ToLower());
+            var shortUri = player.Uri.Replace("http://", "").Replace("https://", "");
+            if (shortUri.Length == 0)
             {
                 return CreatePlayerMoves(pName, existingMoves);
             }
